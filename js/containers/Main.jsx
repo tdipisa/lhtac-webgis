@@ -10,8 +10,10 @@ const Debug = require('../../MapStore2/web/client/components/development/Debug')
 const Localized = require('../../MapStore2/web/client/components/I18N/Localized');
 const {connect} = require('react-redux');
 
-const MapPlugin = require('../components/MapPlugin');
-const {Link} = require('react-router');
+const MapPlugin = require('../../MapStore2/web/client/plugins/Map');
+const ToolbarPlugin = require('../../MapStore2/web/client/plugins/Toolbar');
+
+const tools = ['locate', 'info', 'toc', 'backgroundswitcher', 'measurement', 'print', 'snapshot', 'settings'];
 
 const Main = (props) => (
     <Localized messages={props.messages} locale={props.locale}>
@@ -20,8 +22,8 @@ const Main = (props) => (
                 {props.error && ("Error: " + props.error) || (props.loading && "Loading...")}
             </span>
 
-            <div className="links"><Link to="/">Home</Link></div>
             <MapPlugin/>
+            <ToolbarPlugin mapType="leaflet" tools={tools}/>
             <Debug/>
         </div>
     </Localized>
@@ -37,6 +39,6 @@ module.exports = connect((state) => {
         loading: !state.config || !state.locale || false,
         error: state.loadingError || (state.locale && state.locale.localeError) || null,
         locale: state.locale && state.locale.locale,
-        messages: state.locale && state.locale.messages || {}
+        messages: state.locale && state.locale.messages || null
     };
 })(Main);

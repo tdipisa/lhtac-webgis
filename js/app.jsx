@@ -10,16 +10,14 @@ const ReactDOM = require('react-dom');
 
 const {Provider} = require('react-redux');
 
-const {Router, Route, hashHistory} = require('react-router');
-
-const Main = require('./containers/Main');
-const Home = require('./containers/Home');
+const App = require('./containers/Main');
 
 const store = require('./stores/store');
 
 const {loadMapConfig} = require('../MapStore2/web/client/actions/config');
 const {changeBrowserProperties} = require('../MapStore2/web/client/actions/browser');
 const {loadLocale} = require('../MapStore2/web/client/actions/locale');
+const {loadPrintCapabilities} = require('../MapStore2/web/client/actions/print');
 
 const ConfigUtils = require('../MapStore2/web/client/utils/ConfigUtils');
 const LocaleUtils = require('../MapStore2/web/client/utils/LocaleUtils');
@@ -34,14 +32,12 @@ ConfigUtils
 
         let locale = LocaleUtils.getUserLocale();
         store.dispatch(loadLocale('MapStore2/web/client/translations', locale));
+        store.dispatch(loadPrintCapabilities(ConfigUtils.getConfigProp('printUrl')));
     });
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={hashHistory}>
-            <Route path="/" component={Home}/>
-            <Route path="/main" component={Main}/>
-        </Router>
+        <App/>
     </Provider>
     , document.getElementById("container")
 );

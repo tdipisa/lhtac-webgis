@@ -1,13 +1,13 @@
 {
   "map": {
     "projection": "EPSG:900913",
-    "units": "m",
-    "center": {"x": 1250000.000000, "y": 5370000.000000, "crs": "EPSG:900913"},
+		"units": "m",
+		"center": {"x": -10976101, "y": 4251421, "crs": "EPSG:900913"},
     "zoom":5,
-    "maxExtent": [
-      -20037508.34, -20037508.34,
-      20037508.34, 20037508.34
-    ],
+		"maxExtent": [
+			-20037508.34, -20037508.34,
+			20037508.34, 20037508.34
+		],
     "layers": [{
       "type": "osm",
       "title": "Open Street Map",
@@ -15,6 +15,17 @@
             "source": "osm",
       "group": "background",
             "visibility": true
-        }]
+      },
+      {
+				"type": "wms",
+        "url":["http://demo.geo-solutions.it/geoserver/wms", "http://188.165.246.13/geoserver/wms"],
+        "visibility": true,
+        "opacity": 0.7,
+				"title": "USA Population",
+				"name": "topp:states",
+				"group": "Overlays",
+				"format": "image/png"
+			}
+    ]
   }
 }

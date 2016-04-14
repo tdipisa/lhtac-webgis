@@ -7,21 +7,40 @@
  */
 const DebugUtils = require('../../MapStore2/web/client/utils/DebugUtils');
 const {combineReducers} = require('redux');
-const {syncHistory, routeReducer} = require('react-router-redux');
-const {hashHistory} = require('react-router');
-const reduxRouterMiddleware = syncHistory(hashHistory);
 
-const rootReducer = combineReducers({
+const {mapConfigHistory, createHistory} = require('../../MapStore2/web/client/utils/MapHistoryUtils');
+
+const mapConfig = require('../../MapStore2/web/client/reducers/config');
+const layers = require('../../MapStore2/web/client/reducers/layers');
+const map = mapConfigHistory(require('../../MapStore2/web/client/reducers/map'));
+
+const LayersUtils = require('../../MapStore2/web/client/utils/LayersUtils');
+
+const allReducers = combineReducers({
     browser: require('../../MapStore2/web/client/reducers/browser'),
-    config: require('../../MapStore2/web/client/reducers/config'),
     locale: require('../../MapStore2/web/client/reducers/locale'),
-    map: require('../../MapStore2/web/client/reducers/map'),
-    routing: routeReducer
+    map: () => {return null; },
+    layers: () => {return null; },
+    controls: require('../../MapStore2/web/client/reducers/controls'),
+    locate: require('../../MapStore2/web/client/reducers/locate'),
+    mapInfo: require('../../MapStore2/web/client/reducers/mapInfo'),
+    measurement: require('../../MapStore2/web/client/reducers/measurement'),
+    snapshot: require('../../MapStore2/web/client/reducers/snapshot'),
+    print: require('../../MapStore2/web/client/reducers/print')
 });
 
-const store = DebugUtils.createDebugStore(rootReducer, {}, [reduxRouterMiddleware]);
+const rootReducer = (state = null, action) => {
+    let mapState = createHistory(LayersUtils.splitMapAndLayers(mapConfig(state, action)));
 
-// Required for replaying actions from devtools to work
-reduxRouterMiddleware.listenForReplays(store);
+    const newState = {
+        ...allReducers(state, action),
+        map: mapState && mapState.map ? map(mapState.map, action) : null,
+        layers: mapState ? layers(mapState.layers, action) : null
+    };
+
+    return newState;
+};
+
+const store = DebugUtils.createDebugStore(rootReducer, {});
 
 module.exports = store;
