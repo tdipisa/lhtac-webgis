@@ -16,31 +16,32 @@ const map = mapConfigHistory(require('../../MapStore2/web/client/reducers/map'))
 
 const LayersUtils = require('../../MapStore2/web/client/utils/LayersUtils');
 
-const allReducers = combineReducers({
-    browser: require('../../MapStore2/web/client/reducers/browser'),
-    locale: require('../../MapStore2/web/client/reducers/locale'),
-    map: () => {return null; },
-    layers: () => {return null; },
-    controls: require('../../MapStore2/web/client/reducers/controls'),
-    locate: require('../../MapStore2/web/client/reducers/locate'),
-    mapInfo: require('../../MapStore2/web/client/reducers/mapInfo'),
-    measurement: require('../../MapStore2/web/client/reducers/measurement'),
-    snapshot: require('../../MapStore2/web/client/reducers/snapshot'),
-    print: require('../../MapStore2/web/client/reducers/print')
-});
+module.exports = (pluginsReducers) => {
+    const allReducers = combineReducers({
+        browser: require('../../MapStore2/web/client/reducers/browser'),
+        locale: require('../../MapStore2/web/client/reducers/locale'),
+        map: () => {return null; },
+        layers: () => {return null; },
+        controls: require('../../MapStore2/web/client/reducers/controls'),
+        locate: require('../../MapStore2/web/client/reducers/locate'),
+        mapInfo: require('../../MapStore2/web/client/reducers/mapInfo'),
+        measurement: require('../../MapStore2/web/client/reducers/measurement'),
+        snapshot: require('../../MapStore2/web/client/reducers/snapshot'),
+        help: require('../../MapStore2/web/client/reducers/help'),
+        ...pluginsReducers
+    });
 
-const rootReducer = (state = null, action) => {
-    let mapState = createHistory(LayersUtils.splitMapAndLayers(mapConfig(state, action)));
+    const rootReducer = (state = null, action) => {
+        let mapState = createHistory(LayersUtils.splitMapAndLayers(mapConfig(state, action)));
 
-    const newState = {
-        ...allReducers(state, action),
-        map: mapState && mapState.map ? map(mapState.map, action) : null,
-        layers: mapState ? layers(mapState.layers, action) : null
+        const newState = {
+            ...allReducers(state, action),
+            map: mapState && mapState.map ? map(mapState.map, action) : null,
+            layers: mapState ? layers(mapState.layers, action) : null
+        };
+
+        return newState;
     };
 
-    return newState;
+    return DebugUtils.createDebugStore(rootReducer, {});
 };
-
-const store = DebugUtils.createDebugStore(rootReducer, {});
-
-module.exports = store;

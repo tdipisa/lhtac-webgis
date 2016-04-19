@@ -11,8 +11,16 @@ const ReactDOM = require('react-dom');
 const {Provider} = require('react-redux');
 
 const App = require('./containers/Main');
+const assign = require('object-assign');
 
-const store = require('./stores/store');
+const plugins = [
+    require('../MapStore2/web/client/plugins/MousePosition'),
+    require('../MapStore2/web/client/plugins/Print')
+];
+
+const reducers = plugins.map((plugin) => plugin.reducers).reduce((previous, current) => assign(previous, current), {});
+
+const store = require('./stores/store')(reducers);
 
 const {loadMapConfig} = require('../MapStore2/web/client/actions/config');
 const {changeBrowserProperties} = require('../MapStore2/web/client/actions/browser');

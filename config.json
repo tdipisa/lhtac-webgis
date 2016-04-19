@@ -2,8 +2,8 @@
   "map": {
     "projection": "EPSG:900913",
 		"units": "m",
-		"center": {"x": -10976101, "y": 4251421, "crs": "EPSG:900913"},
-    "zoom":5,
+		"center": {"x": -12738700, "y": 5720000, "crs": "EPSG:900913"},
+    "zoom":7,
 		"maxExtent": [
 			-20037508.34, -20037508.34,
 			20037508.34, 20037508.34
@@ -17,12 +17,56 @@
             "visibility": true
       },
       {
+        "type": "google",
+        "title": "Google HYBRID",
+        "name": "HYBRID",
+        "source": "google",
+        "group": "background",
+        "visibility": false
+      },
+      {
+        "type": "google",
+        "title": "Google SATELLITE",
+        "name": "SATELLITE",
+        "source": "google",
+        "group": "background",
+        "visibility": false
+      },
+      {
+        "type": "google",
+        "title": "Google ROADS",
+        "name": "ROADS",
+        "source": "google",
+        "group": "background",
+        "visibility": false
+      },
+      {
 				"type": "wms",
-        "url":["http://demo.geo-solutions.it/geoserver/wms", "http://188.165.246.13/geoserver/wms"],
+        "url":"http://demo.geo-solutions.it/geoserver/wms",
         "visibility": true,
         "opacity": 0.7,
-				"title": "USA Population",
-				"name": "topp:states",
+				"title": "Districts",
+				"name": "lhtac:itd_districts_simplified_3857",
+				"group": "Overlays",
+				"format": "image/png"
+			},
+      {
+				"type": "wms",
+        "url":"http://demo.geo-solutions.it/geoserver/wms",
+        "visibility": false,
+        "opacity": 0.7,
+				"title": "Jurisdictions",
+				"name": "lhtac:highwaydistricts_2014_with_cities_3857",
+				"group": "Overlays",
+				"format": "image/png"
+			},
+      {
+				"type": "wms",
+        "url":"http://demo.geo-solutions.it/geoserver/wms",
+        "visibility": true,
+        "opacity": 0.7,
+				"title": "Accidents",
+				"name": "lhtac:web2014all_mv",
 				"group": "Overlays",
 				"format": "image/png"
 			}

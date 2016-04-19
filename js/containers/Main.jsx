@@ -10,8 +10,19 @@ const Debug = require('../../MapStore2/web/client/components/development/Debug')
 const Localized = require('../../MapStore2/web/client/components/I18N/Localized');
 const {connect} = require('react-redux');
 
-const MapPlugin = require('../../MapStore2/web/client/plugins/Map');
-const ToolbarPlugin = require('../../MapStore2/web/client/plugins/Toolbar');
+const {MapPlugin} = require('../../MapStore2/web/client/plugins/Map');
+const {ToolbarPlugin} = require('../../MapStore2/web/client/plugins/Toolbar');
+
+const {MousePositionPlugin} = require('../../MapStore2/web/client/plugins/MousePosition');
+const {IdentifyPlugin} = require('../../MapStore2/web/client/plugins/Identify');
+
+const {changeZoomLevel} = require('../../MapStore2/web/client/actions/map');
+
+const ScaleBox = connect((state) => ({
+    currentZoomLvl: state.map && state.map.present && state.map.present.zoom
+}), {
+    onChange: changeZoomLevel
+})(require("../../MapStore2/web/client/components/mapcontrols/scale/ScaleBox"));
 
 const tools = ['locate', 'info', 'toc', 'backgroundswitcher', 'measurement', 'print', 'snapshot', 'settings'];
 
@@ -22,8 +33,11 @@ const Main = (props) => (
                 {props.error && ("Error: " + props.error) || (props.loading && "Loading...")}
             </span>
 
-            <MapPlugin/>
-            <ToolbarPlugin mapType="leaflet" tools={tools}/>
+            <MapPlugin key="map"/>
+            <ToolbarPlugin key="toolbar" mapType="leaflet" tools={tools}/>
+            <MousePositionPlugin key="mouseposition"/>
+            <IdentifyPlugin key="identify"/>
+            <ScaleBox key="scaleBox"/>
             <Debug/>
         </div>
     </Localized>
