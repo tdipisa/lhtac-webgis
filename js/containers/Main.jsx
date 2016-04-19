@@ -16,13 +16,7 @@ const {ToolbarPlugin} = require('../../MapStore2/web/client/plugins/Toolbar');
 const {MousePositionPlugin} = require('../../MapStore2/web/client/plugins/MousePosition');
 const {IdentifyPlugin} = require('../../MapStore2/web/client/plugins/Identify');
 
-const {changeZoomLevel} = require('../../MapStore2/web/client/actions/map');
-
-const ScaleBox = connect((state) => ({
-    currentZoomLvl: state.map && state.map.present && state.map.present.zoom
-}), {
-    onChange: changeZoomLevel
-})(require("../../MapStore2/web/client/components/mapcontrols/scale/ScaleBox"));
+const {ScaleBoxPlugin} = require("../../MapStore2/web/client/plugins/ScaleBox");
 
 const tools = ['locate', 'info', 'toc', 'backgroundswitcher', 'measurement', 'print', 'snapshot', 'settings'];
 
@@ -37,7 +31,7 @@ const Main = (props) => (
             <ToolbarPlugin key="toolbar" mapType="leaflet" tools={tools}/>
             <MousePositionPlugin key="mouseposition"/>
             <IdentifyPlugin key="identify"/>
-            <ScaleBox key="scaleBox"/>
+            <ScaleBoxPlugin key="scaleBox"/>
             <Debug/>
         </div>
     </Localized>

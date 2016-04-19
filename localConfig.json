@@ -1,6 +1,6 @@
 {
-	"proxyUrl": "/mapstore/proxy/?url=",
-	"geoStoreUrl": "/mapstore/rest/geostore",
+	"proxyUrl": "/lhtac-webgis/proxy/?url=",
+	"geoStoreUrl": "/lhtac-webgis/rest/geostore",
 	"translationsPath": "MapStore2/web/client/translations",
 	"printUrl": "http://demo.geo-solutions.it/geoserver/pdf/info.json"
 }
