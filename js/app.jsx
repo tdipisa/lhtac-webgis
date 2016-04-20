@@ -32,6 +32,13 @@ const LocaleUtils = require('../MapStore2/web/client/utils/LocaleUtils');
 
 store.dispatch(changeBrowserProperties(ConfigUtils.getBrowserProperties()));
 
+LocaleUtils.setSupportedLocales({
+    "en": {
+       code: "en-US",
+       description: "English"
+    }
+});
+
 ConfigUtils
     .loadConfiguration()                       // localConfig.json: Global configuration
     .then(() => {                              // config.json: app configuration
