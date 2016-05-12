@@ -48,7 +48,7 @@ module.exports = function karmaConfig(config) {
             devtool: 'inline-source-map',
             module: {
                 loaders: [
-                    { test: /\.jsx?$/, exclude: /(ol\.js$|node_modules)/, loader: 'babel-loader', include: path.join(__dirname, "js", "app") },
+                    { test: /\.jsx?$/, exclude: /(ol\.js$|node_modules)/, loader: 'babel-loader', include: [path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client")] },
                     { test: /\.css$/, loader: 'style!css'},
                     { test: /\.less$/, loader: "style!css!less-loader" },
                     { test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/, loader: "url-loader?mimetype=application/font-woff" },
