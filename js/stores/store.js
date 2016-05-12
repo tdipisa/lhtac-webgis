@@ -6,6 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 const DebugUtils = require('../../MapStore2/web/client/utils/DebugUtils');
+const PluginsUtils = require('../../MapStore2/web/client/utils/PluginsUtils');
 const {combineReducers} = require('redux');
 
 const {mapConfigHistory, createHistory} = require('../../MapStore2/web/client/utils/MapHistoryUtils');
@@ -16,32 +17,33 @@ const map = mapConfigHistory(require('../../MapStore2/web/client/reducers/map'))
 
 const LayersUtils = require('../../MapStore2/web/client/utils/LayersUtils');
 
-module.exports = (pluginsReducers) => {
+module.exports = (plugins) => {
+    const pluginsReducers = PluginsUtils.getReducers(plugins);
+
     const allReducers = combineReducers({
         browser: require('../../MapStore2/web/client/reducers/browser'),
         locale: require('../../MapStore2/web/client/reducers/locale'),
         map: () => {return null; },
         layers: () => {return null; },
         controls: require('../../MapStore2/web/client/reducers/controls'),
-        locate: require('../../MapStore2/web/client/reducers/locate'),
-        mapInfo: require('../../MapStore2/web/client/reducers/mapInfo'),
-        measurement: require('../../MapStore2/web/client/reducers/measurement'),
-        snapshot: require('../../MapStore2/web/client/reducers/snapshot'),
         help: require('../../MapStore2/web/client/reducers/help'),
+        sidepanel: require('../reducers/sidepanel'),
+        mapInitialConfig: () => {return null; },
         ...pluginsReducers
     });
 
     const rootReducer = (state = null, action) => {
         let mapState = createHistory(LayersUtils.splitMapAndLayers(mapConfig(state, action)));
 
-        const newState = {
+        let newState = {
             ...allReducers(state, action),
             map: mapState && mapState.map ? map(mapState.map, action) : null,
-            layers: mapState ? layers(mapState.layers, action) : null
+            layers: mapState ? layers(mapState.layers, action) : null,
+            mapInitialConfig: mapState ? mapState.mapInitialConfig : null
         };
 
         return newState;
     };
 
-    return DebugUtils.createDebugStore(rootReducer, {});
+    return DebugUtils.createDebugStore(rootReducer, {mousePosition: {enabled: false, crs: "EPSG:4326"}});
 };
