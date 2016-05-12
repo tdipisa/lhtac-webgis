@@ -31,7 +31,6 @@ const initialState = {
 function sidepanel(state = initialState, action) {
     switch (action.type) {
         case PIN_SIDEPANEL: {
-            let i = 0;
             return assign({}, state, {
                 pinned: !action.pin,
                 layoutUpdates: assign({}, state.layoutUpdates, {
@@ -40,7 +39,6 @@ function sidepanel(state = initialState, action) {
             });
         }
         case TOGGLE_SIDEPANEL: {
-            let i = 0;
             return assign({}, state, {
                 expanded: !action.toggle,
                 layoutUpdates: assign({}, state.layoutUpdates, {
