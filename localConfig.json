@@ -2,5 +2,27 @@
 	"proxyUrl": "/lhtac-webgis/proxy/?url=",
 	"geoStoreUrl": "/lhtac-webgis/rest/geostore",
 	"translationsPath": "MapStore2/web/client/translations",
-	"printUrl": "http://demo.geo-solutions.it/geoserver/pdf/info.json"
+	"printUrl": "http://demo.geo-solutions.it/geoserver/pdf/info.json",
+	"geoserverUrl": "http://demo.geo-solutions.it/geoserver",
+	"plugins": {
+		"desktop": ["Map", "Identify", {
+				"name": "Locate",
+				"hide": true
+		}, {
+				"name": "TOC",
+				"hide": true
+		}, {
+				"name": "BackgroundSwitcher",
+				"hide": true
+		}, {
+				"name": "Measure",
+				"hide": true
+		}, {
+				"name": "Print",
+				"hide": true
+		}, {
+				"name": "Settings",
+				"hide": true
+		}, "MousePosition", "Search", "Toolbar", "ScaleBox", "ZoomAll", "MapLoading", "Snapshot", "ContextSwitch"]
+	}
 }

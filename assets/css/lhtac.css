@@ -1,0 +1,119 @@
+/**
+ * Copyright 2016, GeoSolutions Sas.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+#left-edge {
+    width: 4px;
+    height: 100%;
+    padding: 0;
+    z-index: 1000000;
+    background-color: transparent;
+    position: absolute;
+    left:0px;
+    top:0px;
+}
+
+#lhac-sidepanel {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    width: 350px;
+    bottom: 0;
+    padding: 0;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif !important;
+}
+
+#lhac-sidepanel .header {
+    position: absolute;
+    top: 0;
+    height: 42px;
+    width: 100%;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 10px;
+    border-bottom: solid 1px #DDD;
+    color: white;
+    background-color: rgb(240, 240, 240);
+    margin-top: 0px;
+    color: black;
+}
+
+#lhac-sidepanel .body {
+    overflow: auto;
+    position: absolute;
+    top: 42px;
+    bottom: 0;
+    width: 100%;
+    padding-left: 3px;
+    background-color: #fff;
+    padding-right: 3px;
+    font-size: 12px;
+}
+
+#lhac-sidepanel .pin {
+    float: right;
+    color: black;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#lhac-sidepanel .close {
+    opacity: 0.8;
+}
+
+#lhac-sidepanel-toggle {
+    z-index: 999;
+    position: absolute;
+    left: 37px;
+    top: 40px;
+    font-size: 26px;
+    background-color: transparent;
+    border: none;
+    padding: 2px;
+    text-shadow: 2px 2px #A9A9A3;
+    box-shadow: none;
+}
+
+.accordion-panel {
+    border: 0 #fff;
+}
+
+.accordion-panel a  {
+    text-decoration: none;
+}
+
+.accordion-panel .panel-heading a:hover {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.accordion-panel .panel-heading a:focus {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.accordion-panel h4 {
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.statistics .panel-body{
+    padding: 2px;
+}
+
+.lhtac-group-list a:hover {
+    font-weight: normal;
+    background-color: #ddd;
+}
+
+.switch-layer {
+    z-index: 10;
+    top: 3px;
+    left: 560px;
+    position: absolute;
+    margin: 8px;
+}

@@ -32,7 +32,11 @@ module.exports = {
         new NoErrorsPlugin()
     ],
     resolve: {
-      extensions: ["", ".js", ".jsx"]
+      extensions: ["", ".js", ".jsx"],
+      alias: {
+          // this avoids duplicated react instances load
+          'react': path.join(__dirname, 'node_modules', 'react')
+      }
     },
     module: {
         loaders: [
@@ -42,34 +46,15 @@ module.exports = {
             { test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/, loader: "file-loader?name=[name].[ext]" },
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?name=[path][name].[ext]&limit=8192'}, // inline base64 URLs for <=8k images, direct URLs for the rest
             {
-                test: /\.jsx?$/,
-                exclude: /ol\.js$/,
+                test: /\.jsx$/,
+                exclude: /(ol\.js)$|(Cesium\.js)$/,
                 loader: "react-hot",
                 include: [path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client")]
             }, {
                 test: /\.jsx?$/,
-                exclude: /ol\.js$/,
+                exclude: /(ol\.js)$|(Cesium\.js)$/,
                 loader: "babel-loader",
-                include: [path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client")],
-                query: {
-                  "stage": 0,
-                  "env": {
-                    "development": {
-                      "plugins": ["react-transform"],
-                      "extra": {
-                        "react-transform": {
-                          "transforms": [{
-                            "transform": "react-transform-catch-errors",
-                            "imports": [
-                              "react",
-                              "redbox-react"
-                            ]
-                          }]
-                        }
-                      }
-                    }
-                  }
-                }
+                include: [path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client")]
             }
         ]
     },

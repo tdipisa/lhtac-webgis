@@ -34,8 +34,8 @@
       },
       {
         "type": "google",
-        "title": "Google ROADS",
-        "name": "ROADS",
+        "title": "Google ROADMAP",
+        "name": "ROADMAP",
         "source": "google",
         "group": "background",
         "visibility": false
