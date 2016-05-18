@@ -17,6 +17,10 @@ const map = mapConfigHistory(require('../../MapStore2/web/client/reducers/map'))
 
 const LayersUtils = require('../../MapStore2/web/client/utils/LayersUtils');
 
+const lhtac = require('../reducers/lhtac');
+
+const assign = require('object-assign');
+
 module.exports = (plugins) => {
     const pluginsReducers = PluginsUtils.getReducers(plugins);
 
@@ -29,17 +33,33 @@ module.exports = (plugins) => {
         help: require('../../MapStore2/web/client/reducers/help'),
         sidepanel: require('../reducers/sidepanel'),
         mapInitialConfig: () => {return null; },
+        lhtac: () => {return {}; },
         ...pluginsReducers
     });
 
     const rootReducer = (state = null, action) => {
         let mapState = createHistory(LayersUtils.splitMapAndLayers(mapConfig(state, action)));
 
+        let mapLayers = mapState ? layers(mapState.layers, action) : null;
+
+        let contextLayers;
+        if (mapLayers && mapLayers.flat) {
+            contextLayers = (mapLayers.flat.filter((layer) => layer.hasOwnProperty('active')) || [null]);
+        }
+
+        let lhtacState = lhtac(state.lhtac, action);
+
+        if (contextLayers) {
+            let activeLayer = (contextLayers.filter((layer) => layer.hasOwnProperty('active') && layer.active === true) || [null])[0];
+            lhtacState = assign(lhtacState, mapLayers, {contextLayers: contextLayers}, {activeLayer: activeLayer});
+        }
+
         let newState = {
             ...allReducers(state, action),
             map: mapState && mapState.map ? map(mapState.map, action) : null,
-            layers: mapState ? layers(mapState.layers, action) : null,
-            mapInitialConfig: mapState ? mapState.mapInitialConfig : null
+            layers: mapLayers,
+            mapInitialConfig: mapState ? mapState.mapInitialConfig : null,
+            lhtac: lhtacState
         };
 
         return newState;

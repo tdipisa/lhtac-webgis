@@ -9,12 +9,12 @@
 			20037508.34, 20037508.34
 		],
     "layers": [{
-      "type": "osm",
-      "title": "Open Street Map",
-      "name": "mapnik",
-            "source": "osm",
-      "group": "background",
-            "visibility": true
+        "type": "osm",
+        "title": "Open Street Map",
+        "name": "mapnik",
+        "source": "osm",
+        "group": "background",
+        "visibility": true
       },
       {
         "type": "google",
@@ -42,33 +42,135 @@
       },
       {
 				"type": "wms",
-        "url":"http://demo.geo-solutions.it/geoserver/wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
         "visibility": true,
         "opacity": 0.7,
 				"title": "Districts",
-				"name": "lhtac:itd_districts_simplified_3857",
-				"group": "Overlays",
+				"name": "lhsip:itd_districts",
+				"group": "Safety",
 				"format": "image/png"
 			},
       {
 				"type": "wms",
-        "url":"http://demo.geo-solutions.it/geoserver/wms",
-        "visibility": false,
-        "opacity": 0.7,
-				"title": "Jurisdictions",
-				"name": "lhtac:highwaydistricts_2014_with_cities_3857",
-				"group": "Overlays",
-				"format": "image/png"
-			},
-      {
-				"type": "wms",
-        "url":"http://demo.geo-solutions.it/geoserver/wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
         "visibility": true,
         "opacity": 0.7,
-				"title": "Accidents",
-				"name": "lhtac:web2014all_mv",
-				"group": "Overlays",
+				"title": "Jurisdictions",
+				"name": "lhsip:jurisdictions2014",
+				"group": "Safety",
 				"format": "image/png"
+			},
+      {
+        "type": "wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
+        "visibility": true,
+        "opacity": 0.7,
+        "title": "Jurisdictions Labels",
+        "name": "lhsip:juris_labels2014",
+        "group": "Safety",
+        "format": "image/png"
+      },
+      {
+				"type": "wms",
+        "url":"http://demo.geo-solutions.it/geoserver/wms",
+        "active": false,
+        "visibility": false,
+        "opacity": 0.7,
+				"title": "Crash Locations",
+				"name": "lhtac:web2014all_mv",
+				"group": "Safety",
+				"format": "image/png",
+        "legend": {
+            "width": 20,
+            "height": 20,
+            "options": "forceLabels:on;fontSize:14;fontName:Ariel;dx:5;fontAntiAliasing:true;fontColor:0x000033;bgColor:0xFFFFFF;dpi:75"
+        },
+        "statistics": [
+            {
+                "id": 1,
+                "name": "Locale and State Crashes:",
+                "value": 0
+            }, {
+                "id": 2,
+                "name": "Local Crashes in Jurisdiction:",
+                "value": 0
+            }, {
+                "id": 3,
+                "name": "Shown on map:",
+                "value": 0
+            }
+        ]
+			},
+      {
+				"type": "wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
+        "visibility": false,
+        "opacity": 0.7,
+				"title": "County",
+				"name": "live_web_postgis:county",
+				"group": "Bridges",
+				"format": "image/png"
+			},
+      {
+				"type": "wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
+        "visibility": false,
+        "opacity": 0.7,
+				"title": "City",
+				"name": "live_web_postgis:city",
+				"group": "Bridges",
+				"format": "image/png"
+			},
+      {
+				"type": "wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
+        "visibility": false,
+        "opacity": 0.7,
+				"title": "Road Jurisdiction",
+				"name": "live_web_postgis:lhj2014",
+				"group": "Bridges",
+				"format": "image/png"
+			},
+      {
+				"type": "wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
+        "visibility": false,
+        "opacity": 0.7,
+				"title": "Legislative District",
+				"name": "live_web_postgis:legislative_district",
+				"group": "Bridges",
+				"format": "image/png"
+			},
+      {
+				"type": "wms",
+        "url":"http://gis.lhtac.org/geoserver/wms",
+        "active": true,
+        "visibility": true,
+        "opacity": 0.7,
+				"title": "Bridges",
+				"name": "live_web_postgis:bridge2014all_mv",
+				"group": "Bridges",
+				"format": "image/png",
+        "legend": {
+            "width": 20,
+            "height": 20,
+            "options": "forceLabels:on;fontSize:14;fontName:Ariel;dx:5;fontAntiAliasing:true;fontColor:0x000033;bgColor:0xFFFFFF;dpi:75"
+        },
+        "statistics": [
+            {
+                "id": 1,
+                "name": "All bridges in selected area(s):",
+                "value": 4204
+            }, {
+                "id": 2,
+                "name": "Local bridges in selected area(s):",
+                "value": 2375
+            }, {
+                "id": 3,
+                "name": "Shown on map (filtered):",
+                "value": 4204
+            }
+        ]
 			}
     ]
   }

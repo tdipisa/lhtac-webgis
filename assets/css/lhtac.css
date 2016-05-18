@@ -24,7 +24,7 @@
     width: 350px;
     bottom: 0;
     padding: 0;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif !important;
+    font-size: 14px;
 }
 
 #lhac-sidepanel .header {
@@ -108,12 +108,4 @@
 .lhtac-group-list a:hover {
     font-weight: normal;
     background-color: #ddd;
-}
-
-.switch-layer {
-    z-index: 10;
-    top: 3px;
-    left: 560px;
-    position: absolute;
-    margin: 8px;
 }

@@ -42,7 +42,7 @@ function startApp() {
             store.dispatch(loadMapConfig(configUrl, legacy));
 
             let locale = LocaleUtils.getUserLocale();
-            store.dispatch(loadLocale('MapStore2/web/client/translations', locale));
+            store.dispatch(loadLocale('translations', locale));
             store.dispatch(loadPrintCapabilities(ConfigUtils.getConfigProp('printUrl')));
         });
 
