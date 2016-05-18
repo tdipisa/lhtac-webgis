@@ -6,10 +6,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 const React = require('react');
+const {connect} = require('react-redux');
 
 const {Glyphicon, Accordion, Panel} = require('react-bootstrap');
 
-const Statistics = require("./Statistics");
+const Statistics = connect((state) => ({
+    activeLayer: state.lhtac.activeLayer
+}), {
+
+})(require("./Statistics"));
 
 const SidePanel = React.createClass({
     propTypes: {

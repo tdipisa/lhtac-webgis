@@ -6,9 +6,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const ContextSwitch = require('../components/ContextSwitch');
+const React = require('react');
+const {connect} = require('react-redux');
+const assign = require('object-assign');
+
+const {switchLayer} = require('../actions/lhtac');
+const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
+
+const ContextSwitch = connect((state) => ({
+    contextLayers: state.lhtac.contextLayers,
+    activeLayer: state.lhtac.activeLayer
+}), {
+    switchLayer,
+    changeLayerProperties
+})(require('../components/ContextSwitch'));
 
 module.exports = {
-    ContextSwitchPlugin: ContextSwitch,
+    ContextSwitchPlugin: assign(ContextSwitch, {
+        Settings: {
+            tool: <ContextSwitch/>,
+            position: 4
+        }
+    }),
     reducers: {}
 };

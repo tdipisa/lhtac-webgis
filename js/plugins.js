@@ -25,6 +25,9 @@ module.exports = {
         LocatePlugin: require('../MapStore2/web/client/plugins/Locate'),
         ZoomAllPlugin: require('../MapStore2/web/client/plugins/ZoomAll'),
         MapLoadingPlugin: require('../MapStore2/web/client/plugins/MapLoading'),
+        HelpPlugin: require('../MapStore2/web/client/plugins/help/HelpTextPanel'),
+        AboutPlugin: require('./plugins/About'),
+        ContactUsPlugin: require('./plugins/ContactUs'),
         ContextSwitchPlugin: require('./plugins/ContextSwitch')
     },
     requires: {}

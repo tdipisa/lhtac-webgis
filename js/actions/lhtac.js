@@ -8,10 +8,10 @@
 
 const SWITCH_LAYER = 'SWITCH_LAYER';
 
-function switchLayer(toggle) {
+function switchLayer(id) {
     return {
         type: SWITCH_LAYER,
-        toggle: toggle
+        layerId: id
     };
 }
 

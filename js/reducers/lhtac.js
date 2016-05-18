@@ -17,7 +17,13 @@ const initialState = {};
 function lhtac(state = initialState, action) {
     switch (action.type) {
         case SWITCH_LAYER: {
-            return assign({}, state, {});
+            let layers = state.contextLayers.map((layer) => {
+                layer.active = layer.id === action.layerId;
+                return layer;
+            });
+            let newActive = layers.filter((layer) => layer.id === action.layerId)[0];
+
+            return assign({}, state, {contextLayers: layers, activeLayer: newActive});
         }
         default:
             return state;
