@@ -19,7 +19,8 @@ const {resetControls} = require('../../MapStore2/web/client/actions/controls');
 const {toggleSidePanel, pinSidePanel} = require("../actions/sidepanel");
 const SidePanel = connect((state) => ({
     expanded: state.sidepanel.expanded,
-    pinned: state.sidepanel.pinned
+    pinned: state.sidepanel.pinned,
+    activeLayer: state.lhtac.activeLayer
 }), {
     onToggle: toggleSidePanel,
     onPin: pinSidePanel

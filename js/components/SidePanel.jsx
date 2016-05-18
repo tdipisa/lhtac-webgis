@@ -6,20 +6,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 const React = require('react');
-const {connect} = require('react-redux');
 
 const {Glyphicon, Accordion, Panel} = require('react-bootstrap');
 
-const Statistics = connect((state) => ({
-    activeLayer: state.lhtac.activeLayer
-}), {
-
-})(require("./Statistics"));
+const Statistics = require("./Statistics");
 
 const SidePanel = React.createClass({
     propTypes: {
         expanded: React.PropTypes.bool,
         pinned: React.PropTypes.bool,
+        activeLayer: React.PropTypes.object,
         onToggle: React.PropTypes.func,
         onPin: React.PropTypes.func
     },
@@ -27,6 +23,7 @@ const SidePanel = React.createClass({
         return {
             expanded: true,
             pinned: false,
+            activeLayer: {},
             onToggle: () => {},
             onPin: () => {}
         };
@@ -51,7 +48,8 @@ const SidePanel = React.createClass({
                 <span/>
             </Panel>
             <Panel className="accordion-panel" header="Statistics" eventKey="3">
-                <Statistics/>
+                <Statistics
+                    activeLayer={this.props.activeLayer}/>
             </Panel>
           </Accordion>
         );
