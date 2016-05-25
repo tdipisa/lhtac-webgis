@@ -66,9 +66,13 @@ module.exports = {
             target: "http://mapstore.geo-solutions.it"
         }, {
             path: new RegExp("/lhtac-webgis/proxy(.*)"),
-            rewrite: rewriteUrl("/http_proxy/proxy$1"),
-            host: "mapstore.geo-solutions.it",
-            target: "http://mapstore.geo-solutions.it"
+            rewrite: rewriteUrl("/lhtac-webgis/proxy$1"),
+            host: "localhost",
+            target: "http://localhost:8080"
+        }, {
+            path: new RegExp("/geoserver/ows(.*)"),
+            host: "localhost",
+            target: "http://demo.geo-solutions.it"
         }]
     },
 

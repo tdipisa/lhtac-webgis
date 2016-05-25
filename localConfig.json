@@ -34,8 +34,9 @@
 				"hide": true,
 				"cfg": {
 					"textContent": [
-							"For questions regarding LHSIP in Idaho, please contact Laila Kral: LKral@Lhtac.org.",
-							"For questions regarding this crash or Bridge data tool, please contact: webmaster@lhtac.org."					]
+							{"id": 1, "text": "For questions regarding LHSIP in Idaho, please contact Laila Kral: LKral@Lhtac.org."},
+							{"id": 2, "text": "For questions regarding this crash or Bridge data tool, please contact: webmaster@lhtac.org."}
+					]
 				}
 		}, {
 				"name": "Toolbar",

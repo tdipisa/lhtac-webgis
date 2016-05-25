@@ -285,7 +285,7 @@
                 }
             },
             "spatialfilter": {
-                "selection_method": "Selection Method",
+                "selection_method": "Select District",
                 "geometric_operation": "Operazione Geometrica",
                 "spatial_filter_header": "Spatial Filter",
                 "draw_start_label": "Draw the region on interest in the map",
