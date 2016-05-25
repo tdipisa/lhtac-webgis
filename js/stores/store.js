@@ -34,6 +34,7 @@ module.exports = (plugins) => {
         sidepanel: require('../reducers/sidepanel'),
         mapInitialConfig: () => {return null; },
         lhtac: () => {return {}; },
+        queryform: require('../../MapStore2/web/client/reducers/queryform'),
         ...pluginsReducers
     });
 
@@ -65,5 +66,56 @@ module.exports = (plugins) => {
         return newState;
     };
 
-    return DebugUtils.createDebugStore(rootReducer, {mousePosition: {enabled: false, crs: "EPSG:4326"}});
+    return DebugUtils.createDebugStore(rootReducer, {
+        mousePosition: {enabled: false, crs: "EPSG:4326"},
+        queryform: {
+            searchUrl: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
+            showDetailsPanel: false,
+            useMapProjection: false,
+            withContainer: false,
+            spatialMethodOptions: [
+                {id: "ZONE", name: "queryform.spatialfilter.methods.zone"}
+            ],
+            spatialOperations: [
+                {id: "INTERSECTS", name: "queryform.spatialfilter.operations.intersects"}
+            ],
+            spatialField: {
+                method: "ZONE",
+                attribute: "geom3857",
+                operation: "INTERSECTS",
+                geometry: null,
+                zoneFields: [{
+                    id: 1,
+                    url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
+                    typeName: "lhtac:itd_districts",
+                    values: [],
+                    value: null,
+                    valueField: "properties.ITD_Dist_n",
+                    textField: "properties.DistNum",
+                    searchText: "*",
+                    searchMethod: "ilike",
+                    searchAttribute: "DistNum",
+                    label: "ITD District"
+                }, {
+                    id: 2,
+                    url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
+                    typeName: "lhtac:jurisdictions2014",
+                    label: "Road Jurisdiction",
+                    values: [],
+                    value: null,
+                    valueField: "properties.juris_code",
+                    textField: "properties.name2",
+                    searchText: "*",
+                    searchMethod: "ilike",
+                    searchAttribute: "name2",
+                    disabled: true,
+                    dependson: {
+                        id: 1,
+                        field: "itd_dist",
+                        value: null
+                    }
+                }]
+            }
+        }
+    });
 };

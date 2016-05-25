@@ -21,7 +21,7 @@ const ContactUs = React.createClass({
     render() {
         return (
             <Panel header="Contact Us" id="lhtac-contactus-panel">
-                {this.props.textContent.map((paragraph) => <p>{paragraph}</p>)}
+                {this.props.textContent.map((paragraph) => <p key={paragraph.id}>{paragraph.text}</p>)}
             </Panel>
         );
     }

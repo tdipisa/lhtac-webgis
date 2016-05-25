@@ -78,34 +78,59 @@
     box-shadow: none;
 }
 
-.accordion-panel {
+.lhtac-panel {
     border: 0 #fff;
 }
 
-.accordion-panel a  {
+.lhtac-panel a  {
     text-decoration: none;
 }
 
-.accordion-panel .panel-heading a:hover {
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.accordion-panel .panel-heading a:focus {
+.lhtac-panel .panel-heading a:hover {
     text-decoration: none;
     font-weight: bold;
 }
 
-.accordion-panel h4 {
+.lhtac-panel .panel-heading a:focus {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.lhtac-panel h4 {
     text-transform: uppercase;
     font-size: 12px;
-}
-
-.statistics .panel-body{
-    padding: 2px;
 }
 
 .lhtac-group-list a:hover {
     font-weight: normal;
     background-color: #ddd;
+}
+
+.crossFilterToolbar {
+    float: right;
+    padding-top: 10px;
+}
+
+.statistics-panel .panel-heading a {
+    text-transform: none;;
+    text-decoration: none;
+    text-transform: none;
+    font-weight: normal;
+}
+
+.statistics-panel .panel-heading a:focus {
+    text-transform: none;;
+    text-decoration: none;
+    text-transform: none;
+    font-weight: normal;
+}
+
+.statistics-panel .panel-heading a:hover {
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.statistics-container .panel-body{
+    overflow-y: auto;
+    max-height: 445px;
 }

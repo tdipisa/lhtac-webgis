@@ -20,14 +20,20 @@ const Statistics = React.createClass({
     },
     getDefaultProps() {
         return {
-            activeLayer: {}
+            activeLayer: {
+                statistics: [],
+                legend: {
+                    height: 20,
+                    width: 20,
+                    options: ""
+                }
+            }
         };
     },
     render() {
-        // const layer = assign({}, this.props.activeLayer, {url: ConfigUtils.setUrlPlaceholders({url: "{geoserverUrl}/wms?"}).url});
         return (
             <div>
-                <Panel style={{height: "310px", maxHeight: "310px", overflowY: "auto"}} header="Download and statistics" eventKey="2">
+                <Panel header="Download and statistics" collapsible>
                     <ListGroup className="lhtac-group-list">
                         <ListGroupItem key={1}>Selected: 0</ListGroupItem>
                         <ListGroupItem key={2}>Highlighted: 0</ListGroupItem>

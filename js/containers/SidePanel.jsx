@@ -6,16 +6,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 const React = require('react');
+const {connect} = require('react-redux');
 
-const {Glyphicon, Accordion, Panel} = require('react-bootstrap');
+const {Glyphicon, Panel} = require('react-bootstrap');
 
-const Statistics = require("./Statistics");
+const AccordionPanel = require("./AccordionPanel");
+
+const Statistics = connect((state) => ({
+    activeLayer: state.lhtac.activeLayer
+}), {})(require("../components/Statistics"));
 
 const SidePanel = React.createClass({
     propTypes: {
         expanded: React.PropTypes.bool,
         pinned: React.PropTypes.bool,
-        activeLayer: React.PropTypes.object,
         onToggle: React.PropTypes.func,
         onPin: React.PropTypes.func
     },
@@ -23,7 +27,6 @@ const SidePanel = React.createClass({
         return {
             expanded: true,
             pinned: false,
-            activeLayer: {},
             onToggle: () => {},
             onPin: () => {}
         };
@@ -39,21 +42,6 @@ const SidePanel = React.createClass({
             transform: "rotate(" + (this.props.pinned ? "-45" : "0") + "deg)"
         };
 
-        const accordionInstance = (
-          <Accordion style={{marginTop: "5px", marginBottom: "0px"}} defaultActiveKey="3">
-            <Panel className="accordion-panel" header="Select and customize an area filter" eventKey="1">
-                <span/>
-            </Panel>
-            <Panel className="accordion-panel" header="Advanced Filter" eventKey="2">
-                <span/>
-            </Panel>
-            <Panel className="accordion-panel" header="Statistics" eventKey="3">
-                <Statistics
-                    activeLayer={this.props.activeLayer}/>
-            </Panel>
-          </Accordion>
-        );
-
         return (
             <div onMouseLeave={() => {
                 let t = !this.props.pinned && this.props.expanded;
@@ -67,8 +55,11 @@ const SidePanel = React.createClass({
                         <span className="pin" style={pinStyle} onClick={this.pin}><Glyphicon glyph="pushpin"/></span>
                     </div>
                     <div className="body">
-                        <div style={{overflowY: "auto"}}>
-                            {accordionInstance}
+                        <div style={{overflowY: "hidden", height: "100%"}}>
+                            <AccordionPanel/>
+                            <Panel className="lhtac-panel statistics-panel statistics-container" header={<h4>Statistics</h4>}>
+                                <Statistics/>
+                            </Panel>
                         </div>
                     </div>
                 </div>
