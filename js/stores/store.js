@@ -95,7 +95,11 @@ module.exports = (plugins) => {
                     searchText: "*",
                     searchMethod: "ilike",
                     searchAttribute: "DistNum",
-                    label: "ITD District"
+                    label: "ITD District",
+                    sort: {
+                        sortBy: "ITD_Dist_n",
+                        sortOrder: "ASC"
+                    }
                 }, {
                     id: 2,
                     url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
