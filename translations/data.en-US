@@ -258,7 +258,7 @@
             "shapefile": "This is the helptext for the Shapefile"
         },
         "queryform": {
-            "query": "Search",
+            "query": "Filter",
             "reset": "Reset",
             "query_request_exception": "Request Error",
             "config": {
