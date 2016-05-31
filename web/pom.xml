@@ -102,6 +102,7 @@
                         <phase>test</phase>
                         <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <arguments>run lint</arguments>
                             <installDirectory>..</installDirectory>
                         </configuration>
@@ -115,6 +116,7 @@
                         <phase>test</phase>
                         <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <arguments>run mvntest</arguments>
                             <installDirectory>..</installDirectory>
                         </configuration>
@@ -196,6 +198,26 @@
                                 <directory>${basedir}/..</directory>
                                 <includes>
                                     <include>translations/*</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>proxy properties files</id>
+                    <phase>process-classes</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${basedir}/target/lhtac-webgis/WEB-INF/classes</outputDirectory>
+                        <encoding>UTF-8</encoding>
+                        <resources>
+                            <resource>
+                                <directory>${basedir}/../MapStore2/web/src/main/resources</directory>
+                                <includes>
+                                    <include>*.properties</include>
+                                    <include>*.xml</include>
                                 </includes>
                             </resource>
                         </resources>

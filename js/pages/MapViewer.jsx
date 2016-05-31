@@ -62,10 +62,9 @@ const MapViewer = React.createClass({
             .map(this.getPluginDescriptor)
             .map((Plugin) => {
                 let config = Plugin.cfg;
-                let params = this.props.params;
+                let params = assign({}, this.props.params, {mapType: this.props.mapType});
                 if (Plugin.name === "Map") {
                     config = assign({}, config, {options: {resize: this.props.layoutUpdates.resize}});
-                    params = assign({}, params, {mapType: this.props.mapType});
                 }
 
                 return <Plugin.impl key={Plugin.name} {...params} {...config} items={Plugin.items}/>;
