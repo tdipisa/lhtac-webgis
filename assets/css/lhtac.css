@@ -134,3 +134,19 @@
     overflow-y: auto;
     max-height: 445px;
 }
+
+.rw-multiselect-taglist > li {
+    float: left;
+    display: inline-block;
+    margin: 1px;
+    padding: 0.214em 0.15em 0.214em 0.4em;
+    line-height: 1.4em;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    border-radius: 3px;
+    border: 1px solid #332a2a;
+    background-color: #a8cfea;
+    cursor: pointer;
+    padding-top: 5px;
+}

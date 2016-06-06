@@ -52,7 +52,7 @@ module.exports = (plugins) => {
 
         if (contextLayers) {
             let activeLayer = (contextLayers.filter((layer) => layer.hasOwnProperty('active') && layer.active === true) || [null])[0];
-            lhtacState = assign(lhtacState, mapLayers, {contextLayers: contextLayers}, {activeLayer: activeLayer});
+            lhtacState = assign({}, lhtacState, {contextLayers: contextLayers, activeLayer: activeLayer});
         }
 
         let newState = {
@@ -96,6 +96,7 @@ module.exports = (plugins) => {
                     searchMethod: "ilike",
                     searchAttribute: "DistNum",
                     label: "ITD District",
+                    multivalue: true,
                     sort: {
                         sortBy: "ITD_Dist_n",
                         sortOrder: "ASC"
@@ -113,6 +114,8 @@ module.exports = (plugins) => {
                     searchMethod: "ilike",
                     searchAttribute: "name2",
                     disabled: true,
+                    multivalue: true,
+                    groupBy: "itd_dist",
                     dependson: {
                         id: 1,
                         field: "itd_dist",

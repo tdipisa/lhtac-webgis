@@ -92,8 +92,23 @@ const WMSCrossLayerFilter = React.createClass({
             "(" + this.props.spatialField.attribute +
                 ", collectGeometries(queryCollection('" +
                     zone.typeName +
-                    "', '" + zone.rawValue.geometry_name +
-                    "', '" + attribute + " = ''" + zone.value + "''')))";
+                    "', '" + zone.geometryName +
+                    "', '" + attribute;
+
+        if (zone.value instanceof Array) {
+            filter += " IN (";
+            zone.value.forEach((value, index) => {
+                filter += "''" + value + "''";
+                if (index < zone.value.length - 1) {
+                    filter += ",";
+                }
+            });
+            filter += ")'";
+        } else {
+            filter += " = ''" + zone.value + "''')))";
+        }
+
+        filter += ")))";
 
         let params = assign({}, this.props.params, {cql_filter: filter});
         this.props.actions.onQuery(this.props.activeLayer.id, {params: params});
