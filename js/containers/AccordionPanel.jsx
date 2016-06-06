@@ -16,9 +16,10 @@ const {
     removeSpatialSelection,
     zoneGetValues,
     zoneSearch,
-    openMenu,
+    // openMenu,
     zoneChange,
     resetZones
+    // zoneSelect
 } = require('../../MapStore2/web/client/actions/queryform');
 
 const {
@@ -38,8 +39,9 @@ const SpatialFilter = connect((state) => ({
             onRemoveSpatialSelection: removeSpatialSelection,
             zoneFilter: zoneGetValues,
             zoneSearch,
-            openMenu,
+            // openMenu,
             zoneChange
+            // zoneSelect
         }, dispatch)
     };
 })(require('../../MapStore2/web/client/components/data/query/SpatialFilter'));
