@@ -30,6 +30,9 @@
         "help": "Help",
         "gohome": "Go home",
         "printbutton": "Print",
+        "save": "Save",
+        "opacity": "Opacity",
+        "close": "Close",
         "noresultfound": "No Result found",
         "home":{
             "open": "Open",

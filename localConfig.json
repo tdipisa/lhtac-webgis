@@ -5,7 +5,22 @@
 	"printUrl": "http://demo.geo-solutions.it/geoserver/pdf/info.json",
 	"geoserverUrl": "http://demo.geo-solutions.it/geoserver/wms",
 	"plugins": {
-		"desktop": ["Map", "Identify", {
+		"desktop": [{
+			"name": "Map",
+			"cfg": {
+				"toolsOptions": {
+					"scalebar": {
+						"leaflet": {
+							"metric": false,
+							"imperial": true
+						},
+						"openlayers": {
+							"units": "imperial"
+						}
+					}
+				}
+			}
+		}, "Identify", {
 				"name": "Locate",
 				"hide": true
 		}, {
@@ -16,7 +31,13 @@
 				"hide": true
 		}, {
 				"name": "Measure",
-				"hide": true
+				"hide": true,
+				"cfg": {
+					"uom": {
+						"length": {"unit": "mi", "label": "mi"},
+						"area": {"unit": "sqmi", "label": "square mi"}
+					}
+				}
 		}, {
 				"name": "Print",
 				"hide": true

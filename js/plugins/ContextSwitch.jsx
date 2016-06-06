@@ -24,7 +24,7 @@ const ContextSwitch = connect((state) => ({
 module.exports = {
     ContextSwitchPlugin: assign(ContextSwitch, {
         Settings: {
-            tool: <ContextSwitch/>,
+            tool: <ContextSwitch key="contextswitch"/>,
             position: 4
         }
     }),
