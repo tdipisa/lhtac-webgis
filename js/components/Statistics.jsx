@@ -16,10 +16,16 @@ const Legend = require('../../MapStore2/web/client/components/TOC/fragments/lege
 
 const Statistics = React.createClass({
     propTypes: {
-        activeLayer: React.PropTypes.object
+        activeLayer: React.PropTypes.object,
+        selectedfeatures: React.PropTypes.number,
+        highlightedfeatures: React.PropTypes.number,
+        highlightStatus: React.PropTypes.func,
+        featureSelectorReset: React.PropTypes.func
     },
     getDefaultProps() {
         return {
+            selectedfeatures: 0,
+            highlightedfeatures: 0,
             activeLayer: {
                 statistics: [],
                 legend: {
@@ -27,7 +33,10 @@ const Statistics = React.createClass({
                     width: 20,
                     options: ""
                 }
-            }
+            },
+            changeDrawingStatus: () => {},
+            highlightStatus: () => {},
+            featureSelectorReset: () => {}
         };
     },
     render() {
@@ -35,8 +44,8 @@ const Statistics = React.createClass({
             <div>
                 <Panel header="Download and statistics" collapsible>
                     <ListGroup className="lhtac-group-list">
-                        <ListGroupItem key={1}>Selected: 0</ListGroupItem>
-                        <ListGroupItem key={2}>Highlighted: 0</ListGroupItem>
+                        <ListGroupItem key={1}>Selected: {this.props.selectedfeatures}</ListGroupItem>
+                        <ListGroupItem key={2}>Highlighted: {this.props.highlightedfeatures}</ListGroupItem>
                     </ListGroup>
                     <ListGroup className="lhtac-group-list">
                         {
@@ -48,18 +57,22 @@ const Statistics = React.createClass({
                         }
                     </ListGroup>
                 </Panel>
-                <Panel style={{marginTop: "15px"}} header={this.props.activeLayer.title}>
+                <Panel style={{marginTop: "15px"}} header={this.props.activeLayer.title} collapsible>
                     <Legend
                         layer={this.props.activeLayer}
                         legendHeigth={this.props.activeLayer.legend.height || 20}
                         legendWidth={this.props.activeLayer.legend.width || 20}
                         legendOptions={this.props.activeLayer.legend.options}/>
                 </Panel>
-                <Button style={{marginTop: "15px", "float": "right"}} onClick={() => {}}>
+                <Button style={{marginTop: "15px", "float": "right"}} onClick={this.resetStatistics}>
                     Clear Selections
                 </Button>
             </div>
         );
+    },
+    resetStatistics() {
+        this.props.featureSelectorReset();
+        this.props.highlightStatus("disabled");
     }
 });
 

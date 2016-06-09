@@ -6,6 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+
 #left-edge {
     width: 4px;
     height: 100%;
@@ -112,14 +113,14 @@
 }
 
 .statistics-panel .panel-heading a {
-    text-transform: none;;
+    text-transform: none;
     text-decoration: none;
     text-transform: none;
     font-weight: normal;
 }
 
 .statistics-panel .panel-heading a:focus {
-    text-transform: none;;
+    text-transform: none;
     text-decoration: none;
     text-transform: none;
     font-weight: normal;
@@ -132,7 +133,7 @@
 
 .statistics-container .panel-body{
     overflow-y: auto;
-    max-height: 445px;
+    max-height: 300px;
 }
 
 .rw-multiselect-taglist > li {
@@ -149,4 +150,70 @@
     background-color: #a8cfea;
     cursor: pointer;
     padding-top: 5px;
+}
+
+
+#feature-selection-bar {
+    position: absolute;
+    top: 50px;
+    left: 45px;
+    z-index: 100;
+}
+#feature-selection-bar .rw-dropdownlist{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left:0px;
+    background-color: #dedede
+}
+#feature-selection-bar .input-group-addon{
+
+    background-color: #eeeeee;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    cursor: pointer;
+}
+#feature-selection-bar .input-group-addon-disabled{
+    background-color: white;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    cursor: pointer;
+}
+#feature-selection-bar .input-group {
+    box-shadow: 2px 2px 4px #A7A7A7;
+    border-radius: 4px;
+}
+#feature-selection-bar .rw-state-disabled {
+    background-color: white;
+}
+.search-result-list {
+    z-index: 2000
+}
+#feature-selection-bar .button-container div{
+    width: 40px;
+    height: 34px;
+    padding: 6px 12px;
+    background-color: white;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 4px #A7A7A7;
+    border-radius: 10px;
+}
+#feature-selection-bar .button-container div.pressed{
+    background-color: #eeeeee;
+}
+.button-container{
+    height: 40px;
+    width: 81px;
+}
+.selector-spinner{
+    padding: 8px 3px 3px 8px;
+    background-color: white;
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 4px #A7A7A7;
+    border-radius: 10px;
+    float: left;
 }
