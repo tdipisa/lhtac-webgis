@@ -8,7 +8,7 @@
 
 const {
     END_DRAWING
-} = require('../../Mapstore2/web/client/actions/draw');
+} = require('../../MapStore2/web/client/actions/draw');
 const {
     FEATURES_LOADED,
     NEW_GETFEATURE_REQUEST,
