@@ -41,7 +41,15 @@
 				}
 		}, {
 				"name": "Print",
-				"hide": true
+				"hide": true,
+				"cfg": {
+					"useFixedScales": false,
+					"syncMapPreview": true,
+					"mapPreviewOptions": {
+						"enableScalebox": false,
+						"enableRefresh": false
+					}
+				}
 		}, {
 				"name": "Settings",
 				"hide": true
