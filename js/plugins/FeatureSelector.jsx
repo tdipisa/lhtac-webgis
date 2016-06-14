@@ -45,6 +45,7 @@ const FeatureSelector = React.createClass({
         open: React.PropTypes.bool,
         spatialMethodOptions: React.PropTypes.array,
         features: React.PropTypes.array,
+        hstatus: React.PropTypes.string,
         changeDrawingStatus: React.PropTypes.func,
         loadFeatures: React.PropTypes.func,
         featureSelectorError: React.PropTypes.func,
@@ -74,7 +75,6 @@ const FeatureSelector = React.createClass({
         };
     },
     componentDidMount() {
-        this.key = (navigator && navigator.platform && navigator.platform === 'MacIntel') ? 'altKey' : 'ctrlKey';
         this.addKey = false;
         window.addEventListener("keydown", this.handleKeyDown);
         window.addEventListener("keyup", this.handleKeyUp);
@@ -88,10 +88,11 @@ const FeatureSelector = React.createClass({
 
         if (this.props.features !== nextProps.features && nextProps.drawFeatures) {
             this.props.changeLayerProperties("featureselector", {features: nextProps.features});
-            this.props.changeHighlightStatus('enabled');
-        }
-        if (nextProps.drawStatus === "start" && nextProps.drawStatus !== this.props.drawStatus) {
-            this.props.changeHighlightStatus('disabled');
+            if (this.props.hstatus === 'disabled') {
+                this.props.changeHighlightStatus('enabled');
+            }else {
+                this.props.changeHighlightStatus('update');
+            }
         }
         if (nextProps.geometry && nextProps.geometryStatus === "created" && nextProps.queryform.spatialField && nextProps.queryform.spatialField.geometry) {
 
@@ -116,12 +117,16 @@ const FeatureSelector = React.createClass({
                 };
                 let ogcFilter = FilterUtils.toOGCFilter(nextProps.activeLayer.name, {spatialField: newSpatialFilter}, "1.1.0");
                 this.props.loadFeatures(nextProps.queryform.searchUrl, ogcFilter, this.addKey);
+                if (!this.addKey) {
+                    this.props.changeHighlightStatus('disabled');
+                }
                 this.addKey = false;
             }else {
                 this.addKey = false;
                 this.props.featureSelectorError("Select some features");
             }
             this.props.changeDrawingStatus("clean", '', 'featureselector', []);
+
         }
 
     },
@@ -174,7 +179,7 @@ const FeatureSelector = React.createClass({
 
     },
     handleKeyDown(e) {
-        this.addKey = e[this.key];
+        this.addKey = e.ctrlKey || e.metaKey;
     },
     handleKeyUp() {
         window.setTimeout(() => {this.addKey = false; }, 100);
@@ -184,14 +189,16 @@ const selector = createSelector([
     (state) => (state.lhtac && state.lhtac.activeLayer || {}),
     (state) => (state.draw || {}),
     (state) => (state.featureselector || {}),
-    (state) => (state.queryform || {})
-], (activeLayer, draw, featureselector, queryform) => ({
+    (state) => (state.queryform || {}),
+    (state) => (state.highlight && state.highlight.status || 'disabled')
+], (activeLayer, draw, featureselector, queryform, hstatus) => ({
     activeLayer,
     open: (activeLayer && activeLayer.params && activeLayer.params.cql_filter
           && activeLayer.params.cql_filter !== "INCLUDE") ? true : false,
     ...draw,
     ...featureselector,
-    queryform
+    queryform,
+    hstatus
 }));
 
 const FeatureSelectorPlugin = connect(selector, {

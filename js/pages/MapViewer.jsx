@@ -16,14 +16,23 @@ const PluginsUtils = require('../../MapStore2/web/client/utils/PluginsUtils');
 
 const {resetControls} = require('../../MapStore2/web/client/actions/controls');
 
-const {toggleSidePanel, pinSidePanel} = require("../actions/sidepanel");
+const {toggleSidePanel, pinSidePanel, resizeHeight} = require("../actions/sidepanel");
+
 const SidePanel = connect((state) => ({
     expanded: state.sidepanel.expanded,
-    pinned: state.sidepanel.pinned
+    pinned: state.sidepanel.pinned,
+    height: state.sidepanel.layoutUpdates.style.height
 }), {
     onToggle: toggleSidePanel,
     onPin: pinSidePanel
 })(require("../containers/SidePanel"));
+
+const SouthPanel = connect((state) => ({
+    initHeight: 100 - parseFloat(state.sidepanel.layoutUpdates.style.height),
+    height: 100 - parseFloat(state.sidepanel.layoutUpdates.style.height)
+}), {
+    resizeHeight
+})(require("../containers/SouthPanel"));
 
 const MapViewer = React.createClass({
     propTypes: {
@@ -50,6 +59,7 @@ const MapViewer = React.createClass({
                 right: 0,
                 height: "100%"
             }
+
         };
     },
     getPluginDescriptor(plugin) {
@@ -79,6 +89,7 @@ const MapViewer = React.createClass({
                         {this.renderPlugins(this.props.pluginsConfig[this.props.mode])}
                     </div>
                     <div id="left-edge" onMouseEnter={() => { this.tooglePanel(false); }} onMouseLeave={() => { if (this.timeOut) { clearTimeout(this.timeOut); } }}/>
+                    <SouthPanel />
                 </div>
             );
         }
@@ -92,7 +103,8 @@ const MapViewer = React.createClass({
 
 module.exports = connect((state) => ({
     pluginsConfig: state.plugins || ConfigUtils.getConfigProp('plugins') || null,
-    layoutUpdates: state.sidepanel.layoutUpdates || 0
+    layoutUpdates: state.sidepanel.layoutUpdates || 0,
+    height: ( state.featureselector && state.featureselector.features && state.featureselector.features.length > 0 ) ? state.sidepanel.layoutUpdates.style.height : "100%"
 }),
 {
     toggleControl: toggleSidePanel,
