@@ -29,7 +29,8 @@
 				"hide": true
 		}, {
 				"name": "BackgroundSwitcher",
-				"hide": true
+				"hide": true,
+				"cfg": {"id": 666}
 		}, {
 				"name": "Measure",
 				"hide": true,
@@ -72,9 +73,9 @@
 				"name": "Toolbar",
 				"cfg": {
 					"panelStyle": {
-              "minWidth": "300px",
-              "right": "52px",
-              "zIndex": 1000,
+             		 "minWidth": "300px",
+              		"right": "52px",
+              		"zIndex": 1000,
               "position": "absolute",
               "overflow": "auto"
           }
@@ -82,6 +83,16 @@
 		}, {
 				"name": "ContextSwitch",
 				"hide": true
-		}, "MousePosition", "Search", "ScaleBox", "ZoomAll", "MapLoading", "Snapshot", "Help", "FeatureSelector"]
+		}, {
+			"name": "MousePosition",
+			"cfg": {
+					"copyToClipboardEnabled": true
+				}
+			}, "Search", "ScaleBox", {
+    			"name": "ZoomAll",
+    			"hideFrom": ["Toolbar"]
+				}, {"name": "MapLoading",
+				"hideFrom": ["Toolbar"]
+			}, "Snapshot", "Help", "FeatureSelector"]
 	}
 }
