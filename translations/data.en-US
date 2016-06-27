@@ -441,6 +441,12 @@
             "pseudo": "PseudoColor",
             "multi": "Multi Band",
             "single": "Single Band"
+         },
+         "lhtac" : {
+            "crossfilter" : {
+                "zoomBtn": "Zoom To Active Area Filter"
+            },
+            "sideBtnTooltip": "Show Side Panel"
          }
      }
  }
