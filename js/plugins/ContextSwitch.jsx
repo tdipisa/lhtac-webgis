@@ -9,16 +9,33 @@
 const React = require('react');
 const {connect} = require('react-redux');
 const assign = require('object-assign');
+const {createSelector} = require('reselect');
 
 const {switchLayer} = require('../actions/lhtac');
-const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
+const {changeMapView} = require('../../MapStore2/web/client/actions/map');
+const {mapSelector} = require('../../MapStore2/web/client/selectors/map');
 
-const ContextSwitch = connect((state) => ({
-    contextLayers: state.lhtac.contextLayers,
-    activeLayer: state.lhtac.activeLayer
-}), {
+
+const lhtac = require('../selectors/lhtac');
+const selector = createSelector([
+    lhtac,
+    mapSelector,
+    state => state.mapInitialConfig
+    ],
+    (l, mapConfig, mapInitialConfig) => ({
+        activeLayer: l.activeLayer,
+        contextLayers: l.contextLayers,
+        mapInitialConfig,
+        mapConfig }));
+const {
+    resetZones
+} = require('../../MapStore2/web/client/actions/queryform');
+
+
+const ContextSwitch = connect(selector, {
     switchLayer,
-    changeLayerProperties
+    resetZones,
+    changeMapView
 })(require('../components/ContextSwitch'));
 
 module.exports = {

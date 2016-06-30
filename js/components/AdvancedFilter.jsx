@@ -23,9 +23,6 @@ const AdvancedFilter = React.createClass({
         toggleFilter: React.PropTypes.func,
         changeLayerProperties: React.PropTypes.func,
         activeLayer: React.PropTypes.object,
-        changeDrawingStatus: React.PropTypes.func,
-        changeHighlightStatus: React.PropTypes.func,
-        featureSelectorReset: React.PropTypes.func,
         error: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool, React.PropTypes.object])
     },
     contextTypes: {
@@ -43,15 +40,12 @@ const AdvancedFilter = React.createClass({
             error: false,
             simpleFilterFieldUpdate: () => {},
             toggleFilter: () => {},
-            changeLayerProperties: () => {},
-            changeHighlightStatus: () => {},
-            changeDrawingStatus: () => {},
-            featureSelectorReset: () => {}
+            changeLayerProperties: () => {}
         };
     },
     renderSimpleFilterFields() {
         let fields = this.props.fieldsConfig.sort((a, b) => {
-            return parseInt(a.fieldId, 10) > parseInt(b.fieldId, 10);
+            return parseInt(a.fieldId, 10) - parseInt(b.fieldId, 10);
         });
         return fields.map((f) => {
             return (<SimpleFilterField key={f.fieldId || f.attribute} updateFilter={this.props.simpleFilterFieldUpdate} {...f}/>);
@@ -91,21 +85,16 @@ const AdvancedFilter = React.createClass({
         return (this.props.loading) ? this.renderLoading() : this.renderFields();
     },
     setFilter() {
-        this.props.featureSelectorReset();
+        this.props.toggleFilter(true);
         let filter = this.props.baseCqlFilter + " AND " + FilterUtils.toCQLFilter({simpleFilterFields: this.props.fieldsConfig});
         let params = {...this.props.params, cql_filter: filter};
         this.props.changeLayerProperties(this.props.activeLayer.id, {params: params});
-        this.props.toggleFilter(true);
-        this.props.changeDrawingStatus('start', 'BBOX', 'advancedfilter', []);
-        this.props.changeHighlightStatus('disabled');
+
     },
     removeFilter() {
-        this.props.featureSelectorReset();
+        this.props.toggleFilter(false);
         let params = {...this.props.params, cql_filter: this.props.baseCqlFilter};
         this.props.changeLayerProperties(this.props.activeLayer.id, {params: params});
-        this.props.changeDrawingStatus('start', 'BBOX', 'advancedfilter', []);
-        this.props.changeHighlightStatus('disabled');
-        this.props.toggleFilter(false);
     }
 
 });
