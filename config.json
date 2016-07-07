@@ -88,68 +88,215 @@
         "statistics": [
             {
                 "id": 1,
-                "name": "Locale and State Crashes:",
-                "value": 0
-            }, {
+                "name": "All Crashes in selected area(s):",
+                "value": 0,
+                "type": "areaFilter"
+            },
+            {
                 "id": 2,
-                "name": "Local Crashes in Jurisdiction:",
-                "value": 0
-            }, {
+                "name": "Local Crashes in selected area(s):",
+                "value": 0,
+                "type": "areaFilter",
+                "custom_cql": " AND (highway_system='local')"
+            },
+            {
                 "id": 3,
-                "name": "Shown on map:",
-                "value": 0
+                "name": "Shown on map (filtered):",
+                "value": 0,
+                "type": "allFilter"
             }
         ],
         "columnDefs": [
             {
+                "field": "properties.serial_number",
+                "headerName": "Serial Number",
+                "width": 80
+            },
+            {
+                "field": "properties.highway_system",
+                "headerName": "Highway System",
+                "width": 70
+            },
+
+            {
                 "field": "properties.severity",
                 "headerName": "Severity",
-                "width": 180
+                "width": 150
             },
             {
                 "field": "properties.accident_year",
-                "headerName": "Year",
-                "width": 100
+                "headerName": "Accident Year",
+                "width": 70
             },
             {
                 "field": "properties.accident_date",
-                "headerName": "Date",
-                "width": 100
+                "headerName": "Accident Date",
+                "width": 80
             },
             {
                 "field": "properties.accident_time",
-                "headerName": "Time",
-                "width": 100
+                "headerName": "Accident Time",
+                "width": 70
             },
             {
                 "field": "properties.day_of_week",
-                "headerName": "Day",
-                "width": 100
+                "headerName": "Day of Week",
+                "width": 80
+            },
+            {
+                "field": "properties.intersection_related",
+                "headerName": "Intersect Related",
+                "width": 70
             },
             {
                 "field": "properties.street1",
                 "headerName": "Street 1",
-                "width": 180
+                "width": 100
             },
             {
                 "field": "properties.street2",
                 "headerName": "Street 2",
-                "width": 180
+                "width": 100
             },
             {
-                "field": "properties.agency_submitting_report",
-                "headerName": "Agency",
-                "width": 180
+                "field": "properties.reference_street",
+                "headerName": "Reference Street",
+                "width": 100
             },
             {
-                "field": "properties.alcohol_drug_involve",
-                "headerName": "Drunk",
-                "width": 180
+                "field": "properties.dist_from_intersection",
+                "headerName": "Dist from Tntersect",
+                "width": 90
+            },
+            {
+                "field": "properties.road_type",
+                "headerName": "Road Type",
+                "width": 100
+            },
+            {
+                "field": "properties.direction_of_travel",
+                "headerName": "Direction of Travel",
+                "width": 70
+            },
+            {
+                "field": "properties.driver_action",
+                "headerName": "Driver Action",
+                "width": 140
+            },
+            {
+                "field": "properties.vision_obstruction",
+                "headerName": "Vision Obstruction",
+                "width": 100
+            },
+            {
+                "field": "properties.impaired",
+                "headerName": "Impaired",
+                "width": 70
+            },
+            {
+                "field": "properties.lane_dep",
+                "headerName": "Lane Depart",
+                "width": 70
+            },
+            {
+                "field": "properties.first_harmful_event",
+                "headerName": "First Harmful Event",
+                "width": 100
+            },
+            {
+                "field": "properties.most_harmful_event",
+                "headerName": "Most Harmful Event",
+                "width": 100
             },
             {
                 "field": "properties.events",
-                "headerName": "Events",
-                "width": 180
+                "headerName": "All Events",
+                "width": 100
+            },
+            {
+                "field": "properties.contrib_circ_1",
+                "headerName": "Contrib Circ 1",
+                "width": 100
+            },
+            {
+                "field": "properties.contrib_circ_2",
+                "headerName": "Contrib Circ 2",
+                "width": 100
+            },
+            {
+                "field": "properties.contrib_circ_3",
+                "headerName": "Contrib Circ 3",
+                "width": 100
+            },
+            {
+                "field": "properties.road_surface",
+                "headerName": "Road Surface",
+                "width": 100
+            },
+            {
+                "field": "properties.road_surface_condition",
+                "headerName": "Road Surface Condition",
+                "width": 100
+            },
+            {
+                "field": "properties.other_road_conditions",
+                "headerName": "Other Road conditions",
+                "width": 100
+            },
+            {
+                "field": "properties.weather_condition1",
+                "headerName": "Weather Condition 1",
+                "width": 100
+            },
+            {
+                "field": "properties.weather_condition2",
+                "headerName": "Weather Condition 2",
+                "width": 100
+            },
+            {
+                "field": "properties.light_condition",
+                "headerName": "Light Condition",
+                "width": 100
+            },
+            {
+                "field": "properties.traffic_control_device",
+                "headerName": "Traffic Control Device",
+                "width": 100
+            },
+            {
+                "field": "properties.traffic_control_function",
+                "headerName": "Traffic Control Function",
+                "width": 100
+            },
+            {
+                "field": "properties.geometrics_horizontal",
+                "headerName": "Geometrics Horizontal",
+                "width": 100
+            },
+            {
+                "field": "properties.geometrics_vertical",
+                "headerName": "Geometrics Vertical",
+                "width": 100
+            },
+            {
+                "field": "properties.functional_class",
+                "headerName": "Functional Class",
+                "width": 100
+            },
+            {
+                "field": "properties.age",
+                "headerName": "Driver Age",
+                "width": 60
+            },
+            {
+                "field": "properties.alcohol_drug_involve",
+                "headerName": "Alcohol/Drug Involve",
+                "width": 100
+            },
+            {
+                "field": "properties.agency_submitting_report",
+                "headerName": "Agency Submitting Report",
+                "width": 120
             }
         ],
         "advancedFilter": {
@@ -162,6 +309,8 @@
                     "label": "Highway System",
                     "attribute": "highway_system",
                     "multivalue": true,
+                    "type": "list",
+                    "operator": "=",
                     "optionsLabels": {
                         "local": "Local",
                         "state": "State"
@@ -177,8 +326,10 @@
                     "label": "Accident Severity",
                     "attribute": "severity",
                     "multivalue": true,
+                    "operator": "=",
                     "toolbar": true,
                     "sort": "ASC",
+                    "type": "list",
                     "required": true,
                     "defaultExpanded": true,
                     "collapsible": true
@@ -189,6 +340,8 @@
                     "checkboxStyle": {"width": 63},
                     "attribute": "accident_year",
                     "multivalue": true,
+                    "type": "list",
+                    "operator": "=",
                     "toolbar": true,
                     "required": true,
                     "sort": "ASC",
@@ -203,6 +356,8 @@
                     "multivalue": true,
                     "required": true,
                     "sort": "ASC",
+                    "type": "list",
+                    "operator": "=",
                     "toolbar": true,
                     "defaultExpanded": true,
                     "collapsible": true,
@@ -212,7 +367,8 @@
                     "fieldId": 5,
                     "label": "Intersection Related?",
                     "attribute": "intersection_related",
-                    "type": "bool",
+                    "type": "list",
+                    "operator": "=",
                     "multivalue": true,
                     "required": true,
                     "optionsLabels": {
@@ -227,7 +383,8 @@
                     "fieldId": 6,
                     "label": "Lane Departure?",
                     "attribute": "lane_dep",
-                    "type": "bool",
+                    "type": "list",
+                    "operator": "=",
                     "multivalue": true,
                     "required": true,
                     "optionsLabels": {
@@ -242,6 +399,8 @@
                 {
                     "fieldId": 7,
                     "label": "Direction of Travel",
+                    "type": "list",
+                    "operator": "=",
                     "attribute": "direction_of_travel",
                     "checkboxStyle": {"width": 53},
                     "multivalue": true,
@@ -256,6 +415,8 @@
                 },
                 {
                     "fieldId": 8,
+                    "type": "list",
+                    "operator": "=",
                     "checkboxStyle": {"width": 115},
                     "label": "First Harmful Event",
                     "attribute": "first_harmful_event",
@@ -330,15 +491,87 @@
             {
                 "id": 1,
                 "name": "All bridges in selected area(s):",
-                "value": 4204
+                "value": 0,
+                "type": "areaFilter"
             }, {
                 "id": 2,
                 "name": "Local bridges in selected area(s):",
-                "value": 2375
+                "value": 0,
+                "type": "areaFilter",
+                "custom_cql": " AND (highway_sy='local')"
             }, {
                 "id": 3,
                 "name": "Shown on map (filtered):",
-                "value": 4204
+                "value": 0,
+                "type": "allFilter"
+            }
+        ],
+        "columnDefs": [
+            {
+                "field": "properties.bridge_num",
+                "headerName": "Bridge Number",
+                "width": 70
+            },
+            {
+                "field": "properties.highway_sy",
+                "headerName": "Highway System",
+                "width": 70
+            },
+
+            {
+                "field": "properties.year_built",
+                "headerName": "Year Built",
+                "width": 70
+            },
+            {
+                "field": "properties.carries",
+                "headerName": "Carries",
+                "width": 200
+            },
+            {
+                "field": "properties.crosses_ov",
+                "headerName": "Crosses Over",
+                "width": 200
+            },
+            {
+                "field": "properties.length_ft",
+                "headerName": "Length (Ft)",
+                "width": 60
+            },
+            {
+                "field": "properties.area_sqft",
+                "headerName": "Area (Sq Ft)",
+                "width": 60
+            },
+            {
+                "field": "properties.sufficienc",
+                "headerName": "Sufficiency Rating",
+                "width": 90
+            },
+            {
+                "field": "properties.deficiency",
+                "headerName": "Deficiency",
+                "width": 90
+            },
+            {
+                "field": "properties.county",
+                "headerName": "County",
+                "width": 100
+            },
+            {
+                "field": "properties.city",
+                "headerName": "City",
+                "width": 100
+            },
+            {
+                "field": "properties.road_juri0",
+                "headerName": "Road Jurisdiction",
+                "width": 90
+            },
+            {
+                "field": "properties.legislativ",
+                "headerName": "Legislative District",
+                "width": 80
             }
         ],
         "advancedFilter": {
@@ -348,9 +581,11 @@
             "fieldsConfig": [
                 {
                     "fieldId": 1,
+                    "operator": "=",
                     "label": "Highway System",
                     "attribute": "highway_sy",
                     "multivalue": true,
+                    "type": "list",
                     "optionsLabels": {
                         "local": "Local",
                         "state": "State"
@@ -362,15 +597,90 @@
                 },
                 {
                     "fieldId": 2,
+                    "type": "list",
                     "label": "Deficiency",
+                    "operator": "=",
                     "attribute": "deficiency",
+                    "checkboxStyle": {"width": 180},
+                    "maxLabelSize": 30,
                     "multivalue": true,
                     "optionsLabels": {
-                        "none": "None"
+                        "none": "None",
+                        "null": "Blank/Missing"
                     },
                     "toolbar": true,
                     "sort": "ASC",
                     "required": true,
+                    "defaultExpanded": true,
+                    "collapsible": true
+                },
+                {
+                    "fieldId": 3,
+                    "label": "Year Built",
+                    "attribute": "year_built",
+                    "type": "number",
+                    "operator": "><",
+                    "defaultExpanded": true,
+                    "collapsible": true,
+                    "optionsLabels": {
+                        "lowLabel": "Min Year",
+                        "upLabel": "Max Year"
+                    },
+                    "options": {
+                        "step": 1,
+                        "format": "###"
+                    }
+                },
+                {
+                    "fieldId": 4,
+                    "label": "Bridge Length (ft)",
+                    "attribute": "length_ft",
+                    "multivalue": false,
+                    "type": "number",
+                    "operator": "><",
+                    "defaultExpanded": true,
+                    "collapsible": true,
+                    "optionsLabels": {
+                        "lowLabel": "Min Length",
+                        "upLabel": "Max Length"
+                    },
+                    "options": {
+                        "step": 100
+                    }
+                },
+                {
+                    "fieldId": 5,
+                    "label": "Sufficiency Rating (0-100)",
+                    "attribute": "sufficienc",
+                    "type": "number",
+                    "operator": "><",
+                    "defaultExpanded": true,
+                    "collapsible": true,
+                    "optionsLabels": {
+                        "lowLabel": "Min Rating",
+                        "upLabel": "Max Rating"
+                    },
+                    "options": {
+                        "step": 1,
+                        "precision": 1,
+                        "format": "#.###,"
+                    }
+                },
+                {
+                    "fieldId": 6,
+                    "label": "Carries",
+                    "attribute": "carries",
+                    "type": "string",
+                    "operator": "ilike",
+                    "defaultExpanded": true,
+                    "collapsible": true
+                },
+                {
+                    "fieldId": 7,
+                    "label": "Crosses Over",
+                    "attribute": "crosses_ov",
+                    "type": "string",
+                    "operator": "ilike",
                     "defaultExpanded": true,
                     "collapsible": true
                 }

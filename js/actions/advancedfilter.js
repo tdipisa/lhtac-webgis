@@ -34,36 +34,54 @@ function valuesLoadError(reqId, error) {
         error
     };
 }
-function createSimpleFilterField(field, options) {
+function createSimpleFilterField(field, options, reqTime) {
+    let fieldConf = field;
     let optionsValues = Array.isArray(options) ? options : [options];
-    let selvalues = optionsValues.map((opt) => {
-        let val = opt;
-        if (val === null) {
-            val = "null";
-        }else if (typeof val !== 'string') {
-            val = opt.toString();
+    if (field.type === 'list') {
+        let selvalues = optionsValues.map((opt) => {
+            let val = opt;
+            if (val === null) {
+                val = "null";
+            }else if (typeof val !== 'string') {
+                val = opt.toString();
+            }
+            return val;
+        }, this);
+        if (!field.multivalue) {
+            selvalues = (selvalues.length > 0) ? [selvalues[0]] : null;
         }
-        return val;
-    }, this);
-    if (!field.multivalue) {
-        selvalues = (selvalues.length > 0) ? [selvalues[0]] : null;
+        fieldConf = {...fieldConf, optionsValues: optionsValues, values: selvalues};
+    }else if (field.type === 'number') {
+        let values = optionsValues.sort((a, b) => {
+            return a - b;
+        }, this);
+        let min = (values.length > 1) ? values[0] : null;
+        let max = (values.length > 1) ? values[values.length - 1] : null;
+        let opt = field.options;
+        opt = {...opt, min: min, max: max};
+        let value = {lowBound: min, upBound: max};
+        fieldConf = {...fieldConf, options: opt, values: value};
+    }else if (field.type === "string") {
+        fieldConf = {...fieldConf, values: null};
     }
-    return addSimpleFilterField({...field, optionsValues: optionsValues, values: selvalues});
+    fieldConf.updateTime = reqTime;
+    return addSimpleFilterField(fieldConf, reqTime);
 }
 
 function createFilterConfig(wpsPrams, url, filed) {
     const reqId = uuid.v1();
     return (dispatch) => {
         dispatch(newValuesRequst(reqId));
+        let reqTime = new Date().getTime();
         return axios.post(url, wpsPrams, {
-            timeout: 10000,
+            timeout: 20000,
             headers: {'Accept': 'application/json', 'Content-Type': 'text/plain'}
         }).then((response) => {
             let config = response.data;
             if (typeof config !== "object") {
                 try {
                     config = JSON.parse(config);
-                    dispatch(createSimpleFilterField(filed, config.values));
+                    dispatch(createSimpleFilterField(filed, config.values, reqTime));
                     dispatch(valuesLoaded(reqId));
                 } catch(e) {
                     dispatch(valuesLoadError(reqId, 'Failed Loading fields Values'));

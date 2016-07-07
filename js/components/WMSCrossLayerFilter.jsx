@@ -89,10 +89,9 @@ const WMSCrossLayerFilter = React.createClass({
     search() {
 
         let filter = LhtacFilterUtils.getZoneCrossFilter(this.props.spatialField);
-        this.props.actions.setBaseCqlFilter(filter);
 
         let params = assign({}, this.props.params, {cql_filter: filter});
-        this.props.actions.onQuery(this.props.activeLayer.id, {params: params});
+        this.props.actions.onQuery(this.props.activeLayer, {params: params}, filter);
 
         if (this.props.activeLayer && this.props.activeLayer.advancedFilter) {
             this.props.activeLayer.advancedFilter.fieldsConfig.map((field) => {
@@ -119,12 +118,13 @@ const WMSCrossLayerFilter = React.createClass({
             }];
             this.props.actions.changeMapView(...this.zoomArgs, this.props.mapConfig.present.size, null, this.props.mapConfig.present.projection);
         }
+        this.props.actions.setBaseCqlFilter(filter);
     },
     reset() {
         this.zoomArgs = null;
         this.props.actions.onReset();
         let params = assign(this.props.params, {cql_filter: "INCLUDE"});
-        this.props.actions.onQuery(this.props.activeLayer.id, {params: params});
+        this.props.actions.onQuery(this.props.activeLayer, {params: params}, "INCLUDE");
     },
     zoomToSelectedArea() {
         if (this.zoomArgs) {
