@@ -67,8 +67,8 @@ module.exports = {
         }, {
             path: new RegExp("/lhtac-webgis/proxy(.*)"),
             rewrite: rewriteUrl("/lhtac-webgis/proxy$1"),
-            host: "localhost",
-            target: "http://localhost:8080"
+            host: "lhtac.geo-solutions.it",
+            target: "http://lhtac.geo-solutions.it"
         }, {
             path: new RegExp("/geoserver/ows(.*)"),
             host: "localhost",
