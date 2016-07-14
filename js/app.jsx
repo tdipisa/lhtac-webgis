@@ -21,19 +21,19 @@ const ConfigUtils = require('../MapStore2/web/client/utils/ConfigUtils');
 const LocaleUtils = require('../MapStore2/web/client/utils/LocaleUtils');
 const PluginsUtils = require('../MapStore2/web/client/utils/PluginsUtils');
 
+LocaleUtils.setSupportedLocales({
+    "en": {
+       code: "en-US",
+       description: "English"
+    }
+});
+
 function startApp() {
     const {plugins, requires} = require('./plugins.js');
     const store = require('./stores/store')(plugins);
     const App = require('./containers/App');
 
     store.dispatch(changeBrowserProperties(ConfigUtils.getBrowserProperties()));
-
-    LocaleUtils.setSupportedLocales({
-        "en": {
-           code: "en-US",
-           description: "English"
-        }
-    });
 
     ConfigUtils
         .loadConfiguration()                       // localConfig.json: Global configuration
