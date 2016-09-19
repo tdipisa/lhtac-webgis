@@ -93,12 +93,16 @@ const WMSCrossLayerFilter = React.createClass({
         let params = assign({}, this.props.params, {cql_filter: filter});
         this.props.actions.onQuery(this.props.activeLayer, {params: params}, filter);
 
+        // ////////////////////////////////////////////////////////////////////
+        // WPS request to retrieve attribute values for the advanced filter
+        // ////////////////////////////////////////////////////////////////////
         if (this.props.activeLayer && this.props.activeLayer.advancedFilter) {
             this.props.activeLayer.advancedFilter.fieldsConfig.map((field) => {
                 let wpsRequest = LhtacFilterUtils.getWpsRequest(this.props.activeLayer.name, this.props.activeLayer.advancedFilter.cql || filter, field.attribute);
                 this.props.actions.createFilterConfig(wpsRequest, this.props.activeLayer.advancedFilter.searchUrl, field);
             }, this);
         }
+
         // Zoom to the selected geometry
         if (this.props.spatialField.geometry && this.props.spatialField.geometry.extent) {
             const bbox = this.props.spatialField.geometry.extent;
@@ -118,6 +122,7 @@ const WMSCrossLayerFilter = React.createClass({
             }];
             this.props.actions.changeMapView(...this.zoomArgs, this.props.mapConfig.present.size, null, this.props.mapConfig.present.projection);
         }
+
         this.props.actions.setBaseCqlFilter(filter);
     },
     reset() {

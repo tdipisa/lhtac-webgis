@@ -15,6 +15,10 @@ const CHANGE_DOWNLOAD_FORMAT = 'CHANGE_DOWNLOAD_FORMAT';
 
 const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
 const {zoneSearchError, zoneFilter, zoneSearch} = require('../../MapStore2/web/client/actions/queryform');
+const {featureSelectorError} = require("../actions/featureselector");
+
+const FileUtils = require('../../MapStore2/web/client/utils/FileUtils');
+
 function switchLayer(layer) {
     return {
         type: SWITCH_LAYER,
@@ -93,8 +97,6 @@ function changeLhtacLayerFilter(layer, properties, areaFilter) {
             dispatch(changeLayerProperties(layer.id, {statistics: results}));
         });
     };
-
-
 }
 
 function getNumberOfFeatures(layer) {
@@ -151,6 +153,22 @@ function zoneGetValues(url, filter, id) {
         });
     };
 }
+
+function downloadSelectedFeatures(url, filter) {
+    return (dispatch) => {
+        return axios.post(url, filter, {
+            timeout: 30000,
+            headers: {'Content-Type': 'application/force-download'}
+        }).then((response) => {
+            let fileName = response.headers["content-disposition"].split("=")[1];
+            let contentType = response.headers["content-type"];
+            FileUtils.download(response.data, fileName, contentType);
+        }).catch((e) => {
+            dispatch(featureSelectorError("Error during wfs request " + e.statusText));
+        });
+    };
+}
+
 module.exports = {
     SWITCH_LAYER,
     SET_ACTIVE_ZONE,
@@ -162,5 +180,6 @@ module.exports = {
     setActiveZone,
     changeDownloadFormat,
     getNumberOfFeatures,
-    zoneGetValues
+    zoneGetValues,
+    downloadSelectedFeatures
 };

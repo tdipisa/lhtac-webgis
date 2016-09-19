@@ -27,15 +27,12 @@ module.exports = (plugins) => {
         layers: () => {return null; },
         controls: require('../../MapStore2/web/client/reducers/controls'),
         help: require('../../MapStore2/web/client/reducers/help'),
-        sidepanel: require('../reducers/sidepanel'),
         mapInitialConfig: () => {return null; },
         queryform: require('../reducers/queryform'),
-        advancedfilter: require('../reducers/advancedfilter'),
         ...pluginsReducers,
         draw: require('../reducers/draw'),
         highlight: require('../reducers/highlight'),
         stats: require('../reducers/stats')
-
     });
 
     const rootReducer = (state = null, action) => {
@@ -54,7 +51,15 @@ module.exports = (plugins) => {
     };
 
     return DebugUtils.createDebugStore(rootReducer, {
-        controls: {toolbar: {expanded: false}},
+        controls: {
+            toolbar: {
+                expanded: false
+            },
+            drawer: {
+                enabled: false,
+                menu: "1"
+            }
+        },
         mousePosition: {enabled: false, crs: "EPSG:4326"}
     });
 };

@@ -67,6 +67,7 @@ const AdvancedFilter = React.createClass({
     },
     renderFields() {
         return (this.props.fieldsConfig.length > 0 && !this.props.error) ? (
+            <div className="lhtac-panel">
              <PanelGroup style={{fontSize: 14}}>
                 {this.renderSimpleFilterFields()}
                 <ButtonToolbar style={{ marginTop: 10, "float": "right"}}>
@@ -79,7 +80,8 @@ const AdvancedFilter = React.createClass({
                     disabled={!this.props.filterstatus}><Glyphicon glyph="remove"/><strong>Reset</strong></Button>
                 </ButtonToolbar>
              </PanelGroup>
-             ) : this.renderMessage();
+            </div>
+        ) : this.renderMessage();
     },
     render() {
         return (this.props.loading) ? this.renderLoading() : this.renderFields();

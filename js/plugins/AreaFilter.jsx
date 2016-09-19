@@ -5,30 +5,29 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 const React = require('react');
 const {connect} = require('react-redux');
+const assign = require('object-assign');
+
+const {Glyphicon} = require('react-bootstrap');
 const {createSelector} = require('reselect');
 const lhtac = require('../selectors/lhtac');
-
-const {PanelGroup, Panel} = require('react-bootstrap');
 
 const {bindActionCreators} = require('redux');
 
 const {
     removeSpatialSelection,
     zoneSearch,
-    // openMenu,
     zoneChange,
-    resetZones,
-    // zoneSelect
-    simpleFilterFieldUpdate
+    resetZones
 } = require('../../MapStore2/web/client/actions/queryform');
 
 const {
     createFilterConfig,
-    toggleFilter,
     setBaseCqlFilter
 } = require('../actions/advancedfilter');
+
 const {
     setActiveZone,
     changeLhtacLayerFilter,
@@ -67,6 +66,7 @@ const WMSCrossSelector = createSelector([
             spatialField,
             mapConfig
         }));
+
 const WMSCrossLayerFilter = connect( WMSCrossSelector, (dispatch) => {
     return {
         actions: bindActionCreators({
@@ -79,67 +79,45 @@ const WMSCrossLayerFilter = connect( WMSCrossSelector, (dispatch) => {
     };
 })(require('../components/WMSCrossLayerFilter'));
 
-const AdvancedFilterSelector = createSelector([
-        lhtac,
-        (state) => (state.queryform),
-        (state) => (state.advancedfilter),
-        (state) => (state.queryform.spatialField),
-        (state) => (state.map || {})
-        ],
-        (lhtacState, queryform, advancedFilter) => ({
-            activeLayer: lhtacState.activeLayer,
-            fieldsConfig: queryform && queryform.simpleFilterFields || [],
-            loading: advancedFilter && advancedFilter.requests.length > 0,
-            filterstatus: advancedFilter && advancedFilter.filterstatus,
-            spatialField: queryform.spatialField,
-            baseCqlFilter: advancedFilter && advancedFilter.baseCqlFilter,
-            error: advancedFilter && advancedFilter.error
-        }));
-
-const AdvancedFilter = connect(AdvancedFilterSelector, {
-    simpleFilterFieldUpdate,
-    changeLayerProperties: changeLhtacLayerFilter,
-    toggleFilter
-})(require('../components/AdvancedFilter'));
-
-
-const AccordionPanel = React.createClass({
+const AreaFilterPlugin = React.createClass({
     propTypes: {
-        height: React.PropTypes.number
+        expanded: React.PropTypes.bool,
+        pinned: React.PropTypes.bool,
+        onToggle: React.PropTypes.func,
+        onPin: React.PropTypes.func,
+        height: React.PropTypes.string
     },
     getDefaultProps() {
-        return {};
-    },
-    getInitialState() {
         return {
-            activeKey: '1'
+            expanded: true,
+            pinned: false,
+            onToggle: () => {},
+            onPin: () => {},
+            height: "100%"
         };
     },
     render() {
         return (
-            <PanelGroup
-                style={{marginTop: "5px", marginBottom: "5px"}}
-                activeKey={this.state.activeKey}
-                onSelect={this.handleSelect}
-                accordion>
-                <Panel className="lhtac-panel" header="Select and customize an area filter" eventKey="1">
-                    <div style={{minHeight: this.props.height - 113}}>
-                        <SpatialFilter/>
-                        <WMSCrossLayerFilter
-                            filterType={"OGC"}/>
-                    </div>
-                </Panel>
-                <Panel className="lhtac-panel" header="Advanced Filter" eventKey="2">
-                    <div style={{minHeight: this.props.height - 113}}>
-                       <AdvancedFilter/>
-                    </div>
-                </Panel>
-            </PanelGroup>
+            <div id="areaFilter" className="lhtac-panel">
+                <SpatialFilter/>
+                <WMSCrossLayerFilter
+                    filterType={"OGC"}/>
+            </div>
         );
-    },
-    handleSelect(activeKey) {
-        this.setState({ activeKey });
     }
 });
 
-module.exports = AccordionPanel;
+module.exports = {
+    AreaFilterPlugin: assign(AreaFilterPlugin, {
+        DrawerMenu: {
+            name: 'areafilter',
+            position: 4,
+            icon: <Glyphicon glyph="glyphicon glyphicon-filter"/>,
+            title: 'areafilter',
+            priority: 2
+        }
+    }),
+    reducers: {
+        areafilter: require('../reducers/areafilter')
+    }
+};

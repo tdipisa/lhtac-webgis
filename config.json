@@ -394,7 +394,6 @@
                     "sort": "DESC",
                     "defaultExpanded": true,
                     "collapsible": true
-
                 },
                 {
                     "fieldId": 7,
@@ -430,7 +429,6 @@
                 }
             ]
         }
-
 			},
       {
 				"type": "wms",
@@ -517,7 +515,6 @@
                 "headerName": "Highway System",
                 "width": 70
             },
-
             {
                 "field": "properties.year_built",
                 "headerName": "Year Built",
@@ -687,32 +684,32 @@
             ]
         }
 			},
-            {
-                "type": "vector",
-                "name": "Selected items",
-                "queryable": false,
-                "id": "featureselector",
-                "features": [],
-                "crs": "EPSG:4326",
-                "hideLoading": true,
-                "visibility": true,
-                "style": {
-                    "type": "Point",
-                    "radius": 10,
-                    "stroke": {
-                        "width": 3,
-                        "color": "blue"
-                    },
-                    "fill": {
-                        "color": "rgba(0, 0, 255, 0.5)"
-                    },
-                "weight": 3,
-                "opacity": 1,
-                "fillOpacity": 0.5,
-                "color": "blue",
-                "fillColor": "blue"
+      {
+        "type": "vector",
+        "name": "Selected items",
+        "queryable": false,
+        "id": "featureselector",
+        "features": [],
+        "crs": "EPSG:4326",
+        "hideLoading": true,
+        "visibility": true,
+        "style": {
+          "type": "Point",
+          "radius": 10,
+          "stroke": {
+              "width": 3,
+              "color": "blue"
+          },
+          "fill": {
+              "color": "rgba(0, 0, 255, 0.5)"
+          },
+          "weight": 3,
+          "opacity": 1,
+          "fillOpacity": 0.5,
+          "color": "blue",
+          "fillColor": "blue"
         }
-}
+      }
     ]
   }
 }

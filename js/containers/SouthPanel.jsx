@@ -12,7 +12,6 @@ const {getWindowSize} = require('../../MapStore2/web/client/utils/AgentUtils');
 
 const LhtacFeatureGrid = require('../components/LhtacFeatureGrid');
 
-
 const SouthPanel = React.createClass({
     propTypes: {
         initHeight: React.PropTypes.number,
@@ -53,13 +52,15 @@ const SouthPanel = React.createClass({
     },
     render() {
         this.height = getWindowSize().maxHeight;
-        return (<div id="south-panel" style={{height: this.state.height + "%"}}>
-                    <div ref="dragBar"
-                        onMouseDown={this.dragStart}
-                        className="header">
-                    </div>
-                        <LhtacFeatureGrid update={!this.drag} style={{width: "100%", height: (this.state.height / 100 * this.height) - 10 }}/>
-            </div>);
+        return (
+            <div id="south-panel" style={{height: this.state.height + "%"}}>
+                <div ref="dragBar"
+                    onMouseDown={this.dragStart}
+                    className="header">
+                </div>
+                <LhtacFeatureGrid update={!this.drag} style={{width: "100%", height: (this.state.height / 100 * this.height) - 10 }}/>
+            </div>
+        );
     },
     dragStart(e) {
         this.drag = true;

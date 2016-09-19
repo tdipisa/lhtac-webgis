@@ -13,18 +13,19 @@ const FEATURE_SELECTOR_ERROR = 'FEATURE_SELECTOR_ERROR';
 const FEATURE_SELECTOR_RESET = 'FEATURE_SELECTOR_RESET';
 const uuid = require('node-uuid');
 const axios = require('../../MapStore2/web/client/libs/ajax');
-const {resizeHeight} = require('./sidepanel');
+const {resizeHeight} = require('./areafilter');
 
 function featureSelectorReset() {
     return {
         type: FEATURE_SELECTOR_RESET
     };
 }
-function newGetFeatureRequest(reqId, filter) {
+function newGetFeatureRequest(reqId, filter, filterOpts) {
     return {
         type: NEW_GETFEATURE_REQUEST,
         reqId,
-        filter
+        filter,
+        filterOpts
     };
 }
 
@@ -44,10 +45,10 @@ function featureSelectorError(error) {
     };
 }
 
-function loadFeatures(url, filter, add) {
+function loadFeatures(url, filter, add, filterOpts) {
     const reqId = uuid.v1();
     return (dispatch) => {
-        dispatch(newGetFeatureRequest(reqId, filter));
+        dispatch(newGetFeatureRequest(reqId, filter, filterOpts));
         return axios.post(url, filter, {
             timeout: 10000,
             headers: {'Accept': 'application/json', 'Content-Type': 'text/plain'}
@@ -77,9 +78,7 @@ function loadFeatures(url, filter, add) {
             dispatch(featureSelectorError("Error during wfs request " + e.statusText));
         });
     };
-
 }
-
 
 module.exports = {
     LOAD_FEATURES,

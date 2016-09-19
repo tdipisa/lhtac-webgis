@@ -1,5 +1,4 @@
 const queryFormConfig = {
-
    "lhtac:web2014all_mv": {
         searchUrl: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
         showDetailsPanel: false,
@@ -16,9 +15,8 @@ const queryFormConfig = {
             attribute: "geom3857",
             operation: "INTERSECTS",
             geometry: null,
-            zoneFields: [
-            {
-                id: 3,
+            zoneFields: [{
+                id: 1,
                 url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
                 typeName: "lhtac:itd_districts",
                 values: [],
@@ -29,74 +27,31 @@ const queryFormConfig = {
                 searchMethod: "ilike",
                 searchAttribute: "DistNum",
                 label: "ITD District",
-                multivalue: true,
-                disabled: false,
+                multivalue: false,
                 sort: {
                     sortBy: "ITD_Dist_n",
                     sortOrder: "ASC"
-                },
-                exclude: [4, 5, 6]
+                }
             }, {
-                id: 4,
-                url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
-                typeName: "lhtac:county",
-                values: [],
-                value: null,
-                valueField: "properties.short_name",
-                textField: "properties.short_name",
-                searchText: "*",
-                searchMethod: "ilike",
-                searchAttribute: "short_name",
-                label: "County",
-                multivalue: true,
-                disabled: false,
-                sort: {
-                    sortBy: "short_name",
-                    sortOrder: "ASC"
-                },
-                groupBy: "itd_distri",
-                exclude: [3, 5, 6]
-            }, {
-                id: 5,
-                url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
-                typeName: "lhtac:city",
-                values: [],
-                value: null,
-                valueField: "properties.short_name",
-                textField: "properties.short_name",
-                searchText: "*",
-                searchMethod: "ilike",
-                searchAttribute: "short_name",
-                label: "City",
-                multivalue: true,
-                disabled: false,
-                sort: {
-                    sortBy: "short_name",
-                    sortOrder: "ASC"
-                },
-                exclude: [3, 4, 6],
-                groupBy: "county"
-            },
-            {
-                id: 6,
+                id: 2,
                 url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
                 typeName: "lhtac:jurisdictions2014",
                 label: "Road Jurisdiction",
                 values: [],
                 value: null,
-                valueField: "properties.name2",
+                valueField: "properties.lhj2014_id",
                 textField: "properties.name2",
-                searchText: "HD",
+                searchText: "*",
                 searchMethod: "ilike",
-                searchAttribute: "juris_type",
-                disabled: false,
+                searchAttribute: "name2",
+                disabled: true,
                 multivalue: true,
-                groupBy: "county",
-                sort: {
-                    sortBy: "name2",
-                    sortOrder: "ASC"
-                },
-                exclude: [3, 4, 5]
+                groupBy: "itd_dist",
+                dependson: {
+                    id: 1,
+                    field: "itd_dist",
+                    value: null
+                }
             }]
         }
     },
@@ -129,13 +84,11 @@ const queryFormConfig = {
                 searchMethod: "ilike",
                 searchAttribute: "DistNum",
                 label: "ITD District",
-                multivalue: true,
-                disabled: false,
+                multivalue: false,
                 sort: {
                     sortBy: "ITD_Dist_n",
                     sortOrder: "ASC"
-                },
-                exclude: [4, 5, 6]
+                }
             }, {
                 id: 4,
                 url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
@@ -149,13 +102,17 @@ const queryFormConfig = {
                 searchAttribute: "short_name",
                 label: "County",
                 multivalue: true,
-                disabled: false,
+                disabled: true,
                 sort: {
                     sortBy: "short_name",
                     sortOrder: "ASC"
                 },
                 groupBy: "itd_distri",
-                exclude: [3, 5, 6]
+                dependson: {
+                    id: 3,
+                    field: "itd_distri",
+                    value: null
+                }
             }, {
                 id: 5,
                 url: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
@@ -169,13 +126,18 @@ const queryFormConfig = {
                 searchAttribute: "short_name",
                 label: "City",
                 multivalue: true,
-                disabled: false,
+                disabled: true,
                 sort: {
                     sortBy: "short_name",
                     sortOrder: "ASC"
                 },
-                exclude: [3, 4, 6],
-                groupBy: "county"
+                exclude: [6],
+                groupBy: "county",
+                dependson: {
+                    id: 4,
+                    field: "county",
+                    value: null
+                }
             },
             {
                 id: 6,
@@ -189,14 +151,20 @@ const queryFormConfig = {
                 searchText: "HD",
                 searchMethod: "ilike",
                 searchAttribute: "juris_type",
-                disabled: false,
+                disabled: true,
                 multivalue: true,
                 groupBy: "county",
                 sort: {
                     sortBy: "name2",
                     sortOrder: "ASC"
                 },
-                exclude: [3, 4, 5]
+                exclude: [5],
+                dependson: {
+                    id: 4,
+                    field: "county",
+                    value: null,
+                    operator: "ilike"
+                }
             }]
         }
     }

@@ -12,29 +12,31 @@ const {Panel, PanelGroup, ListGroup, ListGroupItem, Button, OverlayTrigger, Tool
 const Message = require('../../MapStore2/web/client/components/I18N/Message');
 
 const Spinner = require('react-spinkit');
-// const ConfigUtils = require('../../MapStore2/web/client/utils/ConfigUtils');
 const DownlodFormatSelector = require('./DownlodFormatSelector');
 const Legend = require('../../MapStore2/web/client/components/TOC/fragments/legend/Legend');
+
+const LhtacFilterUtils = require('../utils/LhtacFilterUtils');
 
 const Statistics = React.createClass({
     propTypes: {
         activeLayer: React.PropTypes.object,
-        selectedfeatures: React.PropTypes.number,
-        highlightedfeatures: React.PropTypes.number,
+        selectedfeatures: React.PropTypes.object,
+        highlightedfeatures: React.PropTypes.array,
         loading: React.PropTypes.bool,
         highlightStatus: React.PropTypes.func,
         featureSelectorReset: React.PropTypes.func,
         changeDownloadFormat: React.PropTypes.func,
         downloadFormat: React.PropTypes.string,
         height: React.PropTypes.number,
-        getNumberOfFeatures: React.PropTypes.func
+        getNumberOfFeatures: React.PropTypes.func,
+        downloadSelectedFeatures: React.PropTypes.func
     },
     getDefaultProps() {
         return {
             loading: false,
             downloadFormat: "csv",
-            selectedfeatures: 0,
-            highlightedfeatures: 0,
+            selectedfeatures: {},
+            highlightedfeatures: [],
             activeLayer: {
                 url: '',
                 statistics: [],
@@ -47,11 +49,12 @@ const Statistics = React.createClass({
             changeDownloadFormat: () => {},
             highlightStatus: () => {},
             featureSelectorReset: () => {},
-            getNumberOfFeatures: () => {}
+            getNumberOfFeatures: () => {},
+            downloadSelectedFeatures: () => {}
         };
     },
     getInitialState() {
-        return { activeKey: '2'};
+        return { activeKey: '1'};
     },
     componentDidMount() {
         if (this.props.activeLayer.numberOfFeatures === undefined || this.props.activeLayer.numberOfFeatures === null) {
@@ -64,78 +67,110 @@ const Statistics = React.createClass({
         }
     },
     render() {
-        let wfsUrl = this.props.activeLayer.url.replace('wms', 'ows');
-        wfsUrl += "?service=WFS&request=getFeature&version=1.1.0";
+        this.baseUrl = this.props.activeLayer.url.replace('wms', 'ows');
+        let wfsUrl = this.baseUrl + "?service=WFS&request=getFeature&version=1.1.0";
         wfsUrl += "&typeNames=" + this.props.activeLayer.name;
         wfsUrl += "&outputFormat=" + this.props.downloadFormat;
-        if ( this.props.downloadFormat === 'OGR-GPKG') {
-            wfsUrl += "&filename=" + this.props.activeLayer.title + ".gpkg";
-        }
-        return (
-            <div>
-            <div style={{minHeight: this.props.height - 128}}>
-               <PanelGroup activeKey={this.state.activeKey}
-                    onSelect={(activeKey) => {this.setState({activeKey}); }} accordion>
-                <Panel eventKey="1"
-                header="Download and statistics" collapsible>
-                    <ListGroup className="lhtac-group-list">
-                        <ListGroupItem key={1}>All: {this.props.activeLayer.numberOfFeatures}</ListGroupItem>
-                        <ListGroupItem key={2}>Selected: {this.props.selectedfeatures}</ListGroupItem>
-                        <ListGroupItem key={3}>Highlighted: {this.props.highlightedfeatures}</ListGroupItem>
-                    </ListGroup>
-                    <div style={{ height: 60}}>
-                        <label><Message msgId="lhtac.downloadFormatLabel"/></label>
-                        <DownlodFormatSelector
-                            format={this.props.downloadFormat}
-                            onChange={this.props.changeDownloadFormat}
-                            />
-                    </div>
-                    <ListGroup className="lhtac-group-list">
-                        {
-                            this.props.activeLayer.statistics.map((stat) => {
-                                let link = (stat.value) ? {href: wfsUrl + "&cql_filter=" + stat.filter} : {};
 
-                                return stat.excepiton ? (
-                                    <OverlayTrigger
+        let selectedFilterLink = {};
+        let highlightedFilterLink = {};
+
+        if (this.props.activeLayer.params &&
+            this.props.activeLayer.params.cql_filter &&
+            this.props.highlightedfeatures.length > 0) {
+            highlightedFilterLink.href = wfsUrl + "&FEATUREID=" + this.props.highlightedfeatures.join(",");
+        }
+
+        if (this.props.selectedfeatures.features.length > 0) {
+            this.wfsFilterBody = LhtacFilterUtils.processOGCSpatialFilter(this.props.selectedfeatures.request.filterOpts, "1.1.0");
+            selectedFilterLink.onClick = () => { this.downloadFile(); };
+        }
+
+        return (
+            <div className="lhtac-panel">
+                <div>
+                    <PanelGroup activeKey={this.state.activeKey}
+                        onSelect={(activeKey) => {this.setState({activeKey}); }} accordion>
+                    <Panel eventKey="1"
+                    header="Download and statistics" collapsible>
+                        <div style={{ height: 60}}>
+                            <label><Message msgId="lhtac.downloadFormatLabel"/></label>
+                            <DownlodFormatSelector
+                                format={this.props.downloadFormat}
+                                onChange={this.props.changeDownloadFormat}
+                                />
+                        </div>
+                        <ListGroup className="lhtac-group-list">
+                            <ListGroupItem key={1}>All: {this.props.activeLayer.numberOfFeatures}</ListGroupItem>
+                            <ListGroupItem
+                                key={2}
+                                className={""}
+                                {...selectedFilterLink}
+                                style={(this.props.selectedfeatures.features.length) ? {"color": "blue", "fontSize": "12px !important", "borderRadius": 0} : {}} download>
+                                    {this.props.loading ? (<div><span>Selected: </span><div style={{"float": "right"}}><Spinner spinnerName="circle" noFadeIn/></div></div>) : ("Selected:" + " " + this.props.selectedfeatures.features.length)}
+                            </ListGroupItem>
+                            <ListGroupItem
+                                key={3}
+                                {...highlightedFilterLink}
+                                style={(this.props.highlightedfeatures.length) ? {color: "blue"} : {}} download>
+                                    {this.props.loading ? (<div><span>Highlighted: </span><div style={{"float": "right"}}><Spinner spinnerName="circle" noFadeIn/></div></div>) : ("Highlighted:" + " " + this.props.highlightedfeatures.length)}
+                            </ListGroupItem>
+                            {
+                                this.props.activeLayer.statistics.map((stat) => {
+                                    let link = (stat.value) ? {href: wfsUrl + "&cql_filter=" + stat.filter} : {};
+
+                                    return stat.excepiton ? (
+                                        <OverlayTrigger
+                                            key={stat.id}
+                                            placement="bottom"
+                                            overlay={(<Tooltip id={"stat-" + stat.id + "-tooltip"}><Message msgId="lhtac.statsexcepiton"/></Tooltip>)}>
+                                                <ListGroupItem
+                                                style={{color: "red"}}
+                                                >
+                                                {stat.name}
+                                            </ListGroupItem>
+                                        </OverlayTrigger>
+                                    ) : (
+                                        <ListGroupItem
                                         key={stat.id}
-                                        placement="bottom"
-                                        overlay={(<Tooltip id={"stat-" + stat.id + "-tooltip"}><Message msgId="lhtac.statsexcepiton"/></Tooltip>)}>
-                                            <ListGroupItem
-                                            style={{color: "red"}}
-                                            >
-                                            {stat.name}
+                                        style={(stat.value) ? {color: "blue"} : {}}
+                                        {...link} download>
+                                            {this.props.loading ? (<div><span>{stat.name}</span><div style={{"float": "right"}}><Spinner spinnerName="circle" noFadeIn/></div></div>) : (stat.name + " " + stat.value)}
                                         </ListGroupItem>
-                                    </OverlayTrigger>
-                                ) : (
-                                    <ListGroupItem
-                                    key={stat.id}
-                                    style={(stat.value) ? {color: "blue"} : {}}
-                                    {...link} download>
-                                        {this.props.loading ? (<div><span>{stat.name}</span><div style={{"float": "right"}}><Spinner spinnerName="circle" noFadeIn/></div></div>) : (stat.name + " " + stat.value)}
-                                    </ListGroupItem>
-                                );
-                            })
-                        }
-                    </ListGroup>
-                </Panel>
-                <Panel eventKey="2"
-                    style={{marginTop: "15px"}}
-                    header={this.props.activeLayer.title} collapsible>
-                    <Legend
-                        layer={this.props.activeLayer}
-                        legendHeigth={this.props.activeLayer.legend.height || 20}
-                        legendWidth={this.props.activeLayer.legend.width || 20}
-                        legendOptions={this.props.activeLayer.legend.options}/>
-                </Panel>
-                </PanelGroup>
+                                    );
+                                })
+                            }
+                        </ListGroup>
+                    </Panel>
+                    <Panel eventKey="2"
+                        style={{marginTop: "15px"}}
+                        header={this.props.activeLayer.title} collapsible>
+                        <Legend
+                            layer={this.props.activeLayer}
+                            legendHeigth={this.props.activeLayer.legend.height || 20}
+                            legendWidth={this.props.activeLayer.legend.width || 20}
+                            legendOptions={this.props.activeLayer.legend.options}/>
+                    </Panel>
+                    </PanelGroup>
                 </div>
 
                 <Button style={{marginTop: "5px", "float": "right"}} onClick={this.resetStatistics}>
                        Clear Selections
-                 </Button>
+                </Button>
 
+                <form ref="download" action={this.baseUrl} onsubmit="window.open('', this.target); return true;" method="post" encType="application/x-www-form-urlencoded">
+                    <input type="hidden" name="filter" value={this.wfsFilterBody}/>
+                    <input type="hidden" name="version" value="1.1.0"/>
+                    <input type="hidden" name="request" value="GetFeature"/>
+                    <input type="hidden" name="service" value="WFS"/>
+                    <input type="hidden" name="typeNames" value={this.props.activeLayer.name}/>
+                    <input type="hidden" name="outputFormat" value={this.props.downloadFormat}/>
+                </form>
             </div>
         );
+    },
+    downloadFile() {
+        this.refs.download.submit();
     },
     resetStatistics() {
         this.props.featureSelectorReset();

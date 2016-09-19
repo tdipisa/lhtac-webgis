@@ -6,7 +6,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 #left-edge {
     width: 4px;
     height: 100%;
@@ -101,11 +100,19 @@
     text-transform: uppercase;
     font-size: 12px;
 }
+
 .lhtac-panel, .panel, .panel-default{
     overflow: visible !important;
 }
+
 .lhtac-group-list a:hover {
     font-weight: normal;
+    background-color: #ddd;
+}
+
+button.list-group-item:hover {
+    color: #555;
+    text-decoration: none;
     background-color: #ddd;
 }
 
@@ -153,19 +160,25 @@
     padding-top: 5px;
 }
 
-
 #feature-selection-bar {
     position: absolute;
     top: 0px;
     left: 2px;
     z-index: 100;
 }
+
 #feature-selection-bar.side-expanded {
-    left: 54px;
+    left: 460px;
 }
+
+#feature-selection-bar.side-unexpanded {
+    left: 57px;
+}
+
 .search-result-list {
     z-index: 2000
 }
+
 #feature-selection-bar .button-container div{
     width: 50px;
     height: 50px;
@@ -179,16 +192,17 @@
     color:white;
     padding-top: 3px;
     padding-left: 6px;
-
 }
+
 #feature-selection-bar .button-container div.pressed{
     background-color: rgb(92, 159, 180);
-;
 }
+
 .button-container{
     height: 54px;
     width: 102px;
 }
+
 .selector-spinner{
     padding: 8px 3px 3px 8px;
     background-color: white;
@@ -198,6 +212,7 @@
     border-radius: 10px;
     float: left;
 }
+
 #south-panel {
     width: 100%;
     height: 20%;
@@ -205,8 +220,8 @@
     bottom: 0;
     background-color: white;
     z-index: 2000;
-
 }
+
 #south-panel .header{
     top: 0;
     height: 5px;
@@ -218,15 +233,18 @@
     margin-top: 0px;
     color: black;
 }
+
 #side-button {
     position: absolute;
     top: 0px;
     left: 0px;
     z-index: 1000;
 }
+
 #side-button.loading{
     top: 130px;
 }
+
 #side-button .square-button{
     cursor: pointer;
     box-sizing: border-box;
@@ -242,71 +260,105 @@
     border-radius: 3px;
     margin-bottom: 10px;
 }
+
 .active-zone label{
     color: green;
-
 }
+
 .ag-header-cell-label {
     white-space: normal;
 }
+
 .leaflet-control-attribution{
     position: fixed;
     bottom: 0px;
     left: calc(50% - 150px);
     width: 300px;
 }
+
 #mapstore-mouseposition{
     width: auto !important;
     background-color: rgba(255, 255, 255, 0.5) !important;
     height: auto !important;
     margin-right: 10px !important;
 }
+
 .mouseposition-separator {
     display: inline;
 }
+
 #mapstore-mouseposition button{
    margin-left:5px;
 }
+
 #mapstore-mouseposition .glyphicon-paste:before{
    font-family: inherit !important
 }
-#lhac-sidepanel .panel-heading{
+
+#areaFilter .panel-heading{
     background-color: #078AA3 !important;
     color:white !important;
 }
-#lhac-sidepanel button{
-    font-size:14px !important;
-    border-radius: 4px;
-    height: 30px;
-    padding-bottom: 5px;
-}
-#lhac-sidepanel button:disabled{
+
+#areaFilter button:disabled{
     color:white;
 }
+
+.lhtac-panel button:disabled{
+    color:white;
+}
+
 .panel-heading{
     background-color: #078AA3 !important;
     color:white !important;
 }
-.toolbar-panel{ 
-border-radius: 4px !important;
+
+.toolbar-panel{
+    border-radius: 4px !important;
 }
-#lhac-sidepanel .glyphicon{
+
+#areaFilter .glyphicon{
     font-size:20px !important;
     position: relative;
     top: 5px;
 }
+
 body{
     overflow: hidden;
 }
+
 #lhtacswitch button{
     font-size: 14px;
 }
+
 #lhtacswitch button:first-child{
     width: 130px;
 }
+
 #mapstore-getfeatureinfo .info-wrap{
     overflow:auto;
 }
+
 #mapstore-getfeatureinfo pre{
     max-height: 250px;
+}
+
+#mapstore-drawermenu .nav-menu {
+    width: 450px !important;
+    max-width: 450px;
+}
+
+#mapstore-drawermenu .navHeader {
+    background-color: #078AA3;
+}
+
+.lhtac-panel {
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 10px;
+}
+
+#mapstore-drawermenu .navHeader .glyphicon-1-close {
+    color: #ffffff;
+    background-color: #078aa3;
 }

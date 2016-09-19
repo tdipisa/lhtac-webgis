@@ -36,7 +36,10 @@ module.exports = {
         AboutPlugin: require('./plugins/About'),
         ContactUsPlugin: require('./plugins/ContactUs'),
         ContextSwitchPlugin: require('./plugins/ContextSwitch'),
-        FeatureSelectorPlugin: require('./plugins/FeatureSelector')
+        FeatureSelectorPlugin: require('./plugins/FeatureSelector'),
+        AreaFilterPlugin: require('./plugins/AreaFilter'),
+        AdvancedFilterPlugin: require('./plugins/AdvancedFilter'),
+        StatisticsPlugin: require('./plugins/Statistics')
     },
     requires: {}
 };

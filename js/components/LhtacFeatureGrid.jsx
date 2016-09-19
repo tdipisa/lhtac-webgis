@@ -12,8 +12,7 @@ const {connect} = require('react-redux');
 const {createSelector} = require('reselect');
 const {isEqual} = require('lodash');
 const FeatureGrid = require('../../MapStore2/web/client/components/data/featuregrid/FeatureGrid');
-const {
-    updateHighlighted } = require('../../MapStore2/web/client/actions/highlight');
+const {updateHighlighted } = require('../../MapStore2/web/client/actions/highlight');
 const lhtac = require('../selectors/lhtac');
 
 const LhtacFeatureGrid = React.createClass({

@@ -4,304 +4,361 @@
     "plugins": {
         "desktop": [
             {
-                "cfg": {
-                    "tools": [
-                        "measurement",
-                        "locate",
-                        "overview",
-                        "scalebar",
-                        "draw",
-                        "highlight"
-                    ],
-                    "toolsOptions": {
-                        "scalebar": {
-                            "leaflet": {
-                                "imperial": true,
-                                "metric": false,
-                                "position": "bottomright"
-                            },
-                            "openlayers": {
-                                "units": "imperial"
-                            }
-                        }
-                    },
-                    "zoomControl": false
-                },
-                "name": "Map"
+              "cfg": {
+                  "tools": [
+                      "measurement",
+                      "locate",
+                      "overview",
+                      "scalebar",
+                      "draw",
+                      "highlight"
+                  ],
+                  "toolsOptions": {
+                      "measurement": {
+                        "metric": false,
+                        "feet": true
+                      },
+                      "scalebar": {
+                          "leaflet": {
+                              "imperial": true,
+                              "metric": false,
+                              "position": "bottomright"
+                          },
+                          "openlayers": {
+                              "units": "imperial"
+                          }
+                      }
+                  },
+                  "zoomControl": false
+              },
+              "name": "Map"
             },
             {
-                "cfg": {
-                	"excludeOptions": [
-                        "legend",
-                        "statistics",
-                        "columnDefs",
-                        "advancedFilter"
-                    ],
-                    "asPanel": false,
-                    "bodyClassName": "modal-body info-wrap",
-                    "className": "square-button",
-                    "closeGlyph": "1-close",
-                    "enableRevGeocode": true,
-                    "glyph": "map-marker",
-                    "headerClassName": "modal-header",
-                    "headerGlyph": "",
-                    "panelClassName": "modal-dialog info-panel modal-content",
-                    "viewerOptions": {
-                        "collapsible": false,
-                        "container": "{context.ReactSwipe}",
-                        "header": "{context.SwipeHeader}",
-                        "headerOptions": {
-                            "useButtons": true
-                        }
-                    },
-                    "wrapRevGeocode": false
-                },
-                "name": "Identify",
-                "showIn": [
-                    "IdentifyBar",
-                    "Settings"
-                ]
+              "cfg": {
+              	"excludeOptions": [
+                      "legend",
+                      "statistics",
+                      "columnDefs",
+                      "advancedFilter"
+                  ],
+                  "asPanel": false,
+                  "bodyClassName": "modal-body info-wrap",
+                  "className": "square-button",
+                  "closeGlyph": "1-close",
+                  "enableRevGeocode": true,
+                  "glyph": "map-marker",
+                  "headerClassName": "modal-header",
+                  "headerGlyph": "",
+                  "panelClassName": "modal-dialog info-panel modal-content",
+                  "viewerOptions": {
+                      "collapsible": false,
+                      "container": "{context.ReactSwipe}",
+                      "header": "{context.SwipeHeader}",
+                      "headerOptions": {
+                          "useButtons": true
+                      }
+                  },
+                  "wrapRevGeocode": false
+              },
+              "name": "Identify",
+              "showIn": [
+                  "IdentifyBar",
+                  "Settings"
+              ]
             },
             "ScaleBox",
             {
-                "cfg": {
-                    "className": "square-button"
-                },
-                "override": {
-                    "Toolbar": {
-                        "position": 7,
-                        "priority": 3,
-                        "alwaysVisible": true
-                    }
-                },
-                "name": "ZoomAll"
+              "cfg": {
+                  "className": "square-button"
+              },
+              "override": {
+                  "Toolbar": {
+                      "position": 7,
+                      "priority": 3,
+                      "alwaysVisible": true
+                  }
+              },
+              "name": "ZoomAll"
+            }, {
+        				"name": "ShapeFile",
+        				"cfg": {
+        					"wrap": true,
+        					"wrapWithPanel": false,
+        					"closeGlyph": "1-close",
+        					"buttonSize": "small"
+        				}
+        		},
+            {
+              "cfg": {
+                  "buttonStyle": "primary",
+                  "id": "identifyBar",
+                  "pressedButtonStyle": "success"
+              },
+              "id": "IdentifyBar",
+              "isDefault": false,
+              "name": "Toolbar",
+              "stateSelector": "identify"
             },
             {
-                "cfg": {
-                    "buttonStyle": "primary",
-                    "id": "identifyBar",
-                    "pressedButtonStyle": "success"
-                },
-                "id": "IdentifyBar",
-                "isDefault": false,
-                "name": "Toolbar",
-                "stateSelector": "identify"
+              "cfg": {
+                  "btnConfig": {
+                      "className": "square-button"
+                  },
+                  "glyph": "1-position-1"
+              },
+              "name": "Locate",
+              "override": {
+                  "Toolbar": {
+                      "alwaysVisible": true
+                  }
+              }
             },
             {
-                "cfg": {
-                    "btnConfig": {
-                        "className": "square-button"
-                    },
-                    "glyph": "1-position-1"
-                },
-                "name": "Locate",
-                "override": {
-                    "Toolbar": {
-                        "alwaysVisible": true
-                    }
+              "name": "DrawerMenu",
+      				"cfg": {
+      					"glyph": "1-stilo",
+      					"buttonStyle": "primary",
+      					"buttonClassName": "square-button",
+      					"singleSection": true,
+                "menuOptions": {
+                  "overlapMap": false
                 }
+      				}
             },
             {
-                "hideFrom": [
-                    "DrawerMenu"
-                ],
-                "name": "TOC"
+      				"name": "TOC",
+      				"cfg": {
+      					"settingsOptions": {
+      						"includeCloseButton": false,
+      						"closeGlyph": "1-close",
+      						"asModal": false,
+      						"buttonSize": "small"
+      					}
+      				},
+      				"override": {
+      					"DrawerMenu": {
+      						"glyph": "1-layer",
+                  "buttonConfig": {
+                    "buttonClassName": "square-button no-border"
+                  }
+      					}
+      				}
+        		},
+            {
+              "name": "AreaFilter",
+              "hide": true
             },
             {
-                "cfg": {
-                    "buttonStyle": "primary",
-                    "closeGlyph": "1-close",
-                    "wrap": false,
-                    "wrapWithPanel": false
-                },
-                "hideFrom": [
-                    "DrawerMenu"
-                ],
-
-                "override": {
-                    "Toolbar": {
-                        "position": 7
-                    }
-                },
-                "name": "BackgroundSwitcher"
+              "name": "AdvancedFilter",
+              "hide": true
             },
             {
-                "cfg": {
-                    "areaGlyph": "1-measure-area",
-                    "bearingGlyph": "1-bearing",
-                    "lineGlyph": "1-measure-lenght",
-                    "showResults": true,
-                    "useButtonGroup": false,
-                    "uom": {
-                        "area": {
-                            "label": "square mi",
-                            "unit": "sqmi"
-                        },
-                        "length": {
-                            "label": "mi",
-                            "unit": "mi"
-                        }
-                    }
-                },
-                "name": "Measure"
+              "name": "Statistics",
+              "hide": true
             },
             {
-                "cfg": {
-                    "closeGlyph": "1-close",
-                    "mapPreviewOptions": {
-                        "enableRefresh": false,
-                        "enableScalebox": false
-                    },
-                    "previewOptions": {
-                        "buttonStyle": "primary"
-                    },
-                    "submitConfig": {
-                        "buttonConfig": {
-                            "bsSize": "medium",
-                            "bsStyle": "primary"
-                        },
-                        "glyph": ""
-                    },
-                    "syncMapPreview": true,
-                    "useFixedScales": false,
-                    "withPanelAsContainer": false
-                },
-                "name": "Print"
-            },
-            {
-                "cfg": {
-                    "className": "ms2-loading",
+              "name": "BackgroundSwitcher",
+              "cfg": {
+                "fluid": true,
+                "columnProperties": {
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 12
+                }
+              },
+              "override": {
+                "DrawerMenu": {
+                    "glyph": "1-map",
                     "buttonConfig": {
-                            "bsStyle": "primary"
-                        }
-                },
-                "name": "MapLoading",
-                "override": {
-                    "Toolbar": {
-                        "alwaysVisible": true
+                      "buttonClassName": "square-button no-border"
+                    }
+                  }
+              }
+            }, {
+      				"name": "Measure",
+              "cfg": {
+                "showResults": true,
+                "lineGlyph": "1-measure-lenght",
+                "areaGlyph": "1-measure-area",
+                "bearingGlyph": "1-bearing",
+                "useButtonGroup": false,
+                "uom": {
+                    "area": {
+                        "label": "square ft",
+                        "unit": "sqft"
+                    },
+                    "length": {
+                        "label": "ft",
+                        "unit": "ft"
                     }
                 }
+              },
+      				"override": {
+      					"DrawerMenu": {
+      						"glyph": "1-stilo",
+                  "buttonConfig": {
+                    "buttonClassName": "square-button no-border"
+                  }
+      					}
+      				}
+        		},
+            {
+              "cfg": {
+                  "closeGlyph": "1-close",
+                  "mapPreviewOptions": {
+                      "enableRefresh": false,
+                      "enableScalebox": false
+                  },
+                  "previewOptions": {
+                      "buttonStyle": "primary"
+                  },
+                  "submitConfig": {
+                      "buttonConfig": {
+                          "bsSize": "medium",
+                          "bsStyle": "primary"
+                      },
+                      "glyph": ""
+                  },
+                  "syncMapPreview": true,
+                  "useFixedScales": false,
+                  "withPanelAsContainer": false
+              },
+              "name": "Print"
+            },
+            {
+              "cfg": {
+                  "className": "ms2-loading",
+                  "buttonConfig": {
+                          "bsStyle": "primary"
+                      }
+              },
+              "name": "MapLoading",
+              "override": {
+                  "Toolbar": {
+                      "alwaysVisible": true
+                  }
+              }
             },
             "OmniBar",
             {
-                "name": "BurgerMenu"
+              "name": "BurgerMenu"
             },
             {
-                "cfg": {
-                    "className": "square-button"
-                },
-                "name": "Expander"
+              "cfg": {
+                  "className": "square-button"
+              },
+              "name": "Expander"
             },
             {
-                "cfg": {
-                    "closeGlyph": "1-close",
-                    "overrideSettings": {
-                        "history": false
-                    },
-                    "wrap": true,
-                    "wrapWithPanel": false
-                },
-                "hideFrom": [
-                    "DrawerMenu"
-                ],
-                "name": "Settings"
+              "cfg": {
+                  "closeGlyph": "1-close",
+                  "overrideSettings": {
+                      "history": false
+                  },
+                  "wrap": true,
+                  "wrapWithPanel": false
+              },
+              "hideFrom": [
+                  "DrawerMenu"
+              ],
+              "name": "Settings"
             },
             {
-                "cfg": {
-                    "textContent": "The nationwide Highway Safety Improvement Program (HSIP) was established under the SAFTEA-LU Federal Transportation Act and continues in MAP-21. Local highway jurisdictions are allocated a portion of those funds (Local HSIP). Proposed LHSIP projects must directly address specific safety issues, based on data analysis. This web application, provided by the Local Highway Technical Assistance Council (LHTAC), is designed to help meet those requirements by making statewide crash data from ITD's Office of Highway Safety easily accessible to all local jurisdictions. Crash data is acquired annually from the ITD Office of Highway Safety. While reasonable efforts have been made to ensure accuracy of the presented information, LHTAC cannot guarantee that all data and map layers will be accurate, error free, or suitable for any specific purpose. Displayed crash locations indicate the approximate vicinity of a crash, based on reported descriptions. Minute details, such as actual lane of travel or point of impact, cannot be implied or inferred from the map. Use this information at your own risk. Any presented base layer(s) of the map are not created nor controlled by LHTAC nor ITD. Inaccuracies and corrections are the responsibility of the base layer provider. They are presented in this mapping application as a reference, without guarantee of their suitability for any specific purpose. Map data layers may not correspond exactly with the base layers in terms of object placement, such as crash location on displayed roads."
-                },
-                "hide": true,
-                "name": "About"
+              "cfg": {
+                  "textContent": "The nationwide Highway Safety Improvement Program (HSIP) was established under the SAFTEA-LU Federal Transportation Act and continues in MAP-21. Local highway jurisdictions are allocated a portion of those funds (Local HSIP). Proposed LHSIP projects must directly address specific safety issues, based on data analysis. This web application, provided by the Local Highway Technical Assistance Council (LHTAC), is designed to help meet those requirements by making statewide crash data from ITD's Office of Highway Safety easily accessible to all local jurisdictions. Crash data is acquired annually from the ITD Office of Highway Safety. While reasonable efforts have been made to ensure accuracy of the presented information, LHTAC cannot guarantee that all data and map layers will be accurate, error free, or suitable for any specific purpose. Displayed crash locations indicate the approximate vicinity of a crash, based on reported descriptions. Minute details, such as actual lane of travel or point of impact, cannot be implied or inferred from the map. Use this information at your own risk. Any presented base layer(s) of the map are not created nor controlled by LHTAC nor ITD. Inaccuracies and corrections are the responsibility of the base layer provider. They are presented in this mapping application as a reference, without guarantee of their suitability for any specific purpose. Map data layers may not correspond exactly with the base layers in terms of object placement, such as crash location on displayed roads."
+              },
+              "hide": true,
+              "name": "About"
             },
-			{
-                "cfg": {
-                    "withToggle": [
-                        "max-width: 768px",
-                        "min-width: 768px"
-                    ]
-                },
-                "name": "Search"
-            },
-            {
-                "cfg": {
-                    "textContent": [
-                        {
-                            "id": 1,
-                            "text": "For questions regarding LHSIP in Idaho, please contact Laila Kral: LKral@Lhtac.org."
-                        },
-                        {
-                            "id": 2,
-                            "text": "For questions regarding this crash or Bridge data tool, please contact: webmaster@lhtac.org."
-                        }
-                    ]
-                },
-                "hide": true,
-                "name": "ContactUs"
+			      {
+              "cfg": {
+                  "withToggle": [
+                      "max-width: 768px",
+                      "min-width: 768px"
+                  ]
+              },
+              "name": "Search"
             },
             {
-      "name": "Toolbar",
-      "id": "NavigationBar",
-      "stateSelector": "toolbar",
-      "cfg": {
-				"buttonStyle": "primary",
-        "id": "navigationBar"
-      }
-    },
-            {
-                "hide": true,
-                "name": "ContextSwitch"
+              "cfg": {
+                  "textContent": [
+                      {
+                          "id": 1,
+                          "text": "For questions regarding LHSIP in Idaho, please contact Laila Kral: LKral@Lhtac.org."
+                      },
+                      {
+                          "id": 2,
+                          "text": "For questions regarding this crash or Bridge data tool, please contact: webmaster@lhtac.org."
+                      }
+                  ]
+              },
+              "hide": true,
+              "name": "ContactUs"
             },
             {
-                "cfg": {
-                    "copyToClipboardEnabled": true
-                },
-                "name": "MousePosition"
+              "name": "Toolbar",
+              "id": "NavigationBar",
+              "stateSelector": "toolbar",
+              "cfg": {
+        				"buttonStyle": "primary",
+                "id": "navigationBar"
+              }
             },
             {
-                "cfg": {
-                    "buttonStyle": "primary",
-                    "closeGlyph": "1-close",
-                    "wrap": true,
-                    "wrapWithPanel": false
-                },
-                "name": "Snapshot"
+              "hide": true,
+              "name": "ContextSwitch"
+            },
+            {
+              "cfg": {
+                  "copyToClipboardEnabled": true
+              },
+              "name": "MousePosition"
+            },
+            {
+              "cfg": {
+                  "buttonStyle": "primary",
+                  "closeGlyph": "1-close",
+                  "wrap": true,
+                  "wrapWithPanel": false
+              },
+              "name": "Snapshot"
             },
             "FeatureSelector",
             {
-                "cfg": {
-                    "btnConfig": {
-                        "className": "square-button"
-                    },
-                    "buttonStyle": "primary",
-                    "glyph": "1-screen-backward"
-                },
-                "name": "Undo"
+              "cfg": {
+                  "btnConfig": {
+                      "className": "square-button"
+                  },
+                  "buttonStyle": "primary",
+                  "glyph": "1-screen-backward"
+              },
+              "name": "Undo"
             },
             {
-                "cfg": {
-                    "btnConfig": {
-                        "className": "square-button"
-                    },
-                    "buttonStyle": "primary",
-                    "glyph": "1-screen-forward"
-                },
-                "name": "Redo"
+              "cfg": {
+                  "btnConfig": {
+                      "className": "square-button"
+                  },
+                  "buttonStyle": "primary",
+                  "glyph": "1-screen-forward"
+              },
+              "name": "Redo"
             },
             {
-                "name": "ZoomIn",
-                "override": {
-                    "Toolbar": {
-                        "alwaysVisible": true
-                    }
-                }
+              "name": "ZoomIn",
+              "override": {
+                  "Toolbar": {
+                      "alwaysVisible": true
+                  }
+              }
             },
             {
-                "name": "ZoomOut",
-                "override": {
-                    "Toolbar": {
-                        "alwaysVisible": true
-                    }
-                }
+              "name": "ZoomOut",
+              "override": {
+                  "Toolbar": {
+                      "alwaysVisible": true
+                  }
+              }
             }
         ]
     },

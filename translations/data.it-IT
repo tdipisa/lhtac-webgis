@@ -29,7 +29,7 @@
         "about": "Info sulla mappa",
         "help": "Aiuto",
         "gohome": "Torna alla home",
-        "printbutton": "Stampa",
+        "printbutton": "Crea PDF",
         "noresultfound": "Nessun Risultato Trovato",
         "home":{
             "open": "Apri",

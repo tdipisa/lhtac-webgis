@@ -91,7 +91,6 @@ const FeatureSelector = React.createClass({
         window.removeEventListener("keyup", this.handleKeyUp);
     },
     componentWillReceiveProps(nextProps) {
-
         if (this.props.features !== nextProps.features && nextProps.drawFeatures) {
             this.props.changeLayerProperties("featureselector", {features: nextProps.features});
             if (this.props.hstatus === 'disabled') {
@@ -100,6 +99,7 @@ const FeatureSelector = React.createClass({
                 this.props.changeHighlightStatus('update');
             }
         }
+
         if (nextProps.geometry && nextProps.geometryStatus === "created" && nextProps.queryform.spatialField && nextProps.queryform.spatialField.geometry) {
 
             let spatialField = nextProps.queryform.spatialField;
@@ -108,10 +108,11 @@ const FeatureSelector = React.createClass({
             let sFieldType = spatialField.geometry.type || "Polygon";
 
             let prevGeometry = {
-                    coordinates: spatialField.geometry.coordinates,
-                    projection: sFieldSRS,
-                    type: sFieldType
-                };
+                coordinates: spatialField.geometry.coordinates,
+                projection: sFieldSRS,
+                type: sFieldType
+            };
+
             let intersection = FeatureSelectorUtils.intersectPolygons(prevGeometry, nextProps.geometry);
 
             if (intersection !== undefined) {
@@ -126,7 +127,7 @@ const FeatureSelector = React.createClass({
                     filterOpt.simpleFilterFields = this.props.queryform.simpleFilterFields;
                 }
                 let ogcFilter = FilterUtils.toOGCFilter(nextProps.activeLayer.name, filterOpt, "1.1.0");
-                this.props.loadFeatures(nextProps.queryform.searchUrl, ogcFilter, this.addKey);
+                this.props.loadFeatures(nextProps.queryform.searchUrl, ogcFilter, this.addKey, filterOpt);
                 if (!this.addKey) {
                     this.props.changeHighlightStatus('disabled');
                 }
@@ -136,23 +137,20 @@ const FeatureSelector = React.createClass({
                 this.props.featureSelectorError("Select some features");
             }
             this.props.changeDrawingStatus("clean", '', 'featureselector', []);
-
         }
-
     },
     renderError() {
         return this.props.error ? (
-
             <Alert calssName="selector-error" bsStyle="warning"
                     onDismiss={() => {this.props.featureSelectorError(false); }}>
             {this.props.error}
             </Alert>
-            ) : null;
+        ) : null;
     },
     render() {
         return this.props.open ? (
             <div id="feature-selection-bar"
-                className={this.props.sidePanelExpanded ? "default" : "side-expanded"}
+                className={this.props.sidePanelExpanded ? "side-expanded" : "side-unexpanded"}
                 onKeyDown={this.keyDown}>
                     {(this.props.request.state === 'loading') ? (
                        <div className="selector-spinner">
@@ -188,7 +186,6 @@ const FeatureSelector = React.createClass({
         }else {
             this.props.changeDrawingStatus('start', value, "featureselector", []);
         }
-
     },
     handleKeyDown(e) {
         this.addKey = e.ctrlKey || e.metaKey;
@@ -197,6 +194,7 @@ const FeatureSelector = React.createClass({
         window.setTimeout(() => {this.addKey = false; }, 100);
     }
 });
+
 const selector = createSelector([
      lhtac,
     (state) => (state.draw || {}),
@@ -204,8 +202,8 @@ const selector = createSelector([
     (state) => (state.queryform || {}),
     (state) => (state.highlight && state.highlight.status || 'disabled'),
     (state) => (state.advancedfilter || {}),
-    (state) => (state.sidepanel)
-], (lhtacState, draw, featureselector, queryform, hstatus, advancedfilter, sidepanel) => ({
+    (state) => (state.controls)
+], (lhtacState, draw, featureselector, queryform, hstatus, advancedfilter, controls) => ({
     activeLayer: lhtacState.activeLayer,
     open: lhtacState.filterActive,
     ...draw,
@@ -213,7 +211,7 @@ const selector = createSelector([
     queryform,
     hstatus,
     advancedFilterStatus: advancedfilter.filterstatus,
-    sidePanelExpanded: sidepanel.expanded
+    sidePanelExpanded: controls.drawer.enabled
 }));
 
 const FeatureSelectorPlugin = connect(selector, {

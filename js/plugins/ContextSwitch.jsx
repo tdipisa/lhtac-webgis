@@ -15,7 +15,6 @@ const {switchLayer} = require('../actions/lhtac');
 const {changeMapView} = require('../../MapStore2/web/client/actions/map');
 const {mapSelector} = require('../../MapStore2/web/client/selectors/map');
 
-
 const lhtac = require('../selectors/lhtac');
 const selector = createSelector([
     lhtac,
@@ -30,7 +29,6 @@ const selector = createSelector([
 const {
     resetZones
 } = require('../../MapStore2/web/client/actions/queryform');
-
 
 const ContextSwitch = connect(selector, {
     switchLayer,

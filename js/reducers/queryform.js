@@ -20,7 +20,6 @@ function shouldReset(aId, dId, zones) {
     return reset;
 }
 
-
 function zoneChange(state, action) {
     let value; let geometry;
     const zoneFields = state.spatialField.zoneFields.map((field) => {
@@ -174,7 +173,6 @@ function queryform(state, action) {
         default:
             return msQueryform(state, action);
     }
-
 }
 
 module.exports = queryform;
