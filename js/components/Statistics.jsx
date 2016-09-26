@@ -106,7 +106,7 @@ const Statistics = React.createClass({
                                 key={2}
                                 className={""}
                                 {...selectedFilterLink}
-                                style={(this.props.selectedfeatures.features.length) ? {"color": "blue", "fontSize": "12px !important", "borderRadius": 0} : {}} download>
+                                style={(this.props.selectedfeatures.features.length) ? {"color": "blue", "fontSize": "14px !important", "borderRadius": 0} : {}} download>
                                     {this.props.loading ? (<div><span>Selected: </span><div style={{"float": "right"}}><Spinner spinnerName="circle" noFadeIn/></div></div>) : ("Selected:" + " " + this.props.selectedfeatures.features.length)}
                             </ListGroupItem>
                             <ListGroupItem

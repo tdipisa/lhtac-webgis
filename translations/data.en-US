@@ -10,7 +10,7 @@
         "about_p0-1": "and",
         "about_p1": "MapStore 2 has several example applications:",
         "about_ul0_li0": "MapViewer is a simple viewer of preconfigured maps (optionally stored in a database using GeoStore)",
-        "about_ul0_li1": "MapPublisher has been developed to create, save and share in a simple and intuitive way maps and mashups created selecting contents by server like OpenStreetMap, Google Maps, MapQuest or specific servers provided by your organization or third party. For more information check the",
+        "about_ul0_li1": "MapPublisher has been developed to create, save and share in a simple and intuitive way maps and mashups created selecting contents coming from well-known sources like Google Maps and OpenStreetMap or from services provided by organizations using open protocols like OGC WMS, WFS, WMTS or TMS and so on.. For more information check the",
         "about_h20": "License",
         "about_p3": "MapStore 2 is Free and Open Source software, it is based on OpenLayers 3, Leaflet and ReactJS, and is licensed under the Simplified BSD License.",
         "about_p5-0": "For more information check",
@@ -19,9 +19,21 @@
         "about_h21": "Credits",
         "about_p6": "MapStore2 is made by:",
         "layers": "Layers",
+        "layerProperties": {
+            "windowTitle": "Layer Properties",
+            "title": "Title",
+            "name": "Name",
+            "group": "Group",
+            "general": "General",
+            "display": "Display",
+            "style": "Style",
+            "format": "Format",
+            "delete": "Delete",
+            "confirmDelete": "Are you sure?"
+        },
         "areafilter": "Select and customize an area filter",
         "statistics": "Statistics",
-        "advancedfilter": "Advanced Filter", 
+        "advancedfilter": "Advanced Filter",
         "enable": "Enable",
         "background": "Background",
         "language": "Language",
@@ -37,11 +49,14 @@
         "printbutton": "Create PDF",
         "noresultfound": "No Result found",
         "save": "Save",
+		"saveAs": "Save As...",
         "opacity": "Opacity",
         "close": "Close",
+        "cancel": "Cancel",
+        "pageInfo": "{total, plural, =0 {No items} =1 {{total} Item of {total}} other {Items {start}-{end} of {total}}}",
         "home":{
             "open": "Open",
-            "description": "MapStore 2 is developed to create, save and share in a simple and intuitive way maps and mashup created selecting contents by server like Google Maps, OpenStreetMap, MapQuest or specific servers provided by your organization or third party.<br/>Visit the <a href=\"http://geosolutions-it.github.io/MapStore2/\">home page</a> for more details.",
+            "description": "MapStore 2 has been developed to create, save and share in a simple and intuitive way maps and mashups created selecting contents coming from well-known sources like Google Maps and OpenStreetMap or from services provided by organizations using open protocols like OGC WMS, WFS, WMTS or TMS and so on.<br/>Visit the <a href=\"http://geosolutions-it.github.io/MapStore2/\">home page</a> for more details.",
             "Applications": "Applications",
             "Examples": "Examples",
             "ml": {
@@ -86,24 +101,50 @@
                 "rasterstyler":{
                     "html":"<h3>Raster Styler</h3><p>Style your raster layer</p>"
                 }
-
             }
         },
         "manager": {
-            "openInANewTab":"Open map in a new tab",
+            "openInANewTab":"Open map",
+            "deleteMap":"Delete Map",
+            "deleteMapMessage": "Do you really want to delete this map?",
+            "editMapMetadata":"Edit Map Metadata",
             "mapTypes_combo": "Select Map Viewer: ",
             "maps_title": "Maps",
             "locales_combo": "Language:"
         },
         "map": {
-            "loading": "Loading..."
+            "loading": "Loading...",
+            "name": "Name",
+            "description": "Description",
+            "namePlaceholder": "Map Name",
+            "descriptionPlaceholder": "Map Description",
+            "saveTitle": "Save map",
+            "saveText": "Save current map?",
+            "thumbnail": "Thumbnail",
+            "message": "Drop or click to import an image",
+            "suggestion": "(best 300px X 180px, max 500kb)",
+            "errorFormat": "Supported formats: png/jpg",
+            "errorSize": "Max allowed size: 500kb",
+            "error": "The provided image is not valid",
+            "thumbnailError": {
+                "error403" : "You are not allowed to update the thumbnail",
+                "error404" : "An error occurred while creating the thumbnail",
+                "error409" : "A thumbnail with this name already exists",
+                "errorDefault" : "Network error"
+            },
+            "mapError": {
+                "error403" : "You are not allowed to update the map",
+                "error404" : "An error occurred while creating the map",
+                "error409" : "A map with this name already exists",
+                "errorDefault" : "Network error"
+            }
         },
         "print":{
             "paneltitle": "Print",
             "layout": "Layout",
             "sheetsize": "Sheet size:",
             "legendoptions": "Legend options",
-            "submit": "Print",
+            "submit": "Crete PDF",
             "title": "Title",
             "titleplaceholder": "Enter a title...",
             "description": "Description",
@@ -133,7 +174,7 @@
             "tooltip": "Query objects on map"
         },
         "expandtoolbar": {
-          "tooltip": "Expand / Collapse"
+            "tooltip": "Expand / Collapse"
         },
         "getFeatureInfoTitle": "Feature Info",
         "identifyTitle": "Feature Info",
@@ -277,11 +318,13 @@
         "helptexts": {
             "scaleBox": "This is the helptext for the ScaleBox",
             "zoomToMaxExtentButton": "This is the helptext for the ZoomToMaxExtentButton",
+            "zoomIn": "This is the helptext for the ZoomIn",
+            "zoomOut": "This is the helptext for the ZoomOut",
             "searchBar": "Write the address of a place to find. e.g.  '1st avenue, new york'. You can even insert coordinates in this format: 43.87,10.20",
             "layerSwitcher": "This is the helptext for the LayerSwitcher",
             "metadataExplorer": "This is the helptext for the MetadataExplorer",
             "settingsPanel": "This is the helptext for the SettingsPanel",
-            "gohome": "This is the helptext forr Home",
+            "gohome": "This is the helptext for Home",
             "measureComponent": "This is the helptext for the MeasureComponent",
             "backgroundSwitcher": "This is the helptext for the BackgroundSwitcher",
             "layerSwitcher": "This is the helptext for the LayerSwitcher",
@@ -293,10 +336,12 @@
             "rasterstyler": "Define min value, max value, number of classes and color ramp and generate new classified raster layer",
             "expandToolbar": "This is the helptext for Expand / Collapse",
             "historyundo": "Use this button to go to the previous map zoom and location",
-            "historyredo": "Use this button to go to the next map zoom and location"
+            "historyredo": "Use this button to go to the next map zoom and location",
+            "vectorstyler": "Add rule, and generate new styled vector layer",
+            "styler": "Add rule, and generate new styled layer"
         },
         "queryform": {
-            "query": "Filter",
+            "query": "Search",
             "reset": "Reset",
             "query_request_exception": "Request Error",
             "config": {
@@ -328,8 +373,8 @@
                 }
             },
             "spatialfilter": {
-                "selection_method": "Select District",
-                "geometric_operation": "Operazione Geometrica",
+                "selection_method": "Selection Method",
+                "geometric_operation": "Geometric Operation",
                 "spatial_filter_header": "Spatial Filter",
                 "draw_start_label": "Draw the region on interest in the map",
                 "dwithin_label": "meters",
@@ -359,11 +404,37 @@
                 }
             }
         },
+        "user":{
+            "login": "Login",
+            "logout": "Logout",
+            "info": " Account Info",
+            "changePwd": "Change Password",
+            "newPwd": "New Password",
+            "retypePwd": "Retype Password",
+            "username": "Username",
+            "password": "Password",
+            "signIn":"Sign-in",
+            "loginFail":"Login Fail",
+            "loginFailedStatusMessages": {
+                "usernamePwdInsert": "Please insert username and password",
+                "usernamePwdIncorrect":"Username or password incorrect"
+            }
+        },
+        "share":{
+            "title": "Share",
+            "titlePanel": "Share the map",
+            "socialIntro": "In your favourite social network",
+            "directLinkTitle": "Via a direct link",
+            "embeddedLinkTitle": "Via the embedded code",
+            "QRCodeLinkTitle": "qr code",
+            "msgCopiedUrl":"Copied",
+            "msgToCopyUrl":"Click to copy"
+        },
         "snapshot": {
             "title": "Snapshot Preview",
             "save": "Save",
             "tooltip": "Save a snapshot of the map.",
-            "googleBingError": "Googole and Bing layers aren't available for the snapshot, due to copyright restrictions.",
+            "googleBingError": "Google and Bing layers aren't available for the snapshot, due to copyright restrictions.",
             "downloadingSnapshots": "pending snapshot generation",
             "date": "Date",
             "layers": "Layers",
@@ -371,12 +442,15 @@
             "notsupported": "Snapshot not supported"
         },
         "shapefile": {
-            "title": "Add Local Shape File",
-            "tooltip": "Add a local shape file to the map.",
-            "placeholder": "Drop your file here or click to select shape file to import.",
+            "title": "Add Local Shapefile",
+            "tooltip": "Add a local shapefile to the map.",
+            "placeholder": "Drop your file here or click to select shapefile to import.",
+            "defaultStyle": "Default style",
+            "zoom": "Zoom on the shapefiles",
             "error": {"select": "Select one or more zip file"},
             "add": "Add",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "success" : " correctly imported"
         },
         "catalog": {
             "title": "Catalog",
@@ -385,35 +459,97 @@
             "getWMSLink": "Get WMS Link",
             "error": "There was an error loading records from the catalog",
             "pageInfo": "Results {start}-{end} of {total}",
-            "noRecordsMatched": "No record matched"
+            "noRecordsMatched": "No record matched",
+            "wmsGetCapLink": "WMS",
+            "wfsGetCapLink": "WFS",
+            "share": "Share",
+            "copyToClipboard": "Copy to clipboard",
+            "copied": "Copied!",
+            "catalogUrlPlaceholder": "Enter catalog URL...",
+            "textSearchPlaceholder": "text to search...",
+            "search": "Search"
+        },"uploader": {
+            "filename": "File Name",
+            "type": "Type",
+            "lastModified": "Last Modified",
+            "filesize": "Size",
+            "beforeUpload": " Doing pre-upload operations... ",
+            "uploadingFiles": "Uploading Files...",
+            "dropfile": "drop files here to upload",
+            "dropfileImport": "drop here files to add it to this process"
+        },
+        "importer": {
+            "title": "Import Data",
+            "imports": "Import Sessions",
+            "importN": "Session {id}",
+            "creatingImportProcess": " Creating Import Session... ",
+            "dropfile": "drop files here to create a new importing session",
+            "dropfileImport": "drop here files to add it to this session",
+            "process": "Session",
+            "import": {
+                "actions": "Actions",
+                "tasks": "Packages",
+                "runImport": "Run",
+                "deleteImport": "Delete Session",
+                "deleteTask": "Delete",
+                "status": "Status",
+                "archive": "Archive",
+                "deleting": "Deleting...",
+                "analyzing": "Analyzing package...",
+                "applyingPreset": "Applying Presets..."
+            },
+            "task": {
+                "panelTitle": "Import Package {id}",
+                "general": "General Info",
+                "status": "Status",
+                "updateMode": "Update Mode",
+                "originalData": "Original File",
+                "file": "File Name",
+                "format": "Format",
+                "targetStore": "Target Store",
+                "storeType": "Store Type",
+                "storeName": "Store Name",
+                "layer": "Layer",
+                "transforms": "Trasformations Chain",
+                "update": "Update",
+                "run": "Import This Package",
+                "delete": "Delete This Package"
+            },
+            "transform": {
+                "panelTitle": "Transformation {id}",
+                "type": "Transformation Type",
+                "actions": "Actions",
+                "options": "Transformation Options",
+                "overviewlevels": "Overview Levels"
+            }
         },
         "rasterstyler": {
             "tooltip": "Create and edit raster layer style",
             "paneltitle": "Raster Styler",
             "layerlabel": "Layer",
             "typelabel": "Style Type",
-           "opacitylabel": "Opacity",
+            "opacitylabel": "Opacity",
             "redtitle": "Red",
             "greentitle": "Green",
             "bluetitle": "Blue",
             "graytitle": "Gray",
             "pseudobandtitle": "Band Selection",
-           "eqinttitle": "Equal Interval Classification",
+            "eqinttitle": "Equal Interval Classification",
             "pseudotitle": "PseudoColor Settings",
             "applybtn": "Apply Style"
         },
         "bandselector": {
             "band" : "Band",
-           "enhancement" : "Enhancement",
+            "enhancement" : "Enhancement",
             "algorithmTitle" : "Optional Algorithm",
             "value" : "Value",
             "min": "Min",
             "max": "Max",
             "enha": {
-               "none": "None",
+                "none": "None",
                 "Normalize": "Normalize",
                 "Histogram": "Histogram",
-                "GammaValue": "GammaValue"
+                "GammaValue": "Gamma Correction"
             },
             "algorithm": {
                 "none": "None",
@@ -451,6 +587,84 @@
             "multi": "Multi Band",
             "single": "Single Band"
          },
+        "featuregrid": {
+            "header": "Search results list",
+            "tools": "Tool Panel",
+            "export": "Export",
+            "selectall": "Select All",
+            "deselectall": "Clear Selection",
+            "pagination": {
+                "page": "Page",
+                "of":   "of",
+                "to":   "to",
+                "more": "more"
+            }
+        },
+        "vectorstyler": {
+            "tooltip": "Create and edit vector layer style",
+            "paneltitle": "Vector Styler",
+            "layerlabel": "Layer",
+            "rulelabel": "Rules",
+            "namelabel": "Rule Name",
+            "symboltitle": "Symbol",
+            "labeltitle": "Label",
+            "conditiontitle": "Conditions",
+            "applybtn": "Apply Style",
+            "addrulebtn": "Add Rule",
+            "removerulebtn": "Remove Rule"
+        },
+        "scaledenominator": {
+            "minlabel": "Min Scale Denominator",
+            "maxlabel": "Max Scale Denominator",
+            "maxerror": "Max value should be greater then min value",
+            "minerror": "Min value should be less then max value",
+            "none": "None"
+        },
+        "markNameSelector": {
+            "circle": "Circle",
+            "square": "Square",
+            "triangle": "Triangle",
+            "star": "Star",
+            "cross": "Cross",
+            "x": "X"
+        },
+        "styler": {
+            "tooltip": "Create and edit layer style",
+            "paneltitle": "Styler",
+            "layerlabel": "Layer"
+        },
+        "rulesmanager": {
+            "title": "Access Rules",
+            "role": "Role",
+            "user": "User",
+            "service": "Service",
+            "request": "Request",
+            "workspace": "Workspace",
+            "layer": "Layer",
+            "filters": "Filters",
+            "rules": "Rules",
+            "access": "Access",
+            "newModal": "New Rule",
+            "editModal": "Edit Rule",
+            "newButton": "Create",
+            "editButton": "Save",
+            "close": "Close",
+            "previous": "previous",
+            "next": "next",
+            "errorLoadingRoles": "Error loading roles.",
+            "errorLoadingUsers": "Error loading users.",
+            "errorLoadingWorkspaces": "Error loading workspaces.",
+            "errorLoadingLayers": "Error loading layers.",
+            "errorLoadingRules": "Error loading rules.",
+            "errorMovingRules": "Error moving rules.",
+            "errorDeletingRules": "Error deleting rules.",
+            "errorAddingRule": "Error adding rule.",
+            "errorUpdatingRule": "Error updating rule.",
+            "deleteModal": "Delete Rules",
+            "selectedRulesDelete": "Delete selected rules ?",
+            "deleteButton": "Delete",
+            "cancelButton": "Cancel"
+        },
          "lhtac" : {
             "crossfilter" : {
                 "zoomBtn": "Zoom To Active Area Filter"

@@ -217,7 +217,7 @@
                           "bsSize": "medium",
                           "bsStyle": "primary"
                       },
-                      "glyph": ""
+                      "glyph": "print"
                   },
                   "syncMapPreview": true,
                   "useFixedScales": false,
