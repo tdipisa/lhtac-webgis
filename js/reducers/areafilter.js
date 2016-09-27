@@ -7,8 +7,11 @@
  */
 
 const {
-    RESIZE_HEIGHT
+    RESIZE_HEIGHT,
+    CHANGE_ZOOM_ARGS
 } = require('../actions/areafilter');
+
+const assign = require('object-assign');
 
 const initialState = {
     expanded: true,
@@ -52,6 +55,9 @@ function areafilter(state = initialState, action) {
             let newStyle = {...state.layoutUpdates.style, height: "100%"};
             let newLayout = {...state.layoutUpdates, style: newStyle, resize: state.layoutUpdates.resize + 1};
             return {...state, layoutUpdates: newLayout};
+        }
+        case CHANGE_ZOOM_ARGS: {
+            return assign({}, state, {zoomArgs: action.zoomArgs});
         }
         default:
             return state;

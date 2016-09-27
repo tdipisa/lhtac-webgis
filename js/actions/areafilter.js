@@ -6,6 +6,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 const RESIZE_HEIGHT = 'RESIZE_HEIGHT';
+const CHANGE_ZOOM_ARGS = 'CHANGE_ZOOM_ARGS';
+
+function changeZoomArgs(zoomArgs) {
+     return {
+         type: CHANGE_ZOOM_ARGS,
+         zoomArgs
+     };
+ }
 
 function resizeHeight(height) {
     return {
@@ -16,5 +24,7 @@ function resizeHeight(height) {
 
 module.exports = {
     RESIZE_HEIGHT,
-    resizeHeight
+    CHANGE_ZOOM_ARGS,
+    resizeHeight,
+    changeZoomArgs
 };

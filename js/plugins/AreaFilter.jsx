@@ -34,6 +34,10 @@ const {
     zoneGetValues
     } = require('../actions/lhtac');
 
+const {
+    changeZoomArgs
+} = require('../actions/areafilter');
+
 const SpatialFilter = connect((state) => ({
     useMapProjection: state.queryform.useMapProjection,
     spatialField: state.queryform.spatialField,
@@ -58,13 +62,15 @@ const {changeMapView} = require('../../MapStore2/web/client/actions/map');
 const WMSCrossSelector = createSelector([
         lhtac,
         (state) => (state.queryform.spatialField),
-        (state) => (state.map || {})
+        (state) => (state.map || {}),
+        (state) => (state)
         ],
-        (lhtacState, spatialField, mapConfig) => ({
+        (lhtacState, spatialField, mapConfig, state) => ({
             activeLayer: lhtacState.activeLayer,
             toolbarEnabled: true,
             spatialField,
-            mapConfig
+            mapConfig,
+            zoomArgs: state.areafilter.zoomArgs
         }));
 
 const WMSCrossLayerFilter = connect( WMSCrossSelector, (dispatch) => {
@@ -72,6 +78,7 @@ const WMSCrossLayerFilter = connect( WMSCrossSelector, (dispatch) => {
         actions: bindActionCreators({
             onQuery: changeLhtacLayerFilter,
             onReset: resetZones,
+            changeZoomArgs,
             changeMapView,
             createFilterConfig,
             setBaseCqlFilter

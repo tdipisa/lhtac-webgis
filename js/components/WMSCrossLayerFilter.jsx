@@ -19,6 +19,7 @@ const CoordinatesUtils = require('../../MapStore2/web/client/utils/CoordinatesUt
 const LhtacFilterUtils = require('../utils/LhtacFilterUtils');
 const WMSCrossLayerFilter = React.createClass({
     propTypes: {
+        zoomArgs: React.PropTypes.array,
         params: React.PropTypes.object,
         spatialField: React.PropTypes.object,
         toolbarEnabled: React.PropTypes.bool,
@@ -43,13 +44,14 @@ const WMSCrossLayerFilter = React.createClass({
                 onReset: () => {},
                 changeMapView: () => {},
                 createFilterConfig: () => {},
-                setBaseCqlFilter: () => {}
+                setBaseCqlFilter: () => {},
+                changeZoomArgs: () => {}
             }
         };
     },
     componentWillReceiveProps(nextProps) {
         if (nextProps.activeLayer.id !== this.props.activeLayer.id) {
-            this.zoomArgs = null;
+            this.props.actions.changeZoomArgs(null);
         }
     },
     render() {
@@ -64,10 +66,10 @@ const WMSCrossLayerFilter = React.createClass({
                     </Button>
                     <Button disabled={!this.props.toolbarEnabled} id="reset" onClick={this.reset}>
                         <Glyphicon glyph="glyphicon glyphicon-remove"/>
-                        <span style={{paddingLeft: "2px"}}><strong><I18N.Message msgId={"queryform.reset"}/></strong></span>
+                        <span style={{paddingLeft: "2px"}}><strong><I18N.Message msgId={"queryform.reset"}/ ></strong></span>
                     </Button>
                     <OverlayTrigger placement="right" overlay={(<Tooltip id="lab"><strong><I18N.Message msgId={"lhtac.crossfilter.zoomBtn"}/></strong></Tooltip>)}>
-                    <Button disabled={!this.props.toolbarEnabled || (this.zoomArgs === null || this.zoomArgs === undefined)} id="zoomtoarea" onClick={this.zoomToSelectedArea}>
+                    <Button disabled={!this.props.toolbarEnabled || (this.props.zoomArgs === null || this.props.zoomArgs === undefined)} id="zoomtoarea" onClick={this.zoomToSelectedArea}>
                         <Glyphicon glyph="resize-full"/>
                     </Button>
                     </OverlayTrigger>
@@ -120,22 +122,21 @@ const WMSCrossLayerFilter = React.createClass({
                 crs: "EPSG:4326",
                 rotation: 0
             }];
+            this.props.actions.changeZoomArgs(this.zoomArgs);
             this.props.actions.changeMapView(...this.zoomArgs, this.props.mapConfig.present.size, null, this.props.mapConfig.present.projection);
         }
-
         this.props.actions.setBaseCqlFilter(filter);
     },
     reset() {
-        this.zoomArgs = null;
+        this.props.actions.changeZoomArgs(null);
         this.props.actions.onReset();
         let params = assign(this.props.params, {cql_filter: "INCLUDE"});
         this.props.actions.onQuery(this.props.activeLayer, {params: params}, "INCLUDE");
     },
     zoomToSelectedArea() {
-        if (this.zoomArgs) {
-            this.props.actions.changeMapView(...this.zoomArgs, this.props.mapConfig.present.size, null, this.props.mapConfig.present.projection);
+        if (this.props.zoomArgs) {
+            this.props.actions.changeMapView(...this.props.zoomArgs, this.props.mapConfig.present.size, null, this.props.mapConfig.present.projection);
         }
-
     }
 });
 
