@@ -16,21 +16,14 @@ const {
     FEATURE_SELECTOR_RESET
 } = require('../actions/featureselector');
 const assign = require('object-assign');
+// since 4.0.0
+const {xorBy} = require('lodash');
 
 const initialState = {geometry: null, features: [], request: {}, error: false};
 
 function featureLoaded(add, newFeatures = [], previousFeatures) {
-    return (add) ?
-           [...previousFeatures, ...newFeatures.reduce((ar, f) => {
-               if (previousFeatures.findIndex((pf) => {
-                   return f.id === pf.id;
-               }) === -1) {
-                   ar.push(f);
-               }
-               return ar;
-           }, [])] : newFeatures;
+    return (add) ? xorBy(newFeatures, previousFeatures, (obj) => obj.id) : newFeatures;
 }
-
 
 function featureselector(state = initialState, action) {
     switch (action.type) {

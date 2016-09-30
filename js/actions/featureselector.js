@@ -13,7 +13,6 @@ const FEATURE_SELECTOR_ERROR = 'FEATURE_SELECTOR_ERROR';
 const FEATURE_SELECTOR_RESET = 'FEATURE_SELECTOR_RESET';
 const uuid = require('node-uuid');
 const axios = require('../../MapStore2/web/client/libs/ajax');
-const {resizeHeight} = require('./areafilter');
 
 function featureSelectorReset() {
     return {
@@ -58,21 +57,11 @@ function loadFeatures(url, filter, add, filterOpts) {
                 try {
                     config = JSON.parse(config);
                     dispatch(featuresLoaded(config.features, reqId, add));
-                    if (config.features && config.features.length > 0) {
-                        dispatch(resizeHeight("80%"));
-                    }else {
-                        dispatch(resizeHeight("100%"));
-                    }
                 } catch(e) {
                     dispatch(featureSelectorError('Search result broken (' + url + ":   " + filter + '): ' + e.message));
                 }
             }else {
                 dispatch(featuresLoaded(config.features, reqId, add));
-                if (config.features && config.features.length > 0) {
-                    dispatch(resizeHeight("80%"));
-                }else {
-                    dispatch(resizeHeight("100%"));
-                }
             }
         }).catch((e) => {
             dispatch(featureSelectorError("Error during wfs request " + e.statusText));
