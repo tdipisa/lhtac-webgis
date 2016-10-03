@@ -5,7 +5,7 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+const {intersection, difference} = require('lodash');
 const LOAD_FEATURES = 'LOAD_FEATURES';
 const FEATURES_LOADED = 'FEATURES_LOADED';
 const NEW_GETFEATURE_REQUEST = 'NEW_GETFEATURE_REQUEST';
@@ -13,7 +13,7 @@ const FEATURE_SELECTOR_ERROR = 'FEATURE_SELECTOR_ERROR';
 const FEATURE_SELECTOR_RESET = 'FEATURE_SELECTOR_RESET';
 const uuid = require('node-uuid');
 const axios = require('../../MapStore2/web/client/libs/ajax');
-
+const {updateHighlighted} = require('../../MapStore2/web/client/actions/highlight');
 function featureSelectorReset() {
     return {
         type: FEATURE_SELECTOR_RESET
@@ -44,24 +44,37 @@ function featureSelectorError(error) {
     };
 }
 
+function updateHighlightedFeatures(state, config, dispatch) {
+    if (state) {
+        let newFeatures = config.features.map(f => {return f.id; });
+        let oldHighlighted = state.highlight.features;
+        let intersectionOldNew = intersection(oldHighlighted, newFeatures );
+        let newHighligthed = difference(oldHighlighted, intersectionOldNew);
+        dispatch(updateHighlighted(newHighligthed, "update"));
+    }
+}
+
 function loadFeatures(url, filter, add, filterOpts) {
     const reqId = uuid.v1();
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(newGetFeatureRequest(reqId, filter, filterOpts));
         return axios.post(url, filter, {
             timeout: 10000,
             headers: {'Accept': 'application/json', 'Content-Type': 'text/plain'}
         }).then((response) => {
             let config = response.data;
+            let state = getState && getState();
             if (typeof config !== "object") {
                 try {
                     config = JSON.parse(config);
                     dispatch(featuresLoaded(config.features, reqId, add));
+                    updateHighlightedFeatures(state, config, dispatch);
                 } catch(e) {
                     dispatch(featureSelectorError('Search result broken (' + url + ":   " + filter + '): ' + e.message));
                 }
             }else {
                 dispatch(featuresLoaded(config.features, reqId, add));
+                updateHighlightedFeatures(state, config, dispatch);
             }
         }).catch((e) => {
             dispatch(featureSelectorError("Error during wfs request " + e.statusText));

@@ -81,8 +81,14 @@ const Statistics = React.createClass({
             highlightedFilterLink.href = wfsUrl + "&FEATUREID=" + this.props.highlightedfeatures.join(",");
         }
 
-        if (this.props.selectedfeatures.features.length > 0) {
+        // needs to be checked also if there the request is correct and without errors
+        if (this.props.selectedfeatures &&
+            this.props.selectedfeatures.features.length > 0 &&
+            this.props.selectedfeatures.request &&
+            this.props.selectedfeatures.request.filterOpts) {
             this.wfsFilterBody = LhtacFilterUtils.processOGCSpatialFilter(this.props.selectedfeatures.request.filterOpts, "1.1.0");
+        }
+        if (this.props.selectedfeatures.features.length > 0) {
             selectedFilterLink.onClick = () => { this.downloadFile(); };
         }
 

@@ -12,6 +12,8 @@ const {getWindowSize} = require('../../MapStore2/web/client/utils/AgentUtils');
 
 const LhtacFeatureGrid = require('../components/LhtacFeatureGrid');
 
+require('./containerStyle.css');
+
 const SouthPanel = React.createClass({
     propTypes: {
         initHeight: React.PropTypes.number,

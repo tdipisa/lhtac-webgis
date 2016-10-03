@@ -38,8 +38,10 @@ const LhtacFeatureGrid = React.createClass({
     },
     shouldComponentUpdate(nextProps) {
         return nextProps.update &&
-            ((!this.highlighted || this.highlighted.toString() !== nextProps.highlightedFeatures.toString()) ||
-            nextProps.style !== this.props.style || (!isEqual(nextProps.features, this.props.features)));
+            (
+                // removed to get the grid to update more often
+                /*(!this.highlighted || this.highlighted.toString() !== nextProps.highlightedFeatures.toString()) ||*/
+            nextProps.style !== this.props.style || (!isEqual(nextProps.features, this.props.features)) || true);
     },
     render() {
         return (this.props.features.length > 0) ? (
