@@ -8,12 +8,15 @@
 
 
 const React = require('react');
+const {reactCellRendererFactory} = require('ag-grid-react');
 const {connect} = require('react-redux');
 const {createSelector} = require('reselect');
 const {isEqual} = require('lodash');
 const FeatureGrid = require('../../MapStore2/web/client/components/data/featuregrid/FeatureGrid');
 const {updateHighlighted } = require('../../MapStore2/web/client/actions/highlight');
 const lhtac = require('../selectors/lhtac');
+const BooleanCellRenderer = require('../components/BooleanCellRenderer');
+const assign = require("object-assign");
 
 const LhtacFeatureGrid = React.createClass({
     propTypes: {
@@ -44,6 +47,16 @@ const LhtacFeatureGrid = React.createClass({
             nextProps.style !== this.props.style || (!isEqual(nextProps.features, this.props.features)) || true);
     },
     render() {
+        // Adding the cellRenderer only to the following 3 properties that are booelan fields (instead of false there is null.
+        // So when the value is null it returns "false" otherwise "true")
+        let newColumnsDef = this.props.activeLayer && this.props.activeLayer.columnDefs || [];
+        // let fieldsToTransform = ["properties.intersection_related", "properties.impaired", "properties.lane_dep"];
+        let newColumns = newColumnsDef.map((col) => {
+            return (col.type !== undefined && col.type === "boolean") ?
+                assign({}, col, {cellRenderer: reactCellRendererFactory(BooleanCellRenderer)}) :
+                col;
+        });
+
         return (this.props.features.length > 0) ? (
             <FeatureGrid
                 style={this.props.style}
@@ -51,7 +64,7 @@ const LhtacFeatureGrid = React.createClass({
                 selectFeatures={this.highligthFeatures}
                 highlightedFeatures={this.props.highlightedFeatures}
                 enableZoomToFeature={false}
-                columnDefs={this.props.activeLayer.columnDefs}
+                columnDefs={newColumns}
                 excludeFields={this.props.activeLayer.excludeFields}
                 agGridOptions={{headerHeight: 48}}
                 toolbar={{zoom: false, exporter: false, toolPanel: false}}

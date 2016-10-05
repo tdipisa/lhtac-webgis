@@ -19,12 +19,11 @@ function featureSelectorReset() {
         type: FEATURE_SELECTOR_RESET
     };
 }
-function newGetFeatureRequest(reqId, filter, filterOpts) {
+function newGetFeatureRequest(reqId, filter) {
     return {
         type: NEW_GETFEATURE_REQUEST,
         reqId,
-        filter,
-        filterOpts
+        filter
     };
 }
 
@@ -54,10 +53,10 @@ function updateHighlightedFeatures(state, config, dispatch) {
     }
 }
 
-function loadFeatures(url, filter, add, filterOpts) {
+function loadFeatures(url, filter, add) {
     const reqId = uuid.v1();
     return (dispatch, getState) => {
-        dispatch(newGetFeatureRequest(reqId, filter, filterOpts));
+        dispatch(newGetFeatureRequest(reqId, filter));
         return axios.post(url, filter, {
             timeout: 10000,
             headers: {'Accept': 'application/json', 'Content-Type': 'text/plain'}

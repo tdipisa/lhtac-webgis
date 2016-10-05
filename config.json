@@ -80,6 +80,7 @@
 				"name": "lhtac:web2014all_mv",
 				"group": "Safety",
 				"format": "image/png",
+        "fidAttributeName": "web2014all_mv_id",
         "legend": {
             "width": 20,
             "height": 20,
@@ -146,7 +147,8 @@
             {
                 "field": "properties.intersection_related",
                 "headerName": "Intersect Related",
-                "width": 70
+                "width": 70,
+                "type" : "boolean"
             },
             {
                 "field": "properties.street1",
@@ -191,12 +193,14 @@
             {
                 "field": "properties.impaired",
                 "headerName": "Impaired",
-                "width": 70
+                "width": 70,
+                "type" : "boolean"
             },
             {
                 "field": "properties.lane_dep",
                 "headerName": "Lane Depart",
-                "width": 70
+                "width": 70,
+                "type" : "boolean"
             },
             {
                 "field": "properties.first_harmful_event",
@@ -261,12 +265,12 @@
             {
                 "field": "properties.traffic_control_device",
                 "headerName": "Traffic Control Device",
-                "width": 100
+                "width": 110
             },
             {
                 "field": "properties.traffic_control_function",
                 "headerName": "Traffic Control Function",
-                "width": 100
+                "width": 110
             },
             {
                 "field": "properties.geometrics_horizontal",
@@ -480,6 +484,7 @@
 				"name": "lhtac:bridge2014all_mv",
 				"group": "Bridges",
 				"format": "image/png",
+        "fidAttributeName": "bridge_num",
         "legend": {
             "width": 20,
             "height": 20,

@@ -1,4 +1,4 @@
-#south-panel .ag-header-cell{
+#south-panel .ag-header-cell, #south-panel .ag-header-row{
     background-color: #078AA3 !important;
     color: white !important;
     font-family: Raleway !important;

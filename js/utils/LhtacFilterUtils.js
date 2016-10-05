@@ -29,7 +29,6 @@ const BaseFilter = '<?xml version="1.0" encoding="UTF-8"?><wps:Execute version="
                   '</wps:ResponseForm>' +
                 '</wps:Execute>';
 
-
 const LhtacFilterUtils = {
     propertyTagReference: {
         "1.0.0": {startTag: "<PropertyName>", endTag: "</PropertyName>"},
@@ -42,6 +41,9 @@ const LhtacFilterUtils = {
         "CONTAINS": {startTag: "<Contains>", endTag: "</Contains>"},
         "DWITHIN": {startTag: "<DWithin>", endTag: "</DWithin>"},
         "WITHIN": {startTag: "<Within>", endTag: "</Within>"}
+    },
+    ogcLogicalOperator: {
+        "OR": {startTag: "<Or>", endTag: "</Or>"}
     },
     getWpsRequest(typeName, cqlFilter, attribute) {
         let cql = encodeURI(cqlFilter);
@@ -180,6 +182,32 @@ const LhtacFilterUtils = {
         }
 
         ogc += this.ogcSpatialOperator[objFilter.spatialField.operation].endTag;
+
+        filter += ogc;
+        filter += '</Filter>';
+
+        return filter;
+    },
+    // created from a list of features id
+    processOGCIdFilter: function(features, attributeName, logicalOperator, version) {
+        let filter = '<Filter>';
+
+        let ogc = this.ogcLogicalOperator[logicalOperator].startTag;
+
+        // building the list of options inside or operator
+        features.forEach((element) => {
+            if (element) {
+                ogc += "<PropertyIsEqualTo>" +
+                        this.propertyTagReference[version].startTag +
+                        attributeName +
+                        this.propertyTagReference[version].endTag;
+                ogc += "<Literal>" +
+                        element.properties[attributeName] +
+                         "</Literal></PropertyIsEqualTo>";
+            }
+        });
+
+        ogc += this.ogcLogicalOperator[logicalOperator].endTag;
 
         filter += ogc;
         filter += '</Filter>';

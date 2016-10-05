@@ -37,7 +37,7 @@ function featureselector(state = initialState, action) {
 
         }
         case NEW_GETFEATURE_REQUEST: {
-            return {...state, geometryStatus: "consumed", error: false, request: {id: action.reqId, state: "loading", filter: action.filter, filterOpts: action.filterOpts }};
+            return {...state, geometryStatus: "consumed", error: false, request: {id: action.reqId, state: "loading", filter: action.filter }};
         }
         case FEATURE_SELECTOR_ERROR: {
             return {...state, error: action.error, geometryStatus: "consumed", geometry: undefined, request: {}};
