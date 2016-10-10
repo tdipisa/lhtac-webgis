@@ -140,11 +140,11 @@
             }
         },
         "print":{
-            "paneltitle": "Print",
+            "paneltitle": "Create PDF",
             "layout": "Layout",
             "sheetsize": "Sheet size:",
             "legendoptions": "Legend options",
-            "submit": "Crete PDF",
+            "submit": "Create PDF",
             "title": "Title",
             "titleplaceholder": "Enter a title...",
             "description": "Description",
