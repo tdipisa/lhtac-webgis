@@ -265,7 +265,8 @@
             },
             {
               "cfg": {
-                  "textContent": "The nationwide Highway Safety Improvement Program (HSIP) was established under the SAFTEA-LU Federal Transportation Act and continues in MAP-21. Local highway jurisdictions are allocated a portion of those funds (Local HSIP). Proposed LHSIP projects must directly address specific safety issues, based on data analysis. This web application, provided by the Local Highway Technical Assistance Council (LHTAC), is designed to help meet those requirements by making statewide crash data from ITD's Office of Highway Safety easily accessible to all local jurisdictions. Crash data is acquired annually from the ITD Office of Highway Safety. While reasonable efforts have been made to ensure accuracy of the presented information, LHTAC cannot guarantee that all data and map layers will be accurate, error free, or suitable for any specific purpose. Displayed crash locations indicate the approximate vicinity of a crash, based on reported descriptions. Minute details, such as actual lane of travel or point of impact, cannot be implied or inferred from the map. Use this information at your own risk. Any presented base layer(s) of the map are not created nor controlled by LHTAC nor ITD. Inaccuracies and corrections are the responsibility of the base layer provider. They are presented in this mapping application as a reference, without guarantee of their suitability for any specific purpose. Map data layers may not correspond exactly with the base layers in terms of object placement, such as crash location on displayed roads."
+                  "textContent": "The nationwide Highway Safety Improvement Program (HSIP) was established under the SAFTEA-LU Federal Transportation Act and continues in MAP-21. Local highway jurisdictions are allocated a portion of those funds (Local HSIP). Proposed LHSIP projects must directly address specific safety issues, based on data analysis. This web application, provided by the Local Highway Technical Assistance Council (LHTAC), is designed to help meet those requirements by making statewide crash data from ITD's Office of Highway Safety easily accessible to all local jurisdictions. Crash data is acquired annually from the ITD Office of Highway Safety. While reasonable efforts have been made to ensure accuracy of the presented information, LHTAC cannot guarantee that all data and map layers will be accurate, error free, or suitable for any specific purpose. Displayed crash locations indicate the approximate vicinity of a crash, based on reported descriptions. Minute details, such as actual lane of travel or point of impact, cannot be implied or inferred from the map. Use this information at your own risk. Any presented base layer(s) of the map are not created nor controlled by LHTAC nor ITD. Inaccuracies and corrections are the responsibility of the base layer provider. They are presented in this mapping application as a reference, without guarantee of their suitability for any specific purpose. Map data layers may not correspond exactly with the base layers in terms of object placement, such as crash location on displayed roads.",
+                  "className" : "square-button"
               },
               "hide": true,
               "name": "About"
@@ -290,7 +291,8 @@
                           "id": 2,
                           "text": "For questions regarding this crash or Bridge data tool, please contact: webmaster@lhtac.org."
                       }
-                  ]
+                  ],
+                  "className" : "square-button"
               },
               "hide": true,
               "name": "ContactUs"
