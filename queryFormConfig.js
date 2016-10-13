@@ -54,7 +54,6 @@ const queryFormConfig = {
                     sortBy: "short_name",
                     sortOrder: "ASC"
                 },
-                groupBy: "itd_distri",
                 exclude: [3, 5, 6]
             }, {
                 id: 5,
@@ -74,8 +73,7 @@ const queryFormConfig = {
                     sortBy: "short_name",
                     sortOrder: "ASC"
                 },
-                exclude: [3, 4, 6],
-                groupBy: "county"
+                exclude: [3, 4, 6]
             },
             {
                 id: 6,
@@ -91,7 +89,6 @@ const queryFormConfig = {
                 searchAttribute: "juris_type",
                 disabled: false,
                 multivalue: true,
-                groupBy: "county",
                 sort: {
                     sortBy: "name2",
                     sortOrder: "ASC"
@@ -154,7 +151,6 @@ const queryFormConfig = {
                     sortBy: "short_name",
                     sortOrder: "ASC"
                 },
-                groupBy: "itd_distri",
                 exclude: [3, 5, 6]
             }, {
                 id: 5,
@@ -174,8 +170,7 @@ const queryFormConfig = {
                     sortBy: "short_name",
                     sortOrder: "ASC"
                 },
-                exclude: [3, 4, 6],
-                groupBy: "county"
+                exclude: [3, 4, 6]
             },
             {
                 id: 6,
@@ -191,7 +186,6 @@ const queryFormConfig = {
                 searchAttribute: "juris_type",
                 disabled: false,
                 multivalue: true,
-                groupBy: "county",
                 sort: {
                     sortBy: "name2",
                     sortOrder: "ASC"
