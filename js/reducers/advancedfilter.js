@@ -42,6 +42,9 @@ function advancedfilter(state = initialState, action) {
         case 'ZONES_RESET': {
             return {...state, error: false};
         }
+        case 'ON_RESET_THIS_ZONE': {
+            return (action.reload) ? {...state, error: false} : {...state};
+        }
         case 'SWITCH_LAYER': {
             return initialState;
         }

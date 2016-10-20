@@ -57,36 +57,40 @@ const LhtacFilterUtils = {
         let zone;
         // Get the latest zone with value in the array
         for (let i = spatialField.zoneFields.length - 1; i >= 0; i--) {
-            if (spatialField.zoneFields[i].value) {
+            if (spatialField.zoneFields[i].value && spatialField.zoneFields[i].active) {
                 zone = spatialField.zoneFields[i];
                 break;
             }
         }
 
-        // Get the attribute name (check for dotted notation)
-        let attribute = zone.valueField.indexOf(".") !== -1 ? zone.valueField.split('.')[zone.valueField.split('.').length - 1] : zone.valueField;
+        if (zone) {
+            // Get the attribute name (check for dotted notation)
+            let attribute = zone.valueField.indexOf(".") !== -1 ? zone.valueField.split('.')[zone.valueField.split('.').length - 1] : zone.valueField;
 
-        // Prepare the cql cross layer filter
-        let filter = spatialField.operation +
-            "(" + spatialField.attribute +
-                ", collectGeometries(queryCollection('" +
-                    zone.typeName +
-                    "', '" + zone.geometryName +
-                    "', '" + attribute;
+            // Prepare the cql cross layer filter
+            let filter = spatialField.operation +
+                "(" + spatialField.attribute +
+                    ", collectGeometries(queryCollection('" +
+                        zone.typeName +
+                        "', '" + zone.geometryName +
+                        "', '" + attribute;
 
-        if (zone.value instanceof Array) {
-            filter += " IN (";
-            zone.value.forEach((value, index) => {
-                filter += "''" + value + "''";
-                if (index < zone.value.length - 1) {
-                    filter += ",";
-                }
-            });
-            filter += ")')))";
-        } else {
-            filter += " = ''" + zone.value + "''')))";
+            if (zone.value instanceof Array) {
+                filter += " IN (";
+                zone.value.forEach((value, index) => {
+                    filter += "''" + value + "''";
+                    if (index < zone.value.length - 1) {
+                        filter += ",";
+                    }
+                });
+                filter += ")')))";
+            } else {
+                filter += " = ''" + zone.value + "''')))";
+            }
+            return filter;
         }
-        return filter;
+
+        return null;
     },
     processOGCSpatialFilter: function(json, version) {
         let objFilter;

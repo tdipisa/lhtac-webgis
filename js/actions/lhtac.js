@@ -12,27 +12,17 @@ const SET_ACTIVE_ZONE = 'SET_ACTIVE_ZONE';
 const CHANGE_LAYER_PROPERTIES = 'CHANGE_LAYER_PROPERTIES';
 const STATS_LOADING = 'STATS_LOADING';
 const CHANGE_DOWNLOAD_FORMAT = 'CHANGE_DOWNLOAD_FORMAT';
+const ZONE_CHANGE = 'ZONE_CHANGE';
+const CLEAN_GEOMETRY = 'CLEAN_GEOMETRY';
+const CLEAN_ZONE = 'CLEAN_ZONE';
 
 const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
 const {zoneSearchError, zoneFilter, zoneSearch} = require('../../MapStore2/web/client/actions/queryform');
 const {featureSelectorError} = require("../actions/featureselector");
+const {onResetThisZone} = require("../actions/queryform");
 
 const FileUtils = require('../../MapStore2/web/client/utils/FileUtils');
 
-function switchLayer(layer) {
-    return {
-        type: SWITCH_LAYER,
-        layer
-    };
-}
-function setActiveZone(id, value, exclude) {
-    return {
-        type: SET_ACTIVE_ZONE,
-        id,
-        value,
-        exclude
-    };
-}
 function statsLoading(status) {
     return {
         type: "STATS_LOADING",
@@ -96,6 +86,57 @@ function changeLhtacLayerFilter(layer, properties, areaFilter) {
             results.sort((a, b) => (a.id - b.id) );
             dispatch(changeLayerProperties(layer.id, {statistics: results}));
         });
+    };
+}
+function switchLayer(layer) {
+    return {
+        type: SWITCH_LAYER,
+        layer
+    };
+}
+function setActiveZone(id, exclude) {
+    return {
+        type: SET_ACTIVE_ZONE,
+        id,
+        exclude
+    };
+}
+
+function zoneChange(id, value) {
+    return {
+        type: ZONE_CHANGE,
+        id,
+        value
+    };
+}
+function cleanGeometry() {
+    return {
+        type: CLEAN_GEOMETRY
+    };
+}
+function cleanZone(zoneId) {
+    return {
+        type: CLEAN_ZONE,
+        zoneId
+    };
+}
+
+function zoneSelected(zone, value, exclude) {
+    return (dispatch) => {
+        // clean previous geometry
+        if (zone.active && value && value.value && value.value.length > 0 &&
+            value.feature && value.feature.length > 0) {
+            dispatch(cleanGeometry());
+        }
+        if (value && value.value && value.value.length === 0) {
+            dispatch(onResetThisZone(zone.id, false));
+        }
+        // if there is a value in the zoneField update the geometry
+        if (value && value.value && value.value.length > 0 &&
+            value.feature && value.feature.length > 0) {
+            dispatch(zoneChange(zone.id, value));
+            dispatch(setActiveZone(zone.id, exclude));
+        }
     };
 }
 
@@ -175,11 +216,18 @@ module.exports = {
     CHANGE_LAYER_PROPERTIES,
     STATS_LOADING,
     CHANGE_DOWNLOAD_FORMAT,
+    ZONE_CHANGE,
+    CLEAN_GEOMETRY,
+    CLEAN_ZONE,
+    cleanZone,
+    cleanGeometry,
+    zoneChange,
     changeLhtacLayerFilter,
     switchLayer,
     setActiveZone,
     changeDownloadFormat,
     getNumberOfFeatures,
     zoneGetValues,
-    downloadSelectedFeatures
+    downloadSelectedFeatures,
+    zoneSelected
 };

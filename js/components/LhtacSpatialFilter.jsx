@@ -7,12 +7,17 @@
  */
 const React = require('react');
 
-const { Panel, Button, ButtonToolbar} = require('react-bootstrap');
+const { Panel, Button, ButtonToolbar, Grid, Row, Col} = require('react-bootstrap');
 
 const ZoneField = require('../../MapStore2/web/client/components/data/query/ZoneField');
 
 const SpatialFilter = React.createClass({
     propTypes: {
+        activeLayer: React.PropTypes.object,
+        params: React.PropTypes.object,
+        mapConfig: React.PropTypes.object,
+        zoomArgs: React.PropTypes.array,
+
         useMapProjection: React.PropTypes.bool,
         spatialField: React.PropTypes.object,
         spatialOperations: React.PropTypes.array,
@@ -39,12 +44,42 @@ const SpatialFilter = React.createClass({
                 {id: "INTERSECTS", name: "queryform.spatialfilter.operations.intersects"}
             ],
             actions: {
-                setActiveZone: () => {},
                 zoneFilter: () => {},
                 zoneSearch: () => {},
+                zoneSelected: () => {},
                 zoneChange: () => {}
             }
         };
+    },
+    getValues(zone) {
+        let value = zone && zone.value;
+        let val = null;
+        if (value !== null) {
+            let values = zone.values;
+            let features = [];
+            if (values && values.length > 0) {
+
+                features = values.filter((v) => {
+                    let valueField2 = v;
+                    zone.valueField.split('.').forEach(part => {
+                        valueField2 = valueField2 ? valueField2[part] : null;
+                    });
+                    return value.includes(valueField2);
+                });
+            }
+            if (zone && zone.multivalue) {
+                val = {
+                    value: value,
+                    feature: features
+                };
+            } else {
+                val = {
+                    value: [value],
+                    feature: [features]
+                };
+            }
+        }
+        return val;
     },
     renderToolbar() {
         return (
@@ -54,6 +89,24 @@ const SpatialFilter = React.createClass({
       </ButtonToolbar>
             );
     },
+    renderRadios(zone) {
+        let value = this.getValues(zone);
+        return (
+          <label key={zone.id} style={{marginLeft: "0px", marginTop: "31px"}}>
+            <input
+              name="zoneField"
+              type="radio"
+              value={zone.id}
+              checked={zone.checked}
+              readOnly={!zone.checked}
+              defaultChecked={false}
+              onChange={() => {}}
+              disabled={zone.value === null}
+              onClick={() => {this.props.actions.zoneSelected(zone, value, zone.exclude); }}
+            />
+          </label>
+       );
+    },
     renderZoneFields() {
         return this.props.spatialField.method &&
             this.props.spatialField.method === "ZONE" &&
@@ -61,33 +114,42 @@ const SpatialFilter = React.createClass({
             this.props.spatialField.zoneFields.length > 0 ?
                 this.props.spatialField.zoneFields.map((zone) => {
                     return (
-                        <div key={zone.id} className={zone.active && zone.value && Array.isArray(zone.value) && zone.value.length > 0 ? "active-zone" : ''}>
-                        <ZoneField
-                            open={zone.open}
-                            zoneId={zone.id}
-                            url={zone.url}
-                            typeName={zone.typeName}
-                            wfs={zone.wfs}
-                            busy={zone.busy}
-                            label={zone.label}
-                            values={zone.values}
-                            value={zone.value}
-                            valueField={zone.valueField}
-                            textField={zone.textField}
-                            searchText={zone.searchText}
-                            searchMethod={zone.searchMethod}
-                            searchAttribute={zone.searchAttribute}
-                            sort={zone.sort}
-                            error={zone.error}
-                            disabled={zone.disabled}
-                            dependsOn={zone.dependson}
-                            groupBy={zone.groupBy}
-                            multivalue={zone.multivalue}
-                            onSearch={this.props.actions.zoneSearch}
-                            onFilter={this.props.actions.zoneFilter}
-                            onChange={this.zoneChange}/>
-                            {(zone.toolBar) ? this.renderToolbar() : null}
-                            </div>
+                        <div key={zone.id} className={zone.active ? "active-zone" : ''}>
+                          <Grid fluid>
+                            <Row>
+                               <Col xs={1}>{this.renderRadios(zone)}</Col>
+                               <Col xs={11}>
+                                <ZoneField
+                                    open={zone.open}
+                                    zoneId={zone.id}
+                                    url={zone.url}
+                                    typeName={zone.typeName}
+                                    wfs={zone.wfs}
+                                    busy={zone.busy}
+                                    label={zone.label}
+                                    values={zone.values}
+                                    value={zone.value}
+                                    valueField={zone.valueField}
+                                    textField={zone.textField}
+                                    searchText={zone.searchText}
+                                    searchMethod={zone.searchMethod}
+                                    searchAttribute={zone.searchAttribute}
+                                    sort={zone.sort}
+                                    error={zone.error}
+                                    disabled={zone.disabled}
+                                    dependsOn={zone.dependson}
+                                    groupBy={zone.groupBy}
+                                    multivalue={zone.multivalue}
+                                    onSearch={this.props.actions.zoneSearch}
+                                    onFilter={this.props.actions.zoneFilter}
+                                    onChange={this.zoneChange}/></Col>
+                              </Row>
+                              <Row>
+                                <Col xs={1}><span/></Col>
+                                <Col xs={11}>{(zone.toolbar) ? this.renderToolbar() : null}</Col>
+                              </Row>
+                            </Grid>
+                        </div>
                     );
                 }) : (<span/>);
     },
@@ -106,12 +168,18 @@ const SpatialFilter = React.createClass({
         );
     },
     zoneChange(id, value) {
+        // find the zonefield related to the last selected value
         let zoneField = this.props.spatialField.zoneFields.find((z) => {return z.id === id; });
+
+        /*if ( value.value && value.value.length > 0 &&
+            value.feature && value.feature.length > 0) {*/
+            // if there are some exluded zone set this to be active otherwise...
         if (zoneField && zoneField.exclude && zoneField.exclude.length > 0) {
-            this.props.actions.setActiveZone(id, value, zoneField.exclude);
+            this.props.actions.zoneSelected(zoneField, value, zoneField.exclude);
         }else {
             this.props.actions.zoneChange(id, value);
         }
+      //  }
     }
 });
 

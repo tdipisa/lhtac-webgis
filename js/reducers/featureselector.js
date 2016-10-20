@@ -45,6 +45,9 @@ function featureselector(state = initialState, action) {
         case 'ZONES_RESET': {
             return initialState;
         }
+        case 'ON_RESET_THIS_ZONE': {
+            return (action.reload) ? initialState : {...state};
+        }
         case 'BASE_CQL_FILTER': {
             return initialState;
         }

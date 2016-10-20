@@ -18,6 +18,9 @@ function highlight(state, action) {
         case 'ZONES_RESET': {
             return {...state, status: 'disabled'};
         }
+        case 'ON_RESET_THIS_ZONE': {
+            return (action.reload) ? {...state, status: 'disabled'} : {...state};
+        }
         default:
             return msHighlight(state, action);
     }

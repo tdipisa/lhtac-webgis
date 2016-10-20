@@ -40,6 +40,11 @@ function areafilter(state = initialState, action) {
             let newLayout = {...state.layoutUpdates, style: newStyle, resize: state.layoutUpdates.resize + 1};
             return {...state, layoutUpdates: newLayout};
         }
+        case 'ON_RESET_THIS_ZONE': {
+            let newStyle = {...state.layoutUpdates.style, height: "100%"};
+            let newLayout = {...state.layoutUpdates, style: newStyle, resize: state.layoutUpdates.resize + 1};
+            return (action.reload) ? {...state, layoutUpdates: newLayout} : {...state};
+        }
         case 'BASE_CQL_FILTER': {
             let newStyle = {...state.layoutUpdates.style, height: "100%"};
             let newLayout = {...state.layoutUpdates, style: newStyle, resize: state.layoutUpdates.resize + 1};

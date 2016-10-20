@@ -8,6 +8,10 @@
 const msQueryform = require('../../MapStore2/web/client/reducers/queryform');
 const queryFormConfig = require('../../queryFormConfig');
 const {union, bbox} = require('turf');
+const CLEAN_GEOMETRY = 'CLEAN_GEOMETRY';
+const CLEAN_ZONE = 'CLEAN_ZONE';
+const ON_RESET_THIS_ZONE = 'ON_RESET_THIS_ZONE';
+const assign = require('object-assign');
 
 function shouldReset(aId, dId, zones) {
     let reset = false;
@@ -45,7 +49,7 @@ function zoneChange(state, action) {
 
             return {
                     ...field,
-                    value: value,
+                    value: value && value.length > 0 ? value : null,
                     open: false,
                     geometryName: geometry ? geometry.geometryName : null
                 };
@@ -58,6 +62,7 @@ function zoneChange(state, action) {
                 values: null,
                 value: null,
                 open: false,
+                checked: false,
                 active: false,
                 dependson: {...field.dependson, value: value}
             };
@@ -67,7 +72,8 @@ function zoneChange(state, action) {
                 values: null,
                 value: null,
                 open: false,
-                active: false
+                active: false,
+                checked: false
             };
         }
 
@@ -85,7 +91,8 @@ function zoneChange(state, action) {
             extent: extent,
             type: geometry.geometryType,
             coordinates: geometry.coordinates
-        } : null
+        } : null,
+        buttonReset: false
     }};
 }
 
@@ -111,7 +118,8 @@ function queryform(state, action) {
                         value: null,
                         open: false,
                         error: null,
-                        active: false
+                        active: false,
+                        checked: false
                     };
 
                     if (field.dependson) {
@@ -126,27 +134,90 @@ function queryform(state, action) {
 
                     return f;
                 }),
-                geometry: null
+                geometry: null,
+                buttonReset: true
             }};
         }
+        case ON_RESET_THIS_ZONE: {
+            return {...state, spatialField: {...state.spatialField,
+                zoneFields: state.spatialField.zoneFields.map((field) => {
+                    let f;
+                    if (field.id === action.zoneId) {
+                        f = {
+                        ...field,
+                        values: null,
+                        value: null,
+                        open: false,
+                        error: null,
+                        active: false,
+                        checked: false
+                      };
+                    } else {
+                        f = field;
+                    }
+                    if (field.dependson) {
+                        return {
+                            ...f,
+                            disabled: true,
+                            open: false,
+                            value: null,
+                            dependson: {...field.dependson, value: null}
+                        };
+                    }
+                    return f;
+                })
+            }};
+        }
+        case CLEAN_GEOMETRY: {
+            return assign({}, state, {spatialField: {...state.spatialField, geometry: null}});
+        }
+        case CLEAN_ZONE: {
+            return {...state, spatialField: {...state.spatialField,
+              zoneFields: state.spatialField.zoneFields.map((field) => {
+                  let f;
+                  if (field.id === action.zoneId) {
+                      f = {
+                      ...field,
+                      values: null,
+                      value: null,
+                      open: false,
+                      error: null,
+                      active: false,
+                      checked: false
+                    };
+                  } else {
+                      f = field;
+                  }
+                  if (field.dependson) {
+                      return {
+                          ...f,
+                          disabled: true,
+                          open: false,
+                          value: null,
+                          dependson: {...field.dependson, value: null}
+                      };
+                  }
+                  return f;
+              })
+          }};
+        }
         case 'SET_ACTIVE_ZONE': {
-            let tmpState = zoneChange(state, action);
-            return {...tmpState, spatialField: {...tmpState.spatialField,
-                    zoneFields: tmpState.spatialField.zoneFields.map((field) => {
+            return assign({}, state, {spatialField: {...state.spatialField,
+                    zoneFields: state.spatialField.zoneFields.map((field) => {
                         let f = field;
                         if (action.id === field.id) {
-                            f = {...field, active: true};
+                            f = {...field, active: true, checked: true};
                         }else if (action.exclude.includes(field.id)) {
                             f = {
                                 ...field,
-                                value: null,
                                 error: null,
-                                active: false };
+                                active: false,
+                                checked: false };
                         }
                         return f;
                     })
                     }
-                };
+                });
         }
         case 'ZONE_CHANGE': {
             return zoneChange(state, action);

@@ -35,6 +35,14 @@ function draw(state, action) {
                 features: []
             };
         }
+        case 'ON_RESET_THIS_ZONE': {
+            return (action.reload) ? {...state,
+                drawStatus: 'clean',
+                drawOwner: 'wmscrossfilter',
+                drawMethod: 'BBOX',
+                features: []
+            } : {...state};
+        }
         default:
             return msDraw(state, action);
     }

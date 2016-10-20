@@ -305,7 +305,6 @@
         ],
         "advancedFilter": {
             "searchUrl": "http://demo.geo-solutions.it/geoserver/ows?service=WPS",
-            "type": "WPS",
             "cql": "INCLUDE",
             "fieldsConfig": [
                 {
@@ -578,7 +577,6 @@
         ],
         "advancedFilter": {
             "searchUrl": "http://demo.geo-solutions.it/geoserver/ows?service=WPS",
-            "type": "WPS",
             "cql": "INCLUDE",
             "fieldsConfig": [
                 {

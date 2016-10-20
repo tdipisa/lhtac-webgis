@@ -2,8 +2,6 @@ const queryFormConfig = {
 
    "lhtac:web2014all_mv": {
         searchUrl: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
-        showDetailsPanel: false,
-        useMapProjection: false,
         withContainer: false,
         spatialMethodOptions: [
             {id: "ZONE", name: "queryform.spatialfilter.methods.zone"}
@@ -99,8 +97,6 @@ const queryFormConfig = {
     },
     "lhtac:bridge2014all_mv": {
         searchUrl: "http://demo.geo-solutions.it/geoserver/ows?service=WFS&outputFormat=application/json",
-        showDetailsPanel: false,
-        useMapProjection: false,
         withContainer: false,
         spatialMethodOptions: [
             {id: "ZONE", name: "queryform.spatialfilter.methods.zone"}

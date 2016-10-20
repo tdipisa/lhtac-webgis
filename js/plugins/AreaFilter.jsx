@@ -30,46 +30,62 @@ const {
 
 const {
     setActiveZone,
+    zoneSelected,
     changeLhtacLayerFilter,
-    zoneGetValues
+    zoneGetValues,
+    cleanZone
     } = require('../actions/lhtac');
+
+const {
+    onResetThisZone
+} = require('../actions/queryform');
 
 const {
     changeZoomArgs
 } = require('../actions/areafilter');
 
-const SpatialFilter = connect((state) => ({
-    useMapProjection: state.queryform.useMapProjection,
-    spatialField: state.queryform.spatialField,
-    showDetailsPanel: state.queryform.showDetailsPanel,
-    withContainer: state.queryform.withContainer,
-    spatialMethodOptions: state.queryform.spatialMethodOptions,
-    spatialOperations: state.queryform.spatialOperations
-}), (dispatch) => {
+const {changeMapView} = require('../../MapStore2/web/client/actions/map');
+
+
+const SpatialFilterSelector = createSelector([
+        (state) => (state)
+        ],
+        (state) => ({
+            useMapProjection: state.queryform.useMapProjection,
+            spatialField: state.queryform.spatialField,
+            showDetailsPanel: state.queryform.showDetailsPanel,
+            withContainer: state.queryform.withContainer,
+            spatialMethodOptions: state.queryform.spatialMethodOptions,
+            spatialOperations: state.queryform.spatialOperations
+        }));
+
+const SpatialFilter = connect(SpatialFilterSelector, (dispatch) => {
     return {
         actions: bindActionCreators({
             onRemoveSpatialSelection: removeSpatialSelection,
             zoneFilter: zoneGetValues,
             zoneSearch,
             setActiveZone,
+            zoneSelected,
+            cleanZone,
             zoneChange
         }, dispatch)
     };
 })(require('../components/LhtacSpatialFilter'));
 
-const {changeMapView} = require('../../MapStore2/web/client/actions/map');
-
 const WMSCrossSelector = createSelector([
         lhtac,
         (state) => (state.queryform.spatialField),
         (state) => (state.map || {}),
+        (state) => (state.mapInitialConfig || {}),
         (state) => (state)
         ],
-        (lhtacState, spatialField, mapConfig, state) => ({
+        (lhtacState, spatialField, mapConfig, mapInitialConfig, state) => ({
             activeLayer: lhtacState.activeLayer,
             toolbarEnabled: true,
             spatialField,
             mapConfig,
+            mapInitialConfig,
             zoomArgs: state.areafilter.zoomArgs
         }));
 
@@ -78,6 +94,7 @@ const WMSCrossLayerFilter = connect( WMSCrossSelector, (dispatch) => {
         actions: bindActionCreators({
             onQuery: changeLhtacLayerFilter,
             onReset: resetZones,
+            onResetThisZone,
             changeZoomArgs,
             changeMapView,
             createFilterConfig,
