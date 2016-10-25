@@ -7,11 +7,13 @@
  */
 const msQueryform = require('../../MapStore2/web/client/reducers/queryform');
 const queryFormConfig = require('../../queryFormConfig');
-const {union, bbox} = require('turf');
+const {bbox} = require('turf');
+const assign = require('object-assign');
+
 const CLEAN_GEOMETRY = 'CLEAN_GEOMETRY';
 const CLEAN_ZONE = 'CLEAN_ZONE';
+const TASK_SUCCESS = 'TASK_SUCCESS';
 const ON_RESET_THIS_ZONE = 'ON_RESET_THIS_ZONE';
-const assign = require('object-assign');
 
 function shouldReset(aId, dId, zones) {
     let reset = false;
@@ -22,78 +24,6 @@ function shouldReset(aId, dId, zones) {
         reset = (aId === zone.dependson.id) ? true : shouldReset(aId, zone.dependson.id, zones);
     }
     return reset;
-}
-
-function zoneChange(state, action) {
-    let value; let geometry;
-    const zoneFields = state.spatialField.zoneFields.map((field) => {
-        if (field.id === action.id) {
-            value = field.multivalue ? action.value.value : action.value.value[0];
-
-            if (action.value.feature[0]) {
-                let f = action.value.feature[0];
-                let geometryName = f.geometry_name;
-                if (field.multivalue && action.value.feature.length > 1) {
-                    for (let i = 1; i < action.value.feature.length; i++) {
-                        let feature = action.value.feature[i];
-                        if (feature) {
-                            f = union(f, feature);
-                        }
-                    }
-
-                    geometry = {coordinates: f.geometry.coordinates, geometryName: geometryName, geometryType: f.geometry.type};
-                } else {
-                    geometry = {coordinates: f.geometry.coordinates, geometryName: geometryName, geometryType: f.geometry.type};
-                }
-            }
-
-            return {
-                    ...field,
-                    value: value && value.length > 0 ? value : null,
-                    open: false,
-                    geometryName: geometry ? geometry.geometryName : null
-                };
-        }
-
-        if (field.dependson && action.id === field.dependson.id) {
-            let disabled = (!value || (Array.isArray(value) && value.length === 0 )) ? true : false;
-            return {...field,
-                disabled: disabled,
-                values: null,
-                value: null,
-                open: false,
-                checked: false,
-                active: false,
-                dependson: {...field.dependson, value: value}
-            };
-        }else if (field.dependson && shouldReset(action.id, field.dependson.id, state.spatialField.zoneFields)) {
-            return {...field,
-                disabled: true,
-                values: null,
-                value: null,
-                open: false,
-                active: false,
-                checked: false
-            };
-        }
-
-        return field;
-    });
-
-    let extent = bbox({
-        type: "FeatureCollection",
-        features: action.value.feature
-    });
-
-    return {...state, spatialField: {...state.spatialField,
-        zoneFields: zoneFields,
-        geometry: extent && geometry ? {
-            extent: extent,
-            type: geometry.geometryType,
-            coordinates: geometry.coordinates
-        } : null,
-        buttonReset: false
-    }};
 }
 
 function queryform(state, action) {
@@ -114,7 +44,6 @@ function queryform(state, action) {
                 zoneFields: state.spatialField.zoneFields.map((field) => {
                     let f = {
                         ...field,
-                        values: null,
                         value: null,
                         open: false,
                         error: null,
@@ -145,7 +74,6 @@ function queryform(state, action) {
                     if (field.id === action.zoneId) {
                         f = {
                         ...field,
-                        values: null,
                         value: null,
                         open: false,
                         error: null,
@@ -178,7 +106,6 @@ function queryform(state, action) {
                   if (field.id === action.zoneId) {
                       f = {
                       ...field,
-                      values: null,
                       value: null,
                       open: false,
                       error: null,
@@ -219,8 +146,67 @@ function queryform(state, action) {
                     }
                 });
         }
-        case 'ZONE_CHANGE': {
-            return zoneChange(state, action);
+        case TASK_SUCCESS: {
+            let name = action.name;
+            let zoneId = parseInt(name.substring('zoneChange'.length), 10);
+            let feature = action.result;
+            let value;
+            let geometry;
+            const zoneFields = state.spatialField.zoneFields.map((field) => {
+                if (field.id === zoneId) {
+                    value = field.multivalue ? action.actionPayload.value : action.actionPayload.value[0];
+                    if (feature) {
+                        let f = feature;
+                        let geometryName = action.actionPayload.featureParams.geometry_name;
+                        geometry = {coordinates: f.geometry.coordinates, geometryName: geometryName, geometryType: f.geometry.type};
+                    }
+
+                    return {
+                            ...field,
+                            value: value && value.length > 0 ? value : null,
+                            open: false,
+                            geometryName: geometry ? geometry.geometryName : null
+                        };
+                }
+                if (field.dependson && zoneId === field.dependson.id) {
+                    let disabled = (!value || (Array.isArray(value) && value.length === 0 )) ? true : false;
+                    return {...field,
+                        disabled: disabled,
+                        values: null,
+                        value: null,
+                        open: false,
+                        checked: false,
+                        active: false,
+                        dependson: {...field.dependson, value: value}
+                    };
+                }else if (field.dependson && shouldReset(zoneId, field.dependson.id, state.spatialField.zoneFields)) {
+                    return {...field,
+                        disabled: true,
+                        values: null,
+                        value: null,
+                        open: false,
+                        active: false,
+                        checked: false
+                    };
+                }
+                return field;
+            });
+
+            let extent = bbox({
+                type: "FeatureCollection",
+                features: action.actionPayload.features
+            });
+
+            return {...state, spatialField: {...state.spatialField,
+                zoneFields: zoneFields,
+                geometry: extent && geometry ? {
+                    extent: extent,
+                    type: geometry.geometryType,
+                    coordinates: geometry.coordinates
+                } : null,
+                buttonReset: false
+            }};
+
         }
         case 'ADD_SIMPLE_FILTER_FIELD': {
             let simpleFilterFields = state.simpleFilterFields || [];

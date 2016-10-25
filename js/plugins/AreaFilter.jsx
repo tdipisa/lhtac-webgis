@@ -33,6 +33,7 @@ const {
     zoneSelected,
     changeLhtacLayerFilter,
     zoneGetValues,
+    clearAll,
     cleanZone
     } = require('../actions/lhtac');
 
@@ -56,7 +57,12 @@ const SpatialFilterSelector = createSelector([
             showDetailsPanel: state.queryform.showDetailsPanel,
             withContainer: state.queryform.withContainer,
             spatialMethodOptions: state.queryform.spatialMethodOptions,
-            spatialOperations: state.queryform.spatialOperations
+            spatialOperations: state.queryform.spatialOperations,
+            loadingZones: Object.keys(state.tasks).filter((task) => task.indexOf('zoneChange') === 0 && state.tasks[task].running).reduce((previous, current) => {
+                return assign(previous, {
+                    [current.substring('zoneChange'.length)]: true
+                });
+            }, {})
         }));
 
 const SpatialFilter = connect(SpatialFilterSelector, (dispatch) => {
@@ -68,6 +74,7 @@ const SpatialFilter = connect(SpatialFilterSelector, (dispatch) => {
             setActiveZone,
             zoneSelected,
             cleanZone,
+            clearAll,
             zoneChange
         }, dispatch)
     };
@@ -142,6 +149,7 @@ module.exports = {
         }
     }),
     reducers: {
-        areafilter: require('../reducers/areafilter')
+        areafilter: require('../reducers/areafilter'),
+        tasks: require('../../MapStore2/web/client/reducers/tasks')
     }
 };

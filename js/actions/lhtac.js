@@ -12,16 +12,18 @@ const SET_ACTIVE_ZONE = 'SET_ACTIVE_ZONE';
 const CHANGE_LAYER_PROPERTIES = 'CHANGE_LAYER_PROPERTIES';
 const STATS_LOADING = 'STATS_LOADING';
 const CHANGE_DOWNLOAD_FORMAT = 'CHANGE_DOWNLOAD_FORMAT';
-const ZONE_CHANGE = 'ZONE_CHANGE';
 const CLEAN_GEOMETRY = 'CLEAN_GEOMETRY';
 const CLEAN_ZONE = 'CLEAN_ZONE';
+const LOADING_SELECT_ALL = 'LOADING_SELECT_ALL';
 
 const {changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
+const {startTask} = require('../../MapStore2/web/client/actions/tasks');
 const {zoneSearchError, zoneFilter, zoneSearch} = require('../../MapStore2/web/client/actions/queryform');
 const {featureSelectorError} = require("../actions/featureselector");
 const {onResetThisZone} = require("../actions/queryform");
 
 const FileUtils = require('../../MapStore2/web/client/utils/FileUtils');
+const ZoneUtils = require('../utils/ZoneUtils');
 
 function statsLoading(status) {
     return {
@@ -102,13 +104,6 @@ function setActiveZone(id, exclude) {
     };
 }
 
-function zoneChange(id, value) {
-    return {
-        type: ZONE_CHANGE,
-        id,
-        value
-    };
-}
 function cleanGeometry() {
     return {
         type: CLEAN_GEOMETRY
@@ -121,7 +116,7 @@ function cleanZone(zoneId) {
     };
 }
 
-function zoneSelected(zone, value, exclude) {
+function zoneSelected(zone, value) {
     return (dispatch) => {
         // clean previous geometry
         if (zone.active && value && value.value && value.value.length > 0 &&
@@ -134,9 +129,20 @@ function zoneSelected(zone, value, exclude) {
         // if there is a value in the zoneField update the geometry
         if (value && value.value && value.value.length > 0 &&
             value.feature && value.feature.length > 0) {
-            dispatch(zoneChange(zone.id, value));
-            dispatch(setActiveZone(zone.id, exclude));
+            let actionPayload = {
+                "featureParams": value.feature[0],
+                "value": value.value,
+                "features": value.feature
+            };
+            dispatch(startTask(ZoneUtils.geometryUnion, value.feature, 'zoneChange' + zone.id, actionPayload));
+            dispatch(setActiveZone(zone.id, zone.exclude));
         }
+    };
+}
+
+function clearAll(zone) {
+    return (dispatch) => {
+        dispatch(cleanZone(zone.id));
     };
 }
 
@@ -216,12 +222,12 @@ module.exports = {
     CHANGE_LAYER_PROPERTIES,
     STATS_LOADING,
     CHANGE_DOWNLOAD_FORMAT,
-    ZONE_CHANGE,
+    LOADING_SELECT_ALL,
     CLEAN_GEOMETRY,
     CLEAN_ZONE,
     cleanZone,
+    clearAll,
     cleanGeometry,
-    zoneChange,
     changeLhtacLayerFilter,
     switchLayer,
     setActiveZone,

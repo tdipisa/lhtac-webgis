@@ -54,7 +54,9 @@ const LhtacFilterUtils = {
 
     },
     getZoneCrossFilter(spatialField) {
+        let attribute;
         let zone;
+        let filter = null;
         // Get the latest zone with value in the array
         for (let i = spatialField.zoneFields.length - 1; i >= 0; i--) {
             if (spatialField.zoneFields[i].value && spatialField.zoneFields[i].active) {
@@ -62,19 +64,25 @@ const LhtacFilterUtils = {
                 break;
             }
         }
-
         if (zone) {
             // Get the attribute name (check for dotted notation)
-            let attribute = zone.valueField.indexOf(".") !== -1 ? zone.valueField.split('.')[zone.valueField.split('.').length - 1] : zone.valueField;
+            attribute = zone.valueField.indexOf(".") !== -1 ? zone.valueField.split('.')[zone.valueField.split('.').length - 1] : zone.valueField;
 
             // Prepare the cql cross layer filter
-            let filter = spatialField.operation +
+            filter = spatialField.operation +
                 "(" + spatialField.attribute +
                     ", collectGeometries(queryCollection('" +
                         zone.typeName +
                         "', '" + zone.geometryName +
-                        "', '" + attribute;
-
+                        "', '";
+        }
+        if (zone && zone.values.length === zone.value.length) {
+            // select all
+            // Prepare the cql cross layer filter
+            filter += "INCLUDE')))";
+        } else {
+            // select only chosen ones
+            filter += attribute;
             if (zone.value instanceof Array) {
                 filter += " IN (";
                 zone.value.forEach((value, index) => {
@@ -87,10 +95,8 @@ const LhtacFilterUtils = {
             } else {
                 filter += " = ''" + zone.value + "''')))";
             }
-            return filter;
         }
-
-        return null;
+        return filter;
     },
     processOGCSpatialFilter: function(json, version) {
         let objFilter;

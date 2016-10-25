@@ -29,6 +29,7 @@ const queryFormConfig = {
                 label: "ITD District",
                 multivalue: true,
                 disabled: false,
+                toolbar: true,
                 sort: {
                     sortBy: "ITD_Dist_n",
                     sortOrder: "ASC"
@@ -48,6 +49,7 @@ const queryFormConfig = {
                 label: "County",
                 multivalue: true,
                 disabled: false,
+                toolbar: true,
                 sort: {
                     sortBy: "short_name",
                     sortOrder: "ASC"
@@ -67,6 +69,7 @@ const queryFormConfig = {
                 label: "City",
                 multivalue: true,
                 disabled: false,
+                toolbar: false,
                 sort: {
                     sortBy: "short_name",
                     sortOrder: "ASC"
@@ -86,6 +89,7 @@ const queryFormConfig = {
                 searchMethod: "ilike",
                 searchAttribute: "juris_type",
                 disabled: false,
+                toolbar: false,
                 multivalue: true,
                 sort: {
                     sortBy: "name2",
@@ -124,6 +128,7 @@ const queryFormConfig = {
                 label: "ITD District",
                 multivalue: true,
                 disabled: false,
+                toolbar: true,
                 sort: {
                     sortBy: "ITD_Dist_n",
                     sortOrder: "ASC"
@@ -143,6 +148,7 @@ const queryFormConfig = {
                 label: "County",
                 multivalue: true,
                 disabled: false,
+                toolbar: true,
                 sort: {
                     sortBy: "short_name",
                     sortOrder: "ASC"
@@ -162,6 +168,7 @@ const queryFormConfig = {
                 label: "City",
                 multivalue: true,
                 disabled: false,
+                toolbar: false,
                 sort: {
                     sortBy: "short_name",
                     sortOrder: "ASC"
@@ -181,6 +188,7 @@ const queryFormConfig = {
                 searchMethod: "ilike",
                 searchAttribute: "juris_type",
                 disabled: false,
+                toolbar: false,
                 multivalue: true,
                 sort: {
                     sortBy: "name2",

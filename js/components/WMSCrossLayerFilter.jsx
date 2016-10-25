@@ -59,7 +59,11 @@ const WMSCrossLayerFilter = React.createClass({
             for (let i = 0; i < nextProps.spatialField.zoneFields.length; i++ ) {
                 let z = nextProps.spatialField.zoneFields[i];
                 if (z.active === true && z.value !== null) {
-                    this.search(nextProps);
+                    if (z.value.length === z.values.length) {
+                        this.search(nextProps, true, z);
+                    } else {
+                        this.search(nextProps, false, z);
+                    }
                 }
             }
         }
@@ -86,9 +90,9 @@ const WMSCrossLayerFilter = React.createClass({
                         <span style={{paddingLeft: "2px"}}><strong><I18N.Message msgId={"queryform.reset"}/ ></strong></span>
                     </Button>
                     <OverlayTrigger placement="right" overlay={(<Tooltip id="lab"><strong><I18N.Message msgId={"lhtac.crossfilter.zoomBtn"}/></strong></Tooltip>)}>
-                    <Button disabled={!this.props.toolbarEnabled || (this.props.zoomArgs === null || this.props.zoomArgs === undefined)} id="zoomtoarea" onClick={this.zoomToSelectedArea}>
-                        <Glyphicon glyph="resize-full"/>
-                    </Button>
+                        <Button disabled={!this.props.toolbarEnabled || (this.props.zoomArgs === null || this.props.zoomArgs === undefined)} id="zoomtoarea" onClick={this.zoomToSelectedArea}>
+                            <Glyphicon glyph="resize-full"/>
+                        </Button>
                     </OverlayTrigger>
                 </ButtonToolbar>
                 <Modal show={this.props.showGeneratedFilter ? true : false} bsSize="large">
