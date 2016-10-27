@@ -49,16 +49,17 @@ const {changeMapView} = require('../../MapStore2/web/client/actions/map');
 
 
 const SpatialFilterSelector = createSelector([
-        (state) => (state)
+        (state) => (state.queryform),
+        (state) => (state.tasks)
         ],
-        (state) => ({
-            useMapProjection: state.queryform.useMapProjection,
-            spatialField: state.queryform.spatialField,
-            showDetailsPanel: state.queryform.showDetailsPanel,
-            withContainer: state.queryform.withContainer,
-            spatialMethodOptions: state.queryform.spatialMethodOptions,
-            spatialOperations: state.queryform.spatialOperations,
-            loadingZones: Object.keys(state.tasks).filter((task) => task.indexOf('zoneChange') === 0 && state.tasks[task].running).reduce((previous, current) => {
+        (queryform, tasks) => ({
+            useMapProjection: queryform.useMapProjection,
+            spatialField: queryform.spatialField,
+            showDetailsPanel: queryform.showDetailsPanel,
+            withContainer: queryform.withContainer,
+            spatialMethodOptions: queryform.spatialMethodOptions,
+            spatialOperations: queryform.spatialOperations,
+            loadingZones: Object.keys(tasks).filter((task) => task.indexOf('zoneChange') === 0 && tasks[task].running).reduce((previous, current) => {
                 return assign(previous, {
                     [current.substring('zoneChange'.length)]: true
                 });
@@ -85,15 +86,15 @@ const WMSCrossSelector = createSelector([
         (state) => (state.queryform.spatialField),
         (state) => (state.map || {}),
         (state) => (state.mapInitialConfig || {}),
-        (state) => (state)
+        (state) => (state.areafilter)
         ],
-        (lhtacState, spatialField, mapConfig, mapInitialConfig, state) => ({
+        (lhtacState, spatialField, mapConfig, mapInitialConfig, areafilter) => ({
             activeLayer: lhtacState.activeLayer,
             toolbarEnabled: true,
             spatialField,
             mapConfig,
             mapInitialConfig,
-            zoomArgs: state.areafilter.zoomArgs
+            zoomArgs: areafilter.zoomArgs
         }));
 
 const WMSCrossLayerFilter = connect( WMSCrossSelector, (dispatch) => {
